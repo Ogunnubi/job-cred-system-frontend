@@ -8,12 +8,10 @@ const Home = () => {
 
     const [password, setPassword] = useState("")
 
-    const handleChange = () => {
-
-    }
+    const [confirmPassword, setConfirmPassword] = useState("")
 
     const toggleForm = () => {
-
+        setIsLogin(prev => !prev);
     }
 
   return (
@@ -22,7 +20,7 @@ const Home = () => {
             <div className="row">
                 <div className="col-lg-5">
                     <div className='intro__page'>
-                        <h1>WeWork</h1>
+                        <h1 className='heading__one'>WeWork</h1>
                         <p>Submit Jobs with Credits</p>
                     </div>
                 </div>
@@ -35,8 +33,8 @@ const Home = () => {
                                 {/* <label for="nameInput" class="form-label input-group-text">Name</label> */}
                                 <input 
                                     type="email" 
-                                    class="form-control border-start-0 border-end-0" 
-                                    id="nameInput" 
+                                    className="form-control border-start-0 border-end-0" 
+                                    id="emailInput" 
                                     placeholder='Enter your email'
                                     required
                                     value={email}
@@ -45,12 +43,12 @@ const Home = () => {
                             </div>
 
                             {/* email input */}
-                            <div class="mb-3 input-group">
+                            <div className="mb-3 input-group">
                                 {/* <label for="emailInput" class="form-label input-group-text">Email</label> */}
                                 <input 
                                     type="password" 
-                                    class="form-control border-start-0 border-end-0" 
-                                    id="emailInput" 
+                                    className="form-control border-start-0 border-end-0" 
+                                    id="passwordInput" 
                                     required
                                     placeholder='Enter your password'
                                     value={password}
@@ -61,12 +59,9 @@ const Home = () => {
 
                             <button type="submit" className="btn btn-brand" style={{width: "100%"}}>Log in</button>
 
-                            <div className="col-12 d-flex justify-content-center">
-                                <p>
-                                    Don't have an account? <a className="toggle-link" onClick={toggleForm}>Create one</a>
-                                </p>
-                            </div>
-
+                            <p className='text-center'>
+                                Don't have an account? <span className="toggle-link" onClick={toggleForm}>Create one</span>
+                            </p>
                         </form>
                     ) : (
                         <form action="row g-3 px-3">
@@ -76,32 +71,56 @@ const Home = () => {
                                 <input 
                                     type="email" 
                                     className="form-control border-start-0 border-end-0" 
-                                    id="nameInput" 
+                                    id="emailInput" 
                                     placeholder='Enter your email'
                                     required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
 
-                            {/* email input */}
+                            {/* password input */}
                             <div className="mb-3 input-group">
                                 {/* <label for="emailInput" class="form-label input-group-text">Email</label> */}
                                 <input 
                                     type="password" 
                                     className="form-control border-start-0 border-end-0" 
-                                    id="emailInput" 
+                                    id="passwordInput" 
                                     required
                                     placeholder='Enter your password'
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
 
 
-                            <button type="submit" className="btn btn-brand" style={{width: "100%"}}>Log in</button>
-
-                            <div className="col-12 d-flex justify-content-center">
-                                <p>
-                                    Don't have an account? <span className="toggle-link" onClick={toggleForm}>Create one</span>
-                                </p>
+                            {/* confirm password input */}
+                            <div className="mb-3 input-group">
+                                {/* <label for="emailInput" class="form-label input-group-text">Email</label> */}
+                                <input 
+                                    type="password" 
+                                    className="form-control border-start-0 border-end-0" 
+                                    id="passwordInput" 
+                                    required
+                                    placeholder='Confirm your password again'
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
                             </div>
+
+
+                            <button 
+                                type="submit" 
+                                className="btn btn-brand" 
+                                style={{width: "100%"}}
+                            >
+                                Create Account
+                            </button>
+
+                            <p className='text-center'>
+                                Already have an account ? <span className="toggle-link" onClick={toggleForm}>Log In</span>
+                            </p>
+                           
 
                         </form>
                     )}

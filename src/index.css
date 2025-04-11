@@ -159,6 +159,12 @@ section {
 
 
 /* Custom Styling */
+.heading__one {
+  font-size: 3rem;
+}
+
+
+
 form .form-control{
   color: black;
   border: black;
