@@ -79,3 +79,35 @@ li{
 img{
   width: 100%;
 }
+
+.App{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100vh; 
+}
+
+.section{
+  background-color: white;
+  flex: 1;
+}
+
+section {
+  padding: 90px 0px;
+}
+
+.display-flex {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.bg-cover {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}  
+
+.grey-bg {
+  background-color: var(--gray);
+}
