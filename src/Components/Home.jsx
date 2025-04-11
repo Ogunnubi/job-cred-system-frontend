@@ -2,6 +2,7 @@ import {useState} from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
 import Login from './Login/Login';
+import Signup from './Signup/Signup';
 
 const Home = () => {
 
@@ -30,62 +31,9 @@ const Home = () => {
 
                 <div className="col-lg-6 offset-lg-1 custom__mt">
                     {isLogin ? (
-                        <Login />
+                        <Login toggleForm={toggleForm} />
                     ) : (
-                        <form action="row g-3 px-3">
-                            {/* email input */}
-                            <div className="mb-3 input-group">
-                                <input 
-                                    type="email" 
-                                    className="form-control border-start-0 border-end-0" 
-                                    id="emailInput" 
-                                    placeholder='Enter your email'
-                                    required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </div>
-
-                            {/* password input */}
-                            <div className="mb-3 input-group">
-                                <input 
-                                    type="password" 
-                                    className="form-control border-start-0 border-end-0" 
-                                    id="passwordInput" 
-                                    required
-                                    placeholder='Enter your password'
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                            </div>
-
-
-                            {/* confirm password input */}
-                            <div className="mb-3 input-group">
-                                <input 
-                                    type="password" 
-                                    className="form-control border-start-0 border-end-0" 
-                                    id="passwordInput" 
-                                    required
-                                    placeholder='Confirm your password again'
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                />
-                            </div>
-
-
-                            <button 
-                                type="submit" 
-                                className="btn btn-brand" 
-                                style={{width: "100%"}}
-                            >
-                                Create Account
-                            </button>
-
-                            <p className='text-center mt-3'>
-                                Already have an account ? <span className="toggle__link" onClick={toggleForm}>Log In</span>
-                            </p>
-                        </form>
+                        <Signup toggleForm={toggleForm} />
                     )}
                 </div>
 

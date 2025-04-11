@@ -1,11 +1,10 @@
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import handleLogin from '../../utils/handleLogin';
 import { useNavigate } from 'react-router-dom'
 
 
 
-const Login = () => {
+const Login = ({toggleForm}) => {
 
   const navigate = useNavigate();
 
@@ -14,6 +13,7 @@ const Login = () => {
     setLoading, 
     email, 
     password, 
+    error,
     setError,
     setPassword
   } = useAuth() // Get setCurrentUser from AuthContext
@@ -59,7 +59,9 @@ const Login = () => {
         </div>
 
 
-        <button type="submit" className="btn btn-brand" style={{width: "100%"}}>Log in</button>
+        <div className="col-12">
+            <button type="submit" className="btn btn-brand" style={{width: "100%"}}>Log in</button>
+        </div>
 
         <p className='text-center mt-3'>
             Don't have an account? <span className="toggle__link" onClick={toggleForm}>Create one</span>
