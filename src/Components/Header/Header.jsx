@@ -7,11 +7,10 @@ const Header = () => {
 
 
     return (    
-        <nav style={{color: "black"}} className="navbar bg-white slow py-4 navbar-expand-md sticky-top divider">
+        <nav className="navbar bg-white slow py-4 navbar-expand-md sticky-top divider">
             <div className="container-fluid px-5">
 
                 <span className="navbar-brand">
-                    {/* <img src="./Mustard logo new.png" className="img-fluid" alt="" style={{width: "150px"}} /> */}
                     <h6>WeWork</h6>
                 </span>
 
@@ -37,9 +36,6 @@ const Header = () => {
                         </li>
                     </ul>
 
-
-                    {/* <a href="#login" className=""><i className="ri ri-lock-unlock-fill"></i> Login</a> */}
-                    {/* <a href="#get-started" className="btn btn-brand ms-3">Getting Started <i style={{verticalAlign: "inherit"}} className="ri ri-arrow-right-line"></i></a> */}
                 </div>
             </div>
         </nav>
