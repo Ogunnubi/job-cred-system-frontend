@@ -160,7 +160,13 @@ section {
 
 /* Custom Styling */
 .heading__one {
-  font-size: 3rem;
+  font-size: 2rem;
+}
+
+.toggle__link {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--brand);
 }
 
 

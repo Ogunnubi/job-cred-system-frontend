@@ -20,15 +20,15 @@ const Home = () => {
             <div className="row">
                 <div className="col-lg-5">
                     <div className='intro__page'>
-                        <h1 className='heading__one'>WeWork</h1>
-                        <p>Submit Jobs with Credits</p>
+                        <h1 className='heading__one'>Submit Jobs with Credits</h1>
+                        <p>A complete platform for managing job submissions with a credit-based system.</p>
                     </div>
                 </div>
 
                 <div className="col-lg-6 offset-lg-1">
                     {isLogin ? (
                         <form action="row g-3 px-3">
-                            {/* name input */}
+                            {/* email input */}
                             <div className="mb-3 input-group">
                                 {/* <label for="nameInput" class="form-label input-group-text">Name</label> */}
                                 <input 
@@ -42,7 +42,7 @@ const Home = () => {
                                 />
                             </div>
 
-                            {/* email input */}
+                            {/* password input */}
                             <div className="mb-3 input-group">
                                 {/* <label for="emailInput" class="form-label input-group-text">Email</label> */}
                                 <input 
@@ -59,13 +59,13 @@ const Home = () => {
 
                             <button type="submit" className="btn btn-brand" style={{width: "100%"}}>Log in</button>
 
-                            <p className='text-center'>
-                                Don't have an account? <span className="toggle-link" onClick={toggleForm}>Create one</span>
+                            <p className='text-center mt-3'>
+                                Don't have an account? <span className="toggle__link" onClick={toggleForm}>Create one</span>
                             </p>
                         </form>
                     ) : (
                         <form action="row g-3 px-3">
-                            {/* name input */}
+                            {/* email input */}
                             <div className="mb-3 input-group">
                                 {/* <label for="nameInput" class="form-label input-group-text">Name</label> */}
                                 <input 
@@ -117,8 +117,8 @@ const Home = () => {
                                 Create Account
                             </button>
 
-                            <p className='text-center'>
-                                Already have an account ? <span className="toggle-link" onClick={toggleForm}>Log In</span>
+                            <p className='text-center mt-3'>
+                                Already have an account ? <span className="toggle__link" onClick={toggleForm}>Log In</span>
                             </p>
                            
 
