@@ -4,7 +4,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Signup from './Components/Signup';
-
+import Home from "./Components/Home"
+import Login from './Components/Login';
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {
