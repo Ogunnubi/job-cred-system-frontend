@@ -1,19 +1,37 @@
-import React from 'react'
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import handleLogin from '../../utils/handleLogin';
+import { useNavigate } from 'react-router-dom'
 
-import handleLogin from '../utils/handleLogin';
+
 
 const Login = () => {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const { 
+    setCurrentUser, 
+    setLoading, 
+    email, 
+    password, 
+    setError,
+    setPassword
+  } = useAuth() // Get setCurrentUser from AuthContext
+  
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await handleLogin(email, password, setError, setLoading, setCurrentUser, navigate);
+    } catch (err) {
+      console.error('Failed to log in. Please check your credentials.');
+    }
+  };
+  
 
   return (
-    <form action="row g-3 px-3">
+    <form onSubmit={handleSubmit} className="row g-3 px-3">
+        {error && <div className="alert alert-danger">{error}</div>}
         {/* email input */}
         <div className="mb-3 input-group">
             <input 

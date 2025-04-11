@@ -1,23 +1,6 @@
-
-import { useState } from 'react'
-
 import { auth, signInWithEmailAndPassword } from '../firebase/config';
-import { useAuth } from '../context/AuthContext'
-import { Link, useNavigate } from 'react-router-dom'
 
-
-const navigate = useNavigate();
-
-const [email, setEmail] = useState("")
-const [password, setPassword] = useState("")
-const [showPassword, setShowPassword] = useState(false)
-const [error, setError] = useState("")
-
-
-const { setCurrentUser, setLoading } = useAuth() // Get setCurrentUser from AuthContext
-
-
-const handleLogin = async () => { 
+const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate) => { 
     
     e.preventDefault()
     setError("")

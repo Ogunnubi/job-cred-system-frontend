@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Signup from './Components/Signup';
 import Home from "./Components/Home"
-import Login from './Components/Login';
+import Login from './Components/Login/Login';
 
 import $ from 'jquery';
 import Layout from './Layout/Layout';
