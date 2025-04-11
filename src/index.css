@@ -14,10 +14,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -110,4 +106,51 @@ section {
 
 .grey-bg {
   background-color: var(--gray);
+}
+
+/* Button */
+
+.btn {
+  padding: 12px 28px;
+  margin: 0px 16px 0px 0px;
+  font-weight: 500;
+  color: white;
+  border-radius: 0px;
+}
+
+.btn.btn-brand {
+  background-color: var(--brand);
+  color: white;
+  border: 1px solid var(--brand);
+  transition: all 1.4s ease;
+}
+
+.btn.btn-brand:hover {
+  color: var(--brand);
+  background-color: white;
+  border: 1px solid var(--brand);
+}
+
+
+.btn-brand {
+  background-color: black;
+  border-color: 1px solid black;
+}
+
+
+.btn-brand:hover {
+  color: white;
+  background-color: var(--brand);
+}
+
+
+.btn-outline-brand {
+  background-color: white;
+  color: black;
+}
+
+
+.btn-outline-brand:hover {
+  background-color: white;
+  color: black;
 }

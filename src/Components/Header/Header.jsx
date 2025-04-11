@@ -1,16 +1,18 @@
 import "./Header.css";
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 
 const Header = () => {
 
 
     return (    
-        <nav className="navbar bg-white slow py-4 navbar-expand-md sticky-top divider">
+        <nav style={{color: "black"}} className="navbar bg-white slow py-4 navbar-expand-md sticky-top divider">
             <div className="container-fluid px-5">
 
                 <span className="navbar-brand">
-                    <img src="./Mustard logo new.png" className="img-fluid" alt="" style={{width: "150px"}} />
+                    {/* <img src="./Mustard logo new.png" className="img-fluid" alt="" style={{width: "150px"}} /> */}
+                    <h6>WeWork</h6>
                 </span>
 
 
@@ -22,10 +24,10 @@ const Header = () => {
                 <div className="collapse navbar-collapse" id="navmenu">
                     <ul className="navbar-nav mx-auto">          
                         <li className="nav-item">
-                            <Link to="/" className="nav-link">Home</Link>
+                            <Link to='/' className="nav-link">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="send" className="nav-link">Send</Link>
+                            <Link to='/jobs' className="nav-link">Send</Link>
                         </li>
                         {/* <li className="nav-item">
                             <Link to="/" className="nav-link">Rewards</Link>

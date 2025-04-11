@@ -7,6 +7,10 @@ import Signup from './Components/Signup';
 import Home from "./Components/Home"
 import Login from './Components/Login';
 
+import $ from 'jquery';
+import Layout from './Layout/Layout';
+window.$ = window.jQuery = $;
+
 // Protected route component
 const ProtectedRoute = ({ children }) => {
   const { currentUser } = useAuth();
@@ -32,44 +36,46 @@ function App() {
 
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          {/* <Route 
-            path="/dashboard" 
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/credits" 
-            element={
-              <ProtectedRoute>
-                <Credits />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/jobs" 
-            element={
-              <ProtectedRoute>
-                <Jobs />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/settings" 
-            element={
-              <ProtectedRoute>
-                <Settings />
-              </ProtectedRoute>
-            } 
-          /> */}
-        </Routes>
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              {/* <Route 
+                path="/dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/credits" 
+                element={
+                  <ProtectedRoute>
+                    <Credits />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/jobs" 
+                element={
+                  <ProtectedRoute>
+                    <Jobs />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/settings" 
+                element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                } 
+              /> */}
+            </Routes>
+          </Layout>
       </Router>
     </AuthProvider>
   )

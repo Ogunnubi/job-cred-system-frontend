@@ -19,7 +19,7 @@
     "owl.carousel": "^2.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.30.0",
+    "react-router-dom": "^6.3.0",
     "remixicon": "^4.6.0"
   },
   "devDependencies": {
