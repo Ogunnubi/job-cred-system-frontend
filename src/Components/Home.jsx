@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <section className='section'>
         <div className="container">
-            <div className="row">
+            <div className="row align-items-center">
                 <div className="col-lg-5">
                     <div className='intro__page'>
                         <h1 className='heading__one'>Submit Jobs with Credits</h1>
@@ -25,12 +25,11 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="col-lg-6 offset-lg-1">
+                <div className="col-lg-6 offset-lg-1 custom__mt">
                     {isLogin ? (
                         <form action="row g-3 px-3">
                             {/* email input */}
                             <div className="mb-3 input-group">
-                                {/* <label for="nameInput" class="form-label input-group-text">Name</label> */}
                                 <input 
                                     type="email" 
                                     className="form-control border-start-0 border-end-0" 
@@ -44,7 +43,6 @@ const Home = () => {
 
                             {/* password input */}
                             <div className="mb-3 input-group">
-                                {/* <label for="emailInput" class="form-label input-group-text">Email</label> */}
                                 <input 
                                     type="password" 
                                     className="form-control border-start-0 border-end-0" 
@@ -67,7 +65,6 @@ const Home = () => {
                         <form action="row g-3 px-3">
                             {/* email input */}
                             <div className="mb-3 input-group">
-                                {/* <label for="nameInput" class="form-label input-group-text">Name</label> */}
                                 <input 
                                     type="email" 
                                     className="form-control border-start-0 border-end-0" 
@@ -81,7 +78,6 @@ const Home = () => {
 
                             {/* password input */}
                             <div className="mb-3 input-group">
-                                {/* <label for="emailInput" class="form-label input-group-text">Email</label> */}
                                 <input 
                                     type="password" 
                                     className="form-control border-start-0 border-end-0" 
@@ -96,7 +92,6 @@ const Home = () => {
 
                             {/* confirm password input */}
                             <div className="mb-3 input-group">
-                                {/* <label for="emailInput" class="form-label input-group-text">Email</label> */}
                                 <input 
                                     type="password" 
                                     className="form-control border-start-0 border-end-0" 
@@ -120,8 +115,6 @@ const Home = () => {
                             <p className='text-center mt-3'>
                                 Already have an account ? <span className="toggle__link" onClick={toggleForm}>Log In</span>
                             </p>
-                           
-
                         </form>
                     )}
                 </div>
