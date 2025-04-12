@@ -2,10 +2,15 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import handleSignup from '../../utils/handleSignup';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
 
 const Signup = ({toggleForm}) => {
 
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
 
     const navigate = useNavigate();
     
@@ -13,6 +18,7 @@ const Signup = ({toggleForm}) => {
         setCurrentUser, 
         setLoading, 
         email, 
+        setEmail,
         password, 
         setError,
         setPassword
@@ -55,13 +61,19 @@ const Signup = ({toggleForm}) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
+            <span
+                className="input-group-text cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+            >
+                {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+            </span>
         </div>
 
 
         {/* confirm password input */}
         <div className="mb-3 input-group">
             <input 
-                type="password" 
+                type={showConfirmPassword ? "text" : "password"} 
                 className="form-control border-start-0 border-end-0" 
                 id="passwordInput" 
                 required
@@ -69,6 +81,12 @@ const Signup = ({toggleForm}) => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
             />
+            <span
+                className="input-group-text border-start-0 cursor-pointer"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+                {showConfirmPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+            </span>
         </div>
 
 

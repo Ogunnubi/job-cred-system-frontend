@@ -54,7 +54,8 @@ export function AuthProvider({ children }) {
     loading,
     error,
     setError,
-    setPassword
+    setPassword,
+    setEmail
   };
 
   return (

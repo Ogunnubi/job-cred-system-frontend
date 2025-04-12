@@ -1,5 +1,5 @@
-const handleSignup = async () => {
-    e.preventDefault();
+const handleSignup = async (email, password, setError, setLoading, setCurrentUser, navigate) => {
+    
     setError('');
 
     if (!username || !email || !password || !confirmPassword) {
