@@ -72,17 +72,19 @@ const Jobs = ({}) => {
         }
 
         const result = await submitJob(userId, newJob)
-       
-        
-        console.log(result.data?.message || "Job submitted successfully!");
-        
-        // Clear the form
-        setTitle("");
-        setJobCredit("");
-        setDescription("");
-        
-        setJobs((prevJobs) => [...prevJobs, result.data]);
 
+        if(result.data) {
+            updateUserCredits(userCredits - credits);
+           
+            console.log(result.data?.message || "Job submitted successfully!");
+            
+            // Clear the form
+            setTitle("");
+            setJobCredit("");
+            setDescription("");
+            
+            setJobs((prevJobs) => [...prevJobs, result.data]);
+        }
     } catch (error) {
         console.error(`API error: ${error}`);
         setError("Error submitting job."); 

@@ -3,9 +3,9 @@ import './App.css'
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import Signup from './Components/Signup';
-import Home from "./Components/Home"
+import Signup from './Components/Signup/Signup';
 import Login from './Components/Login/Login';
+import Home from "./Components/Home"
 import Jobs from './Components/Jobs/Jobs';
 
 import $ from 'jquery';
@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children }) => {
   const { currentUser } = useAuth();
   
   if (!currentUser) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
   
   return children;
@@ -36,8 +36,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          {/* <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} /> */}
           {/* <Route 
             path="/dashboard" 
             element={

@@ -6,6 +6,7 @@ import {
   signOut, 
   onAuthStateChanged 
 } from 'firebase/auth';
+import { updateCredits } from '../api/api.js';
 
 const AuthContext = createContext();
 
@@ -14,13 +15,13 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-    const [currentUser, setCurrentUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState("")
-  
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [userCredits, setUserCredits] = useState(0);
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -34,6 +35,30 @@ export function AuthProvider({ children }) {
     return signOut(auth);
   }
 
+  const updateUserCredits = async (newCreditAmount) => {
+    try {
+      // Call the API to update credits in the backend
+      const response = await updateCredits(token, newCreditAmount);
+      
+      if (response.data && response.data.success) {
+        // Update the local state with the new credit amount
+        setUserCredits(newCreditAmount);
+        
+        // Also update in localStorage for persistence
+        localStorage.setItem('userCredits', newCreditAmount);
+        
+        return true;
+      } else {
+        setError("Failed to update credits on the server");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error updating credits:", error);
+      setError(error.response?.data?.message || "Error updating credits");
+      return false;
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -42,6 +67,13 @@ export function AuthProvider({ children }) {
 
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    const storedCredits = localStorage.getItem('userCredits');
+    if (storedCredits) {
+      setUserCredits(parseInt(storedCredits));
+    }
+  }, [])
 
   const value = {
     currentUser,
@@ -58,7 +90,8 @@ export function AuthProvider({ children }) {
     setEmail,
     confirmPassword,
     setConfirmPassword,
-    setCurrentUser
+    setCurrentUser,
+    updateUserCredits
   };
 
   return (
