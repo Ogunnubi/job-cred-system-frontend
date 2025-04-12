@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import api from '../../api/api';
 import "./Jobs.css"
 import { useAuth } from '../../context/AuthContext';
@@ -7,18 +7,47 @@ const Jobs = ({}) => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [jobs, setJobs] = useState([]);
 
   const {
     userCredits,
-    token
+    token,
+    setError
   } = useAuth();
+
+  
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const result = await api.getJobs(); 
+        setJobs(result.data); 
+      } catch (error) {
+        console.error(`Error fetching jobs: ${error}`);
+      }
+    };
+
+    fetchJobs();
+  }, []); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (userCredits < 1) {
+        setError("Insufficient credits to submit job.");
+        return;
+    }
+
     try {
 
-        const result = await api.post()
+        setLoading(true);
+        setError("");
+        
+
+        const newJob = {
+            title, description, credits: 10
+        }
+
+        const result = await api.submitJob(newJob)
        
         setResponse(result.data?.message || "Job submitted successfully!");
     } catch (error) {
@@ -78,6 +107,11 @@ const Jobs = ({}) => {
                     </div>
                 </div>
             </form>
+
+
+
+
+
         </div>
     </section>
   )
