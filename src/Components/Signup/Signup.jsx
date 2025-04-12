@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import handleSignup from '../../utils/handleSignup';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
+import { faEnvelope, faEye, faEyeSlash, faUser } from "@fortawesome/free-solid-svg-icons"
 
 const Signup = ({toggleForm}) => {
 
+    const [username, setUsername] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
 
     const navigate = useNavigate();
     
@@ -24,12 +24,14 @@ const Signup = ({toggleForm}) => {
         setPassword
     } = useAuth() // Get setCurrentUser from AuthContext
 
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          await handleSignup(email, password, setError, setLoading, setCurrentUser, navigate);
+          await handleSignup(username, email, password, setError, setLoading, setCurrentUser, navigate, confirmPassword);
         } catch (err) {
-          console.error('Failed to log in. Please check your credentials.');
+          console.error(`'Failed to log in. Please check your credentials.' ${err.message}`);
         }
     };
 
@@ -37,8 +39,27 @@ const Signup = ({toggleForm}) => {
 
   return (
     <form onSubmit={handleSubmit} action="row g-3 px-3">
+        {/* username input */}
+        <div className="input-group mb-3 custom-input-group">
+            <span className="input-group-text bg-white border-end-0">
+                <FontAwesomeIcon icon={faUser} />
+            </span>
+            <input
+                required
+                type="text"
+                id="usernameInput"
+                className="form-control border-start-0"
+                placeholder="Enter your Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+            />
+        </div>
+
         {/* email input */}
         <div className="mb-3 input-group">
+        <span className="input-group-text bg-white border-end-0">
+                <FontAwesomeIcon icon={faEnvelope} />
+            </span>
             <input 
                 type="email" 
                 className="form-control border-start-0 border-end-0" 

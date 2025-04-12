@@ -2,7 +2,7 @@ import { auth, signInWithEmailAndPassword } from '../firebase/config';
 
 const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate) => { 
     
-    e.preventDefault()
+    
     setError("")
 
     if (!email || !password) {

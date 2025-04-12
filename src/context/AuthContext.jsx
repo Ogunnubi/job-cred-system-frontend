@@ -16,11 +16,11 @@ export function useAuth() {
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [showPassword, setShowPassword] = useState(false)
+    const [confirmPassword, setConfirmPassword] = useState("")
+
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -55,7 +55,10 @@ export function AuthProvider({ children }) {
     error,
     setError,
     setPassword,
-    setEmail
+    setEmail,
+    confirmPassword,
+    setConfirmPassword,
+    setCurrentUser
   };
 
   return (

@@ -1,4 +1,6 @@
-const handleSignup = async (email, password, setError, setLoading, setCurrentUser, navigate) => {
+import { auth, createUserWithEmailAndPassword, updateProfile } from '../firebase/config';
+
+const handleSignup = async (username, email, password, setError, setLoading, setCurrentUser, navigate, confirmPassword) => {
     
     setError('');
 
