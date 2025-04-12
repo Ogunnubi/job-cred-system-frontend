@@ -13,16 +13,20 @@ const Jobs = ({}) => {
 
   const {
     userCredits,
-    token,
+    currentUser,
     setError,
     error
   } = useAuth();
+
+
+  const userId = currentUser?.uid
+
 
   
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const result = await getJobs(); 
+        const result = await getJobs(userId); 
         setJobs(result.data); 
       } catch (error) {
         console.error(`Error fetching jobs: ${error}`);
@@ -32,11 +36,19 @@ const Jobs = ({}) => {
     fetchJobs();
   }, []); 
 
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Parse jobCredit to ensure it's a number
     const credits = parseInt(jobCredit);
+
+    if (!userId) {
+        setError('User ID is missing. Please log in again.');
+        return;
+    }
     
     // Validate that job credit is a positive number
     if (isNaN(credits) || credits <= 0) {
@@ -59,7 +71,7 @@ const Jobs = ({}) => {
             title, description, credits: jobCredit
         }
 
-        const result = await submitJob(newJob)
+        const result = await submitJob(userId, newJob)
        
         
         console.log(result.data?.message || "Job submitted successfully!");

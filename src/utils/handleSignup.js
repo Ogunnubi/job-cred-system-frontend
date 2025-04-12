@@ -4,6 +4,8 @@ const handleSignup = async (username, email, password, setError, setLoading, set
     
     setError('');
 
+   
+
     if (!username || !email || !password || !confirmPassword) {
         setError("Please fill in all fields")
         return

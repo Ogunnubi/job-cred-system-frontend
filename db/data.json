@@ -1,40 +1,27 @@
 {
+  "users": [
+    {
+      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "credits": 100,
+      "id": "b1b5"
+    }
+  ],
   "jobs": [
     {
-      "title": "Sweep",
-      "description": "Sweep a 20 mile radius",
-      "credits": 30,
-      "id": "cd4d"
-    },
-    {
-      "title": "Read Books",
-      "description": "Read books about Sugar Imports",
+      "id": "1",
+      "title": "Frontend Developer",
+      "description": "Build and maintain web applications.",
       "credits": 10,
-      "id": "be9b"
+      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
     },
     {
-      "title": "Cook Dinner",
-      "description": "Cook dinner with spinach",
-      "credits": 40,
-      "id": "ec32"
-    },
-    {
-      "id": "f08a",
-      "title": "Sing out loud",
-      "description": "I want to sing till the roof falls off",
-      "credits": 10
-    },
-    {
-      "id": "f559",
+      "id": "6e36",
       "title": "spirit portal",
-      "description": "keep the world safe and bring joy",
-      "credits": 10
-    },
-    {
-      "id": "cd21",
-      "title": "Bolin",
-      "description": "I am not your hero at all",
-      "credits": "23"
+      "description": "hhdoIHWIOHQoihOIoOHOIHOIHIOW",
+      "credits": "3438",
+      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
     }
   ]
 }

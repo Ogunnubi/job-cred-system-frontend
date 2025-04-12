@@ -1,8 +1,19 @@
 import "./Header.css";
 import { Link } from "react-router-dom";
-
+import { useAuth } from "../../context/AuthContext";
 
 const Header = () => {
+
+    const {logout} = useAuth();
+
+    const handleLogout = async () => {
+        try {
+          await logout();
+          console.log('User logged out successfully');
+        } catch (error) {
+          console.error('Error logging out:', error.message);
+        }
+    };
 
 
     return (    
@@ -20,7 +31,7 @@ const Header = () => {
 
 
                 <div className="collapse navbar-collapse" id="navmenu">
-                    <ul className="navbar-nav ms-auto">          
+                    <ul className="navbar-nav mx-auto">          
                         <li className="nav-item">
                             <Link to='/' className="nav-link">Home</Link>
                         </li>
@@ -34,6 +45,10 @@ const Header = () => {
                             <Link to="/dashboard" className="nav-link">Dashboard</Link>
                         </li>
                     </ul>
+
+
+                    <button onClick={handleLogout} className="btn btn-brand ms-3">Logout</button>
+
 
                 </div>
             </div>

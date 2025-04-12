@@ -40,30 +40,47 @@ export const getUserProfile = async (userId) => {
 };
 
 export const submitJob = async (userId, jobData) => {
-  return api.post(`/users/${userId}/jobs`, jobData);
+  // return api.post(`/users/${userId}/jobs`, jobData);
+  return api.post('/jobs', {
+    ...jobData,
+    userId,
+  });
 };
 
 export const getJobs = async (userId) => {
+  // if (userId) {
+  //   return api.get(`/users/${userId}/jobs`)
+  // }
+  // return api.get('/jobs');
   if (userId) {
-    return api.get(`/users/${userId}/jobs`)
+    return api.get(`/jobs?userId=${userId}`);
   }
   return api.get('/jobs');
 };
 
 
 export const updateCredits = (userId, newCreditAmount) => {
-  return api.put(`/users/${userId}/credits`, { 
-    credits: newCreditAmount 
+  // return api.put(`/users/${userId}/credits`, { 
+  //   credits: newCreditAmount 
+  // });
+
+  return api.patch(`/users/${userId}`, {
+    credits: newCreditAmount,
   });
 };
 
 export const purchaseCredits = async (userId, purchaseData) => {
-  return api.post(`/users/${userId}/credits/purchase`, purchaseData);
+  // return api.post(`/users/${userId}/credits/purchase`, purchaseData);
+
+  return api.patch(`/users/${userId}`, {
+    credits: purchaseData.credits,
+  });
 };
 
 
 export const getCreditHistory = async (userId) => {
-  return api.get(`/users/${userId}/credits/history`);
+  // return api.get(`/users/${userId}/credits/history`);
+  return api.get(`/creditHistory?userId=${userId}`);
 };
 
 export default api;

@@ -24,12 +24,13 @@ const Signup = ({toggleForm}) => {
         setPassword
     } = useAuth() // Get setCurrentUser from AuthContext
 
+
     
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          await handleSignup(username, email, password, setError, setLoading, setCurrentUser, navigate, confirmPassword);
+          await handleSignup(username, email, password, setError, setLoading, setCurrentUser, navigate, confirmPassword, userId);
         } catch (err) {
           console.error(`'Failed to log in. Please check your credentials.' ${err.message}`);
         }
