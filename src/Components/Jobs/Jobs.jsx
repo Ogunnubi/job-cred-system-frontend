@@ -1,10 +1,17 @@
 import {useState} from 'react'
 import api from '../../api/api';
+import "./Jobs.css"
+import { useAuth } from '../../context/AuthContext';
 
-const Jobs = ({userCredits, token}) => {
+const Jobs = ({}) => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
+  const {
+    userCredits,
+    token
+  } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,16 +56,26 @@ const Jobs = ({userCredits, token}) => {
                     </div>  
                     {/* Job Description */}
                     <div className="mb-3 input-group">
-                        <input 
-                        type="text" 
-                        className="form-control border-start-0 border-end-0" 
-                        id="jobdescription" 
-                        placeholder='Enter Job Description'
-                        required
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        <textarea 
+                            required
+                            name="" 
+                            id="jobdescription" 
+                            className="form-control border-start-0 border-end-0 custom__textarea" 
+                            placeholder='Provide a description about the job'
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                         />
                     </div> 
+                    {/* Credits */}
+                    <div className="input-group">
+                        <p className='text-center'>Your available credits {}</p>
+                    </div>
+                    {/* button */}
+                    <div className='col-12 text-center'>
+                        <button className='btn btn-brand'>
+                            Submit
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

@@ -1,0 +1,19 @@
+{
+    "jobs": [
+        {
+            "jobTitle": "Sweep",
+            "description": "Sweep a 20 mile radius",
+            "creditsReq": 30
+        },
+        {
+            "jobTitle": "Read Books",
+            "description": "Read books about Sugar Imports",
+            "creditsReq": 10
+        },
+        {
+            "jobTitle": "Cook Dinner",
+            "description": "Cook dinner with spinach",
+            "creditsReq": 40
+        }
+    ]
+}
