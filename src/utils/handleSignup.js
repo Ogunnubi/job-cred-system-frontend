@@ -29,7 +29,7 @@ const handleSignup = async (username, email, password, setError, setLoading, set
         setCurrentUser(userCredential.user)
 
 
-        navigate('/home') // Redirect to home page after successful login
+        navigate('/jobs') // Redirect to home page after successful login
 
         
     } catch (error) {

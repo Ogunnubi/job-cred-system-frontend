@@ -22,7 +22,7 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
         setCurrentUser(userCredential.user)
 
 
-        navigate('/home') // Redirect to home page after successful login
+        navigate('/jobs') // Redirect to home page after successful login
 
 
     } catch (error) {

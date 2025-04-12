@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Signup from './Components/Signup';
 import Home from "./Components/Home"
 import Login from './Components/Login/Login';
+import Jobs from './Components/Jobs/Jobs';
 
 import $ from 'jquery';
 import Layout from './Layout/Layout';
@@ -44,15 +45,15 @@ function App() {
                 <Dashboard />
               </ProtectedRoute>
             } 
-          />
-          <Route 
+          /> */}
+          {/* <Route 
             path="/credits" 
             element={
               <ProtectedRoute>
                 <Credits />
               </ProtectedRoute>
             } 
-          />
+          /> */}
           <Route 
             path="/jobs" 
             element={
@@ -61,7 +62,7 @@ function App() {
               </ProtectedRoute>
             } 
           />
-          <Route 
+          {/* <Route 
             path="/settings" 
             element={
               <ProtectedRoute>
