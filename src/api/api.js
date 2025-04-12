@@ -11,6 +11,16 @@ const api = axios.create({
   },
 });
 
+
+// Interceptor to add authentication token to requests
+// api.interceptors.request.use(config => {
+//   const token = localStorage.getItem('token');
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
+
 // Add auth token to requests
 api.interceptors.request.use(async (config) => {
   if (auth.currentUser) {
@@ -25,24 +35,35 @@ export const createUser = async (userData) => {
   return api.post('/users', userData);
 };
 
-export const getUserProfile = async () => {
-  return api.get('/users/me');
+export const getUserProfile = async (userId) => {
+  return api.get(`/users/${userId}`);
 };
 
-export const submitJob = async (jobData) => {
-  return api.post('/jobs', jobData);
+export const submitJob = async (userId, jobData) => {
+  return api.post(`/users/${userId}/jobs`, jobData);
 };
 
-export const getJobs = async () => {
+export const getJobs = async (userId) => {
+  if (userId) {
+    return api.get(`/users/${userId}/jobs`)
+  }
   return api.get('/jobs');
 };
 
-export const purchaseCredits = async (purchaseData) => {
-  return api.post('/credits/purchase', purchaseData);
+
+export const updateCredits = (userId, newCreditAmount) => {
+  return api.put(`/users/${userId}/credits`, { 
+    credits: newCreditAmount 
+  });
 };
 
-export const getCreditHistory = async () => {
-  return api.get('/credits/history');
+export const purchaseCredits = async (userId, purchaseData) => {
+  return api.post(`/users/${userId}/credits/purchase`, purchaseData);
+};
+
+
+export const getCreditHistory = async (userId) => {
+  return api.get(`/users/${userId}/credits/history`);
 };
 
 export default api;
