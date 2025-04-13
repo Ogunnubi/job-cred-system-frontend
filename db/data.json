@@ -13,7 +13,7 @@
       "id": "1",
       "title": "Frontend Developer",
       "description": "Build and maintain web applications.",
-      "credits": 10,
+      "credits": 1000,
       "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
     },
     {
@@ -21,6 +21,27 @@
       "title": "spirit portal",
       "description": "hhdoIHWIOHQoihOIoOHOIHOIHIOW",
       "credits": "3438",
+      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
+    },
+    {
+      "id": "87fd",
+      "title": "sleep",
+      "description": "I just cheated the system",
+      "credits": "43",
+      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
+    },
+    {
+      "id": "1897",
+      "title": "sleep",
+      "description": "pretenders do the worst",
+      "credits": "41",
+      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
+    },
+    {
+      "id": "846a",
+      "title": "sleep",
+      "description": "pass in to me",
+      "credits": "43",
       "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
     }
   ]

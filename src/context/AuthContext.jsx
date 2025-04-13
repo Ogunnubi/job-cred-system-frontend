@@ -35,13 +35,13 @@ export function AuthProvider({ children }) {
     return signOut(auth);
   }
 
-  const updateUserCredits = async (newCreditAmount) => {
+  const updateUserCredits = async (userId, newCreditAmount) => {
     try {
       // Call the API to update credits in the backend
-      const response = await updateCredits(token, newCreditAmount);
+      const response = await updateCredits(userId, newCreditAmount);
       
       if (response.data && response.data.success) {
-        // Update the local state with the new credit amount
+        // Update the global state with the new credit amount
         setUserCredits(newCreditAmount);
         
         // Also update in localStorage for persistence
@@ -91,7 +91,8 @@ export function AuthProvider({ children }) {
     confirmPassword,
     setConfirmPassword,
     setCurrentUser,
-    updateUserCredits
+    updateUserCredits,
+    userCredits
   };
 
   return (

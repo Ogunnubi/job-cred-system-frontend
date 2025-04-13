@@ -15,7 +15,8 @@ const Jobs = ({}) => {
     userCredits,
     currentUser,
     setError,
-    error
+    error,
+    updateUserCredits
   } = useAuth();
 
 
@@ -74,7 +75,10 @@ const Jobs = ({}) => {
         const result = await submitJob(userId, newJob)
 
         if(result.data) {
-            updateUserCredits(userCredits - credits);
+
+            const newCreditAmount = userCredits - credits
+
+            updateUserCredits(userId, newCreditAmount);
            
             console.log(result.data?.message || "Job submitted successfully!");
             
