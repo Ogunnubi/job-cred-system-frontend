@@ -5,34 +5,35 @@ import handleSignup from '../../utils/handleSignup';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEnvelope, faEye, faEyeSlash, faUser } from "@fortawesome/free-solid-svg-icons"
 
+
+
 const Signup = ({toggleForm}) => {
 
     const [username, setUsername] = useState("")
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     const navigate = useNavigate();
     
-      const { 
+    const { 
         setCurrentUser, 
         setLoading, 
-        email, 
-        setEmail,
-        password, 
         setError,
-        setPassword
-    } = useAuth() // Get setCurrentUser from AuthContext
+        setUserCredits,
+        error,
+    } = useAuth()
 
 
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          await handleSignup(username, email, password, setError, setLoading, setCurrentUser, navigate, confirmPassword, userId);
+            await handleSignup(email, password, username, setError, setLoading, setCurrentUser, navigate, confirmPassword, setUserCredits);
         } catch (err) {
-          console.error(`'Failed to log in. Please check your credentials.' ${err.message}`);
+          console.error(`'Failed to sign up. Please check your credentials.' ${err.message}`);
         }
     };
 
@@ -40,6 +41,7 @@ const Signup = ({toggleForm}) => {
 
   return (
     <form onSubmit={handleSubmit} action="row g-3 px-3">
+        {error && <div className="alert alert-danger">{error}</div>}
         {/* username input */}
         <div className="input-group mb-3 custom-input-group">
             <span className="input-group-text bg-white border-end-0">

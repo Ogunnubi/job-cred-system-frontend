@@ -1,10 +1,12 @@
-import { auth, createUserWithEmailAndPassword, updateProfile } from '../firebase/config';
+import { auth } from '../firebase/config';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUser, updateCredits } from '../api/api';
 
-const handleSignup = async (username, email, password, setError, setLoading, setCurrentUser, navigate, confirmPassword) => {
+
+
+const handleSignup = async (email, password, username, setError, setLoading, setCurrentUser, navigate, confirmPassword,setUserCredits) => {
     
     setError('');
-
-   
 
     if (!username || !email || !password || !confirmPassword) {
         setError("Please fill in all fields")
@@ -16,26 +18,42 @@ const handleSignup = async (username, email, password, setError, setLoading, set
         return
     }
 
-    // Send data to backend
+
+
     try {
 
         setLoading(true);
     
-        // Create user with Firebase Authentication
+        
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-        // Update user profile with username
+        
         await updateProfile(userCredential.user, { displayName: username }); 
 
-        // Update AuthContext with the new user
+        const initialCredits = 200;
+
+        const user = userCredential.user
+
+        
         setCurrentUser(userCredential.user)
 
+        setUserCredits(initialCredits);
 
-        navigate('/jobs') // Redirect to home page after successful login
+
+        await createUser({
+            email,
+            username,
+            credits: initialCredits,
+            userId: user.uid
+        });
+
+        
+
+        navigate('/jobs')
 
         
     } catch (error) {
-        // Handle specific Firebase errors
+        
         if (error.code === 'auth/email-already-in-use') {
             setError('Email is already in use');
         } else if (error.code === 'auth/weak-password') {

@@ -58,16 +58,34 @@ export const getJobs = async (userId) => {
   return api.get('/jobs');
 };
 
+// First: Get user by userId
+export const getUserByUserId = async (userId) => {
+  const res = await api.get(`/users?userId=${userId}`);
+  return res.data[0]; // returns an array
+};
 
-export const updateCredits = (userId, newCreditAmount) => {
-  // return api.put(`/users/${userId}/credits`, { 
-  //   credits: newCreditAmount 
-  // });
+// Then: Update credits using internal `id`
+export const updateCredits = async (userId, newCreditAmount) => {
+  const user = await getUserByUserId(userId);
+  if (!user) {
+    throw new Error('User not found');
+  }
 
-  return api.patch(`/users/${userId}`, {
-    credits: newCreditAmount,
+  return api.patch(`/users/${user.id}`, {
+    credits: newCreditAmount
   });
 };
+
+
+
+// return api.put(`/users/${userId}/credits`, { 
+//   credits: newCreditAmount 
+// });
+
+// return api.put(`/credits?userId=${userId}`, {
+//   credits: newCreditAmount,
+// });
+
 
 export const purchaseCredits = async (userId, purchaseData) => {
   // return api.post(`/users/${userId}/credits/purchase`, purchaseData);

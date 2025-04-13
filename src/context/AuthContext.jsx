@@ -6,7 +6,7 @@ import {
   signOut, 
   onAuthStateChanged 
 } from 'firebase/auth';
-import { updateCredits } from '../api/api.js';
+import { updateCredits, getUserByUserId } from '../api/api.js';
 
 const AuthContext = createContext();
 
@@ -15,16 +15,35 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
+
+
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [loading, setLoading] = useState(true);
   const [userCredits, setUserCredits] = useState(0);
 
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+
+  async function signup(email, password, username) {
+    try {
+      
+    
+      try {
+        setUserCredits(initialCredits);
+        
+        setCurrentUser(userCredential.user)
+
+        localStorage.setItem('userCredits', initialCredits); // Persist in localStorage
+
+      } catch (error) {
+        console.error("Error setting initial credits:", error);
+        setError("Failed to set initial credits for the user.");
+      }
+  
+      return user;
+    } catch (error) {
+      setError(error.message);
+      throw error;
+    }
   }
 
   function login(email, password) {
@@ -40,7 +59,7 @@ export function AuthProvider({ children }) {
       // Call the API to update credits in the backend
       const response = await updateCredits(userId, newCreditAmount);
       
-      if (response.data && response.data.success) {
+      if (response.data && response.data.credits === newCreditAmount) {
         // Update the global state with the new credit amount
         setUserCredits(newCreditAmount);
         
@@ -69,30 +88,41 @@ export function AuthProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    const storedCredits = localStorage.getItem('userCredits');
-    if (storedCredits) {
-      setUserCredits(parseInt(storedCredits));
-    }
-  }, [])
+    const fetchUserCredits = async () => {
+      if (currentUser) {
+        try {
+          // const response = await api.get(`/users?userId=${currentUser.uid}`);
+          const response = await getUserByUserId(currentUser.uid);
+          if (response?.data?.length > 0) {
+            const user = response.data[0];
+            setUserCredits(user.credits);
+            localStorage.setItem('userCredits', user.credits);
+          } else {
+            console.warn("No user data returned from API");
+          }
+        } catch (error) {
+          console.error("Error fetching user credits:", error);
+          setError("Could not load user credits from server.");
+        }
+      }
+    };
+  
+    fetchUserCredits();
+  }, [currentUser]);
 
   const value = {
     currentUser,
     signup,
     login,
     logout,
-    email,
-    password,
     setLoading,
     loading,
     error,
     setError,
-    setPassword,
-    setEmail,
-    confirmPassword,
-    setConfirmPassword,
     setCurrentUser,
     updateUserCredits,
-    userCredits
+    userCredits,
+    setUserCredits
   };
 
   return (

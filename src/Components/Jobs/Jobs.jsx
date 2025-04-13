@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {getJobs, submitJob} from '../../api/api';
+import {getJobs, submitJob, updateCredits} from '../../api/api';
 import "./Jobs.css"
 import { useAuth } from '../../context/AuthContext';
 
@@ -69,7 +69,7 @@ const Jobs = ({}) => {
         
 
         const newJob = {
-            title, description, credits: jobCredit
+            title, description, credits
         }
 
         const result = await submitJob(userId, newJob)
@@ -78,7 +78,7 @@ const Jobs = ({}) => {
 
             const newCreditAmount = userCredits - credits
 
-            updateUserCredits(userId, newCreditAmount);
+            await updateUserCredits(userId, newCreditAmount);
            
             console.log(result.data?.message || "Job submitted successfully!");
             
@@ -88,6 +88,9 @@ const Jobs = ({}) => {
             setDescription("");
             
             setJobs((prevJobs) => [...prevJobs, result.data]);
+
+            
+
         }
     } catch (error) {
         console.error(`API error: ${error}`);
@@ -96,6 +99,12 @@ const Jobs = ({}) => {
         setLoading(false);
     }
   }
+
+//   useEffect(() => {
+//     updateCredits("test-user-id", 200).then(() => {
+//       console.log("Credits updated");
+//     });
+//   }, []);
 
 
   return (
@@ -152,7 +161,7 @@ const Jobs = ({}) => {
                     <div className="credit d-flex justify-content-between">
                         <h5>Available credits</h5>
 
-                        <strong className='text-center'>200</strong>
+                        <strong className='text-center'>{userCredits}</strong>
                     </div>
                     {/* button */}
                     <div className='col-12 text-center'>

@@ -1,48 +1,48 @@
 {
   "users": [
     {
-      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "credits": 100,
-      "id": "b1b5"
+      "id": "c9c2",
+      "email": "goldenboot29@gmail.com",
+      "username": "golden boot",
+      "credits": 117,
+      "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
     }
   ],
   "jobs": [
     {
-      "id": "1",
-      "title": "Frontend Developer",
-      "description": "Build and maintain web applications.",
-      "credits": 1000,
-      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
-    },
-    {
-      "id": "6e36",
+      "id": "0903",
       "title": "spirit portal",
-      "description": "hhdoIHWIOHQoihOIoOHOIHOIHIOW",
-      "credits": "3438",
-      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
+      "description": "crumble crumble crumble",
+      "credits": 45,
+      "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
     },
     {
-      "id": "87fd",
-      "title": "sleep",
-      "description": "I just cheated the system",
-      "credits": "43",
-      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
+      "id": "a1be",
+      "title": "Population",
+      "description": "HOA suck in America",
+      "credits": 22,
+      "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
     },
     {
-      "id": "1897",
-      "title": "sleep",
-      "description": "pretenders do the worst",
-      "credits": "41",
-      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
+      "id": "6d1e",
+      "title": "Sing out loud",
+      "description": "The shed is not approved",
+      "credits": 14,
+      "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
     },
     {
-      "id": "846a",
-      "title": "sleep",
-      "description": "pass in to me",
-      "credits": "43",
-      "userId": "Rw7Xkh3E2kcuaK5AYuA8k4QmQcI2"
+      "id": "f5ee",
+      "title": "Bolin",
+      "description": "Lawn Art",
+      "credits": 12,
+      "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
+    },
+    {
+      "id": "f44c",
+      "title": "Lawyer Fee",
+      "description": "The HOA lawyer",
+      "credits": 12,
+      "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
     }
   ]
 }
