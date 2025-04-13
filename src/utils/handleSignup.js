@@ -1,6 +1,6 @@
 import { auth } from '../firebase/config';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { createUser, updateCredits } from '../api/api';
+import { createUser } from '../api/api';
 
 
 

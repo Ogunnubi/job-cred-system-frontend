@@ -23,27 +23,8 @@ export function AuthProvider({ children }) {
   const [userCredits, setUserCredits] = useState(0);
 
 
-  async function signup(email, password, username) {
-    try {
-      
-    
-      try {
-        setUserCredits(initialCredits);
-        
-        setCurrentUser(userCredential.user)
-
-        localStorage.setItem('userCredits', initialCredits); // Persist in localStorage
-
-      } catch (error) {
-        console.error("Error setting initial credits:", error);
-        setError("Failed to set initial credits for the user.");
-      }
-  
-      return user;
-    } catch (error) {
-      setError(error.message);
-      throw error;
-    }
+  function signup(email, password) {
+    return createUserWithEmailAndPassword(auth, email, password);
   }
 
   function login(email, password) {
@@ -58,6 +39,8 @@ export function AuthProvider({ children }) {
     try {
       // Call the API to update credits in the backend
       const response = await updateCredits(userId, newCreditAmount);
+
+      console.log(response)
       
       if (response.data && response.data.credits === newCreditAmount) {
         // Update the global state with the new credit amount

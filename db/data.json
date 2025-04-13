@@ -4,8 +4,15 @@
       "id": "c9c2",
       "email": "goldenboot29@gmail.com",
       "username": "golden boot",
-      "credits": 117,
+      "credits": 93,
       "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
+    },
+    {
+      "id": "2ec0",
+      "email": "trumpgman@gmail.com",
+      "username": "trump",
+      "credits": 200,
+      "userId": "s9zaftYRLXVIpS80MTG61SKFzyp2"
     }
   ],
   "jobs": [
@@ -41,6 +48,20 @@
       "id": "f44c",
       "title": "Lawyer Fee",
       "description": "The HOA lawyer",
+      "credits": 12,
+      "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
+    },
+    {
+      "id": "63b4",
+      "title": "new york",
+      "description": "Goodluck to you, sir",
+      "credits": 12,
+      "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
+    },
+    {
+      "id": "2846",
+      "title": "Nokia",
+      "description": "Nokia will handle everything",
       "credits": 12,
       "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
     }
