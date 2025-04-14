@@ -11,8 +11,15 @@
       "id": "2ec0",
       "email": "trumpgman@gmail.com",
       "username": "trump",
-      "credits": 200,
+      "credits": 188,
       "userId": "s9zaftYRLXVIpS80MTG61SKFzyp2"
+    },
+    {
+      "id": "e352",
+      "email": "wayforward@gmail.com",
+      "username": "wayforward",
+      "credits": 166,
+      "userId": "0J4oC3HKPtW84VbTZDKBRJK7Qjz2"
     }
   ],
   "jobs": [
@@ -64,6 +71,27 @@
       "description": "Nokia will handle everything",
       "credits": 12,
       "userId": "orYydwqCW8gvnHMV971LHcJ1vgl1"
+    },
+    {
+      "id": "04b3",
+      "title": "Nokia",
+      "description": "who is calling my phone",
+      "credits": 12,
+      "userId": "s9zaftYRLXVIpS80MTG61SKFzyp2"
+    },
+    {
+      "id": "6767",
+      "title": "Sweep the Room",
+      "description": "I would love to sweep my room",
+      "credits": 21,
+      "userId": "0J4oC3HKPtW84VbTZDKBRJK7Qjz2"
+    },
+    {
+      "id": "3b03",
+      "title": "Cook Food",
+      "description": "I can cook a lot of meals",
+      "credits": 13,
+      "userId": "0J4oC3HKPtW84VbTZDKBRJK7Qjz2"
     }
   ]
 }

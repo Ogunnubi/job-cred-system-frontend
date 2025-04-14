@@ -75,6 +75,19 @@ export function AuthProvider({ children }) {
       if (currentUser) {
         try {
           // const response = await api.get(`/users?userId=${currentUser.uid}`);
+
+          const userStorageKey = `userCredits-${currentUser.uid}`;
+
+          const storedCredits = localStorage.getItem(userStorageKey);
+
+          if (storedCredits) {
+            setUserCredits(parseInt(storedCredits, 10));
+          } else {
+            try {
+              
+            }
+          }
+
           const response = await getUserByUserId(currentUser.uid);
           if (response?.data?.length > 0) {
             const user = response.data[0];
