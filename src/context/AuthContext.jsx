@@ -84,7 +84,7 @@ export function AuthProvider({ children }) {
           if (storedCredits) {
             // if we have credits in localStorage, use them
             setUserCredits(parseInt(storedCredits, 10));
-          } else if (currentUser) {
+          } else if (currentUser && !currentUser.credits) {
             // if we don't have credits in localStorage, fetch from API
             const response = await getUserByUserId(currentUserId);
                   
@@ -93,11 +93,7 @@ export function AuthProvider({ children }) {
               setUserCredits(user.credits);
               localStorage.setItem(userStorageKey, user.credits.toString());
             }
-          } else {
-            const tempCredits = 200;
-            setUserCredits(tempCredits);
-            localStorage.setItem(userStorageKey, tempCredits.toString()); // Default to 0 if no user is logged in
-          }
+          } 
 
         }
 
