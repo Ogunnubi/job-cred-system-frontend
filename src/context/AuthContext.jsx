@@ -93,25 +93,21 @@ export function AuthProvider({ children }) {
               setUserCredits(user.credits);
               localStorage.setItem(userStorageKey, user.credits.toString());
             }
+          } else {
+            const tempCredits = 200;
+            setUserCredits(tempCredits);
+            localStorage.setItem(userStorageKey, tempCredits.toString()); // Default to 0 if no user is logged in
           }
 
-        } else {
-          const tempCredits = 200;
-          setUserCredits(tempCredits);
-          localStorage.setItem(userStorageKey, tempCredits.toString());
         }
-
 
       } catch (error) {
         console.error("Error fetching user credits:", error);
         setError("Could not load user credits from server.");
-
-        // If no user data is returned from the API, assign 200 credits
-        const tempCredits = 200;
-        setUserCredits(tempCredits);
-        localStorage.setItem(userStorageKey, tempCredits.toString());
       }
     }
+
+    fetchUserCredits();
 
 
   }, [currentUser])
@@ -120,56 +116,10 @@ export function AuthProvider({ children }) {
 
 
 
-  useEffect(() => {
-    const fetchUserCredits = async () => {
-      if (currentUser) {
-        try {
-          // const response = await api.get(`/users?userId=${currentUser.uid}`);
-
-          const userStorageKey = `userCredits-${currentUser.displayName}-${currentUser.uid}`;
-
-          const storedCredits = localStorage.getItem(userStorageKey);
-
-          const currentUserId = currentUser.uid;
-
-          if (storedCredits) {
-            setUserCredits(parseInt(storedCredits, 10));
-          } else {
-            try {
-                const response = await getUserByUserId(currentUser.uid);
-                
-                if (response?.data?.length > 0) {
-                  const user = response.data[0];
-                  setUserCredits(user.credits);
-                  localStorage.setItem(userStorageKey, user.credits.toString());
-                } else {
-                  // If no user found in API, assign temporary credits
-                  const tempCredits = 200;
-                  setUserCredits(tempCredits);
-                  localStorage.setItem(userStorageKey, tempCredits.toString());
-                  console.log(`No user data returned from API, bssigned temporary credits for user: ${currentUser.uid}`);
-                }
-            } catch (error) {
-              // If API fails, assign temporary credits
-              const tempCredits = 200;
-              setUserCredits(tempCredits);
-              localStorage.setItem(userStorageKey, tempCredits.toString());
-              console.error("Error fetching user credits:", error);
-            } 
-          }
-        } catch (error) {
-          console.error("Error fetching user credits:", error);
-          setError("Could not load user credits from server.");
-        }
-      }
-    };
-  
-    fetchUserCredits();
-  }, [currentUser]);
+ 
 
 
 
-  
 
   const value = {
     currentUser,
