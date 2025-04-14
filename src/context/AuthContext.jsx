@@ -7,6 +7,7 @@ import {
   onAuthStateChanged 
 } from 'firebase/auth';
 import { updateCredits, getUserByUserId } from '../api/api.js';
+import { getUserCreditsStorage, setUserCreditsStorage } from '../utils/handleLocalStorage.js';
 
 const AuthContext = createContext();
 
@@ -35,21 +36,31 @@ export function AuthProvider({ children }) {
     return signOut(auth);
   }
 
+
+
+
   const updateUserCredits = async (userId, newCreditAmount) => {
     try {
+
+
       // Call the API to update credits in the backend
       const response = await updateCredits(userId, newCreditAmount);
 
-      console.log(response)
       
       if (response.data && response.data.credits === newCreditAmount) {
         // Update the global state with the new credit amount
         setUserCredits(newCreditAmount);
-        
-        // Also update in localStorage for persistence
-        localStorage.setItem('userCredits', newCreditAmount);
+      
+
+        // Generate the storage key inside this function
+        if (currentUser) {
+          const userStorageKey = `userCredits-${currentUser.displayName}-${currentUser.uid}`;
+          // Also update in localStorage for persistence
+          setUserCreditsStorage(userStorageKey, newCreditAmount);
+        }
         
         return true;
+
       } else {
         setError("Failed to update credits on the server");
         return false;
@@ -60,6 +71,17 @@ export function AuthProvider({ children }) {
       return false;
     }
   };
+
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -75,23 +97,23 @@ export function AuthProvider({ children }) {
     const fetchUserCredits = async () => {
       try {
         if (currentUser) {
-          const userStorageKey = `userCredits-${currentUser.displayName}-${currentUser.uid}`;
-  
-          const storedCredits = localStorage.getItem(userStorageKey);
+          
+          const { userStorageKey, storedCredits }= getUserCreditsStorage(currentUser)
   
           const currentUserId = currentUser.uid;
   
           if (storedCredits) {
-            // if we have credits in localStorage, use them
-            setUserCredits(parseInt(storedCredits, 10));
+            
+            setUserCredits(storedCredits);
+            
           } else if (currentUser && !currentUser.credits) {
-            // if we don't have credits in localStorage, fetch from API
+            
             const response = await getUserByUserId(currentUserId);
                   
             if (response?.data?.length > 0) {
               const user = response.data[0];
               setUserCredits(user.credits);
-              localStorage.setItem(userStorageKey, user.credits.toString());
+              setUserCreditsStorage(userStorageKey, user.credits);
             }
           } 
 
