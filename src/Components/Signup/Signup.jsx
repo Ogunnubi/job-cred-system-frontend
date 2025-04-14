@@ -99,7 +99,7 @@ const Signup = ({toggleForm}) => {
             <input 
                 type={showConfirmPassword ? "text" : "password"} 
                 className="form-control border-start-0 border-end-0" 
-                id="passwordInput" 
+                id="confirmPasswordInput" 
                 required
                 placeholder='Confirm your password again'
                 value={confirmPassword}
