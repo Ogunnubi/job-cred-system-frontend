@@ -1,8 +1,79 @@
-import React from 'react'
+import {useState, useEffect} from 'react'
+import {getJobs, submitJob, updateCredits} from '../../api/api';
+import { useAuth } from '../../context/AuthContext';
 
 const JobCard = ({job}) => {
 
-    console.log(job)
+
+    const {
+        userCredits,
+        currentUser,
+        setError,
+        setJobs,
+        setLoading, 
+        updateUserCredits
+    } = useAuth();
+    
+    
+    const userId = currentUser?.uid
+
+    const handleJobSubmission = async () => {
+        
+        
+        // Parse jobCredit to ensure it's a number
+        const credits = parseInt(job.credits);
+    
+        if (!userId) {
+            setError('User ID is missing. Please log in again.');
+            return;
+        }
+        
+        // Validate that job credit is a positive number
+        if (isNaN(credits) || credits <= 0) {
+            setError("Please enter a valid number of credits greater than zero.");
+            return;
+        }
+    
+        if (userCredits < 1) {
+            setError("Insufficient credits to submit job.");
+            return;
+        }
+    
+        try {
+    
+            setLoading(true);
+            setError("");
+            
+    
+            const newJob = {
+                title, description, credits
+            }
+    
+            const result = await submitJob(userId, newJob)
+    
+            if(result.data) {
+    
+                const newCreditAmount = userCredits - credits
+    
+                await updateUserCredits(userId, newCreditAmount);
+                
+                console.log(result.data?.message || "Job submitted successfully!");
+                
+                // Clear the form
+                setTitle("");
+                setJobCredit("");
+                setDescription("");
+                
+                setJobs((prevJobs) => [...prevJobs, result.data]);
+    
+            }
+        } catch (error) {
+            console.error(`API error: ${error}`);
+            setError("Error submitting job."); 
+        } finally {
+            setLoading(false);
+        }
+    }
 
 
   return (
@@ -36,20 +107,20 @@ const JobCard = ({job}) => {
             </div> */}
             
             <button 
-              onClick={console.log("Helo")}
+              onClick={handleJobSubmission}
             //   disabled={credits <= 0}
-              className="btn btn-primary"
+              className="btn btn-brand"
             >
-              Apply (1 Credit)
+              Apply
             </button>
           </div>
         </div>
         
-        <div className="mt-2">
+        {/* <div className="mt-2">
           <small className="text-muted">
             User ID: {job.userId}
           </small>
-        </div>
+        </div> */}
       </div>
     </div>
   )

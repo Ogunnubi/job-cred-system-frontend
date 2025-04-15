@@ -312,3 +312,7 @@ form .form-group{
 .cursor-pointer {
   cursor: pointer;
 }
+
+.intro__page {
+  text-align: center;
+}

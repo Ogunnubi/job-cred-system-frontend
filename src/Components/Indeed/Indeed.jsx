@@ -2,13 +2,14 @@ import {useEffect, useState} from 'react'
 import { getJobs } from '../../api/api';
 import { useAuth } from '../../context/AuthContext';
 import JobsList from '../JobsList/JobsList';
+import "./Indeed.css"
+import { Link } from 'react-router-dom';
 
 const Indeed = () => {
 
 
-  const { setError, error } = useAuth();
+  const { setError, error, userCredits, jobs, setJobs } = useAuth();
 
-  const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -39,19 +40,32 @@ const Indeed = () => {
 
     <section className="section">
       <div className="container">
-        <div className="row align-items-center">
+        <div className="credits__notif d-flex justify-content-between align-items-center mb-5">
+          <p className='fw-bold'>Credits</p>
+          <div className="credits__notif__text">
+            <p>You have {userCredits} credits left.</p>
+            <Link to="/credits" className="credits__notif__text__link">Top Up</Link>
+          </div>
+        </div>
+        <div className="row align-items-center justify-content-center">
           <div className='intro__page'>
             <h1 className='heading__one'>Submit Jobs with Credits</h1>
             <p>A complete platform for managing job submissions with a credit-based system.</p>
           </div>
 
-            <div className="col-lg-7">
-              
-            </div>
-
-
-
-
+          <div className="col-lg-7">
+            {isLoading ? (
+                <div className="d-flex justify-content-center py-5">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              ) : error ? (
+                <div className="alert alert-danger" role="alert">{error}</div>
+              ) : (
+                <JobsList jobs={jobs} />
+              )}
+          </div>
         </div>
       </div>
     </section>

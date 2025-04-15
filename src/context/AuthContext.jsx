@@ -22,6 +22,8 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [userCredits, setUserCredits] = useState(0);
+  const [jobs, setJobs] = useState([]);
+
 
 
   function signup(email, password) {
@@ -151,7 +153,9 @@ export function AuthProvider({ children }) {
     setCurrentUser,
     updateUserCredits,
     userCredits,
-    setUserCredits
+    setUserCredits,
+    jobs,
+    setJobs
   };
 
   return (
