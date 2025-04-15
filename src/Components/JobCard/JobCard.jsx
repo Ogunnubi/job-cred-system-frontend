@@ -46,7 +46,7 @@ const JobCard = ({job}) => {
             
     
             const newJob = {
-                title, description, credits
+                title: job.title, description: job.description, credits: job.credits    
             }
     
             const result = await submitJob(userId, newJob)

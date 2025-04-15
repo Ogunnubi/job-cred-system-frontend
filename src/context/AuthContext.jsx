@@ -100,7 +100,7 @@ export function AuthProvider({ children }) {
       try {
         if (currentUser) {
           
-          const { userStorageKey, storedCredits }= getUserCreditsStorage(currentUser)
+          const { userStorageKey, storedCredits } = getUserCreditsStorage(currentUser)
   
           const currentUserId = currentUser.uid;
   

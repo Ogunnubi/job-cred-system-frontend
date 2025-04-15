@@ -21,6 +21,7 @@ const Login = ({toggleForm}) => {
     setLoading, 
     error,
     setError,
+    
   } = useAuth() // Get setCurrentUser from AuthContext
   
   
