@@ -48,11 +48,11 @@ export function AuthProvider({ children }) {
 
       
       if (response.data && response.data.credits === newCreditAmount) {
-        // Update the global state with the new credit amount
+        
         setUserCredits(newCreditAmount);
       
 
-        // Generate the storage key inside this function
+        
         if (currentUser) {
           const userStorageKey = `userCredits-${currentUser.displayName}-${currentUser.uid}`;
           // Also update in localStorage for persistence
@@ -105,7 +105,7 @@ export function AuthProvider({ children }) {
           if (storedCredits) {
             
             setUserCredits(storedCredits);
-            
+
           } else if (currentUser && !currentUser.credits) {
             
             const response = await getUserByUserId(currentUserId);

@@ -7,6 +7,7 @@ import Signup from './Components/Signup/Signup';
 import Login from './Components/Login/Login';
 import Home from "./Components/Home"
 import Jobs from './Components/Jobs/Jobs';
+import Indeed from './Components/Indeed/Indeed';
 
 import $ from 'jquery';
 import Layout from './Layout/Layout';
@@ -58,7 +59,7 @@ function App() {
             path="/jobs" 
             element={
               <ProtectedRoute>
-                <Jobs />
+                <Indeed />
               </ProtectedRoute>
             } 
           />

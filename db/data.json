@@ -18,7 +18,7 @@
       "id": "e352",
       "email": "wayforward@gmail.com",
       "username": "wayforward",
-      "credits": 188,
+      "credits": 134,
       "userId": "0J4oC3HKPtW84VbTZDKBRJK7Qjz2"
     }
   ],
@@ -98,6 +98,20 @@
       "title": "sleep",
       "description": "That was an insult",
       "credits": 12,
+      "userId": "0J4oC3HKPtW84VbTZDKBRJK7Qjz2"
+    },
+    {
+      "id": "eab6",
+      "title": "sleep",
+      "description": "I want to sleep with mia",
+      "credits": 34,
+      "userId": "0J4oC3HKPtW84VbTZDKBRJK7Qjz2"
+    },
+    {
+      "id": "61a2",
+      "title": "Bang Bros",
+      "description": "I am the chief of staff at Bang Bros",
+      "credits": 32,
       "userId": "0J4oC3HKPtW84VbTZDKBRJK7Qjz2"
     }
   ]
