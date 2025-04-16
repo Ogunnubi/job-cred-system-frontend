@@ -147,7 +147,7 @@ section {
 }
 
 .btn.btn-brand {
-  background-color: black;
+  background-color: var(--brand);
   color: white;
   border: 1px solid var(--brand);
   transition: all 1s ease;
