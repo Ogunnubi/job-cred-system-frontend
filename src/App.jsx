@@ -8,6 +8,7 @@ import Login from './Components/Login/Login';
 import Home from "./Components/Home"
 import Jobs from './Components/Jobs/Jobs';
 import Indeed from './Components/Indeed/Indeed';
+import Credits from './Components/Credits/Credits';
 
 import $ from 'jquery';
 import Layout from './Layout/Layout';
@@ -47,14 +48,14 @@ function App() {
               </ProtectedRoute>
             } 
           /> */}
-          {/* <Route 
+          <Route 
             path="/credits" 
             element={
               <ProtectedRoute>
                 <Credits />
               </ProtectedRoute>
             } 
-          /> */}
+          />
           <Route 
             path="/jobs" 
             element={

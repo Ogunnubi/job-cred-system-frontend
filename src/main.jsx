@@ -11,11 +11,14 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import 'owl.carousel/dist/owl.carousel.js';
 import 'owl.carousel';
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
-      <App />
+      <ChakraProvider value={defaultSystem}>
+        <App />
+      </ChakraProvider>
     </Router>
   </StrictMode>,
 )
