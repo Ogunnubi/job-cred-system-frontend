@@ -1,43 +1,26 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  Box,
-  Flex,
-  VStack,
-  Text,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  IconButton,
-  HStack,
-  Avatar,
-} from '@chakra-ui/react';
-  
-import { 
-  FiHome, 
-  FiCreditCard, 
-  FiFileText, 
-  FiSettings, 
+  FiHome,
+  FiCreditCard,
+  FiFileText,
+  FiSettings,
   FiLogOut,
-  FiMenu 
+  FiMenu
 } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 
 function DashboardLayout({ children }) {
   const { currentUser, logout } = useAuth();
   const location = useLocation();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   const navItems = [
     { name: 'Dashboard', icon: FiHome, path: '/dashboard' },
     { name: 'Credits', icon: FiCreditCard, path: '/credits' },
     { name: 'Jobs', icon: FiFileText, path: '/jobs' },
     { name: 'Settings', icon: FiSettings, path: '/settings' },
   ];
-  
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -45,97 +28,80 @@ function DashboardLayout({ children }) {
       console.error('Failed to log out', error);
     }
   };
-  
+
   const NavItem = ({ item }) => {
     const isActive = location.pathname === item.path;
-    
     return (
-      <Link to={item.path}>
-        <HStack
-          px={4}
-          py={3}
-          borderRadius="md"
-          bg={isActive ? 'blue.500' : 'transparent'}
-          color={isActive ? 'white' : 'gray.700'}
-          _hover={{ bg: isActive ? 'blue.600' : 'gray.100' }}
-        >
-          <Icon as={item.icon} />
-          <Text>{item.name}</Text>
-        </HStack>
-      </Link>
+      <li className="nav-item">
+        <Link className={`nav-link d-flex align-items-center ${isActive ? 'active text-white bg-primary' : ''}`} to={item.path}>
+          <item.icon className="me-2" /> {item.name}
+        </Link>
+      </li>
     );
   };
-  
-  const Sidebar = () => (
-    <VStack align="stretch" spacing={1} p={4}>
-      {navItems.map((item) => (
-        <NavItem key={item.name} item={item} />
-      ))}
-      <Button 
-        variant="ghost" 
-        leftIcon={<FiLogOut />} 
-        justifyContent="flex-start" 
-        onClick={handleLogout}
-        mt={8}
-      >
-        Logout
-      </Button>
-    </VStack>
-  );
-  
+
   return (
-    <Flex h="100vh">
-      {/* Desktop Sidebar */}
-      <Box
-        w="250px"
-        h="full"
-        borderRightWidth={1}
-        display={{ base: 'none', md: 'block' }}
-      >
-        <VStack align="center" p={4} borderBottomWidth={1}>
-          <Text fontSize="xl" fontWeight="bold">JobCredit</Text>
-        </VStack>
-        <Sidebar />
-      </Box>
-      
-      {/* Mobile Drawer */}
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth={1}>JobCredit</DrawerHeader>
-          <DrawerBody p={0}>
-            <Sidebar />
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-      
-      {/* Main Content */}
-      <Flex direction="column" flex={1} overflow="auto">
-        <Flex
-          align="center"
-          justify="space-between"
-          px={4}
-          py={2}
-          borderBottomWidth={1}
-        >
-          <IconButton
-            icon={<FiMenu />}
-            variant="ghost"
-            onClick={onOpen}
-            display={{ base: 'flex', md: 'none' }}
-            aria-label="Open menu"
-          />
-          <HStack spacing={4} ml="auto">
-            <Text>{currentUser?.email}</Text>
-            <Avatar size="sm" name={currentUser?.email} />
-          </HStack>
-        </Flex>
-        <Box p={4} flex={1}>
+    <div className="d-flex vh-100">
+      <nav className="d-none d-md-block bg-light border-end" style={{ width: '250px' }}>
+        <div className="text-center py-4 border-bottom">
+          <h4>JobCredit</h4>
+        </div>
+        <ul className="nav flex-column px-3">
+          {navItems.map((item) => (
+            <NavItem key={item.name} item={item} />
+          ))}
+          <li className="nav-item mt-4">
+            <button className="btn btn-outline-danger w-100 d-flex align-items-center" onClick={handleLogout}>
+              <FiLogOut className="me-2" /> Logout
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div className="flex-grow-1 overflow-auto">
+        <header className="d-flex justify-content-between align-items-center border-bottom px-4 py-2">
+          <button 
+            className="btn btn-outline-secondary d-md-none" 
+            type="button" 
+            data-bs-toggle="offcanvas" 
+            data-bs-target="#mobileSidebar" 
+            aria-controls="mobileSidebar"
+          >
+            <FiMenu />
+          </button>
+          <div className="d-flex align-items-center">
+            <span className="me-2">{currentUser?.email}</span>
+            <div className="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center" style={{ width: '32px', height: '32px' }}>
+              {currentUser?.email?.charAt(0).toUpperCase()}
+            </div>
+          </div>
+        </header>
+
+        <main className="p-4">
           {children}
-        </Box>
-      </Flex>
-    </Flex>
+        </main>
+      </div>
+
+      {/* Mobile Sidebar */}
+      <div className="offcanvas offcanvas-start" tabIndex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="mobileSidebarLabel">JobCredit</h5>
+          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div className="offcanvas-body">
+          <ul className="nav flex-column">
+            {navItems.map((item) => (
+              <NavItem key={item.name} item={item} />
+            ))}
+            <li className="nav-item mt-4">
+              <button className="btn btn-outline-danger w-100 d-flex align-items-center" onClick={handleLogout}>
+                <FiLogOut className="me-2" /> Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 }
 

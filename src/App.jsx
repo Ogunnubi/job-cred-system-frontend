@@ -6,9 +6,9 @@ import Home from "./Components/Home"
 import Indeed from './Components/Indeed/Indeed';
 import Credits from './Components/Credits/Credits';
 import Dashboard from './Components/Dashboard/Dashboard';
+import Layout from './Layout/Layout';
 
 import $ from 'jquery';
-import Layout from './Layout/Layout';
 window.$ = window.jQuery = $;
 
 // Protected route component
