@@ -3,21 +3,19 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   Box,
   Flex,
-  Text,
-  Icon,
   VStack,
-  HStack,
-  Avatar,
-  Button,
-  useDisclosure,
+  Text,
   Drawer,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
-  IconButton
+  IconButton,
+  HStack,
+  Avatar,
 } from '@chakra-ui/react';
+  
 import { 
   FiHome, 
   FiCreditCard, 
@@ -26,7 +24,7 @@ import {
   FiLogOut,
   FiMenu 
 } from 'react-icons/fi';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 function DashboardLayout({ children }) {
   const { currentUser, logout } = useAuth();

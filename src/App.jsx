@@ -9,6 +9,7 @@ import Home from "./Components/Home"
 import Jobs from './Components/Jobs/Jobs';
 import Indeed from './Components/Indeed/Indeed';
 import Credits from './Components/Credits/Credits';
+import Dashboard from './Components/Dashboard/Dashboard';
 
 import $ from 'jquery';
 import Layout from './Layout/Layout';
@@ -38,16 +39,14 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} /> */}
-          {/* <Route 
+          <Route 
             path="/dashboard" 
             element={
               <ProtectedRoute>
                 <Dashboard />
               </ProtectedRoute>
             } 
-          /> */}
+          />
           <Route 
             path="/credits" 
             element={

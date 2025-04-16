@@ -11,23 +11,12 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import 'owl.carousel/dist/owl.carousel.js';
 import 'owl.carousel';
-import { ChakraProvider, defaultSystem } from '@chakra-ui/provider';
 
-const theme = {
-  // ... your system-ui theme
-  config: {
-    useSystemColorMode: false, // or true
-    initialColorMode: "light", // or "dark"
-    cssVarPrefix: "chakra", // any string
-  }
-}
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
-      <ChakraProvider theme={theme}>
-        <App />
-      </ChakraProvider>
+      <App />
     </Router>
   </StrictMode>,
 )

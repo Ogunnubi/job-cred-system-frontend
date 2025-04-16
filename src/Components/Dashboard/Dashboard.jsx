@@ -27,7 +27,7 @@ import {
   ResponsiveContainer 
 } from 'recharts';
 import DashboardLayout from './DashboardLayout';
-import { getUserProfile, getJobs, getCreditHistory } from '../api/api';
+// import { getUserProfile, getJobs, getCreditHistory } from '../api/api';
 
 function Dashboard() {
   const [userData, setUserData] = useState(null);
