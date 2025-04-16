@@ -1,12 +1,8 @@
-import { useState } from 'react'
 import './App.css'
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import Signup from './Components/Signup/Signup';
-import Login from './Components/Login/Login';
 import Home from "./Components/Home"
-import Jobs from './Components/Jobs/Jobs';
 import Indeed from './Components/Indeed/Indeed';
 import Credits from './Components/Credits/Credits';
 import Dashboard from './Components/Dashboard/Dashboard';
@@ -63,14 +59,6 @@ function App() {
               </ProtectedRoute>
             } 
           />
-          {/* <Route 
-            path="/settings" 
-            element={
-              <ProtectedRoute>
-                <Settings />
-              </ProtectedRoute>
-            } 
-          /> */}
         </Routes>
       </Layout>
     </AuthProvider>
