@@ -60,7 +60,7 @@ const Signup = ({toggleForm}) => {
 
         {/* email input */}
         <div className="mb-3 input-group">
-        <span className="input-group-text bg-white border-end-0">
+            <span className="input-group-text bg-white border-end-0">
                 <FontAwesomeIcon icon={faEnvelope} />
             </span>
             <input 
