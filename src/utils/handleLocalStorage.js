@@ -1,6 +1,10 @@
 export const getUserCreditsStorage = (user) => {
     
-    const userStorageKey = `userCredits-${user.displayName}-${user.uid}`;
+    // firebase
+    // const userStorageKey = `userCredits-${user.displayName}-${user.uid}`;
+
+
+    const userStorageKey = `userCredits-${user.username}`;
 
     const storedCredits = localStorage.getItem(userStorageKey);
     

@@ -48,6 +48,13 @@
       "username": "winner",
       "credits": 74,
       "userId": "XZ4wE9I7cjcPFMekgiBUWZN7QwC2"
+    },
+    {
+      "id": "894a",
+      "email": "bandit@gmail.com",
+      "username": "bandit",
+      "credits": 20,
+      "userId": "xqnj5krsLBV0nIWq7pxD5aNNr8d2"
     }
   ],
   "jobs": [
@@ -169,6 +176,34 @@
       "description": "The shed is not approved",
       "credits": 14,
       "userId": "XZ4wE9I7cjcPFMekgiBUWZN7QwC2"
+    },
+    {
+      "id": "eb09",
+      "title": "spirit portal",
+      "description": "crumble crumble crumble",
+      "credits": 45,
+      "userId": "xqnj5krsLBV0nIWq7pxD5aNNr8d2"
+    },
+    {
+      "id": "2967",
+      "title": "spirit portal",
+      "description": "crumble crumble crumble",
+      "credits": 45,
+      "userId": "xqnj5krsLBV0nIWq7pxD5aNNr8d2"
+    },
+    {
+      "id": "fc7b",
+      "title": "spirit portal",
+      "description": "crumble crumble crumble",
+      "credits": 45,
+      "userId": "xqnj5krsLBV0nIWq7pxD5aNNr8d2"
+    },
+    {
+      "id": "6725",
+      "title": "spirit portal",
+      "description": "crumble crumble crumble",
+      "credits": 45,
+      "userId": "xqnj5krsLBV0nIWq7pxD5aNNr8d2"
     }
   ]
 }

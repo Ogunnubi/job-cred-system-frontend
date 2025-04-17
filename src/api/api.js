@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { auth } from '../firebase/config';
 
-const API_URL = 'http://localhost:8000';
+const API_URL = 'http://127.0.0.1:8000';
 
 // Create axios instance
 const api = axios.create({
@@ -32,7 +32,7 @@ api.interceptors.request.use(async (config) => {
 
 // API functions
 export const createUser = async (userData) => {
-  return api.post('/users', userData);
+  return await api.post(`/signup`, userData);
 };
 
 export const getUserProfile = async (userId) => {

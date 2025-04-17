@@ -48,7 +48,7 @@ const Indeed = () => {
           <h5 className='fw-bold'>Credits</h5>
             <div className="alert alert-info mb-4 credits__notif__text" role="alert">
               <i className="bi bi-info-circle me-2"></i>
-              Current Balance: {"" || 0} credits
+              Current Balance: {userCredits} credits
               {userCredits < 10 && ( 
                 <Link to="/credits" className="credits__notif__text__link d-block">
                   Top Up

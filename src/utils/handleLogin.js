@@ -1,6 +1,6 @@
 import { auth, signInWithEmailAndPassword } from '../firebase/config';
 
-const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate) => { 
+const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits) => { 
     
     
     setError("")

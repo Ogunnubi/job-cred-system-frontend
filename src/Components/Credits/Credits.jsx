@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import "./Credits.css"
 import { Plus, Minus } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 const Credits = () => {
 
@@ -10,6 +11,10 @@ const Credits = () => {
   const [loading, setLoading] = useState(true);
   const [purchaseLoading, setPurchaseLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+
+  const {
+    userCredits,
+  } = useAuth();
   
 
   const credits = 10;
@@ -33,7 +38,7 @@ const Credits = () => {
             <h5 className='fw-bold'>Credits</h5>
             <div className="alert alert-info mb-4" role="alert">
               <i className="bi bi-info-circle me-2"></i>
-              Current Balance: {"" || 0} credits
+              Current Balance: {userCredits} credits
             </div>
           </div>
 

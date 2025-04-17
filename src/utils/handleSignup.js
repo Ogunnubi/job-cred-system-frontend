@@ -1,5 +1,4 @@
-import { auth } from '../firebase/config';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+
 import { createUser } from '../api/api';
 
 
@@ -23,48 +22,30 @@ const handleSignup = async (email, password, username, setError, setLoading, set
     try {
 
         setLoading(true);
-    
-        
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-        
-        await updateProfile(userCredential.user, { displayName: username }); 
-
-        const initialCredits = 200;
 
         const user = userCredential.user
 
-        
-        setCurrentUser(userCredential.user)
-
-        setUserCredits(initialCredits);
-
-
-        await createUser({
+        const response = await createUser({
             email,
             username,
-            credits: initialCredits,
-            userId: user.uid
+            password
         });
 
+        console.log('User created successfully:', response.data);
+
+        setCurrentUser(response.data)
+
+        console.log('User created successfully:', response.data);
         
+        setUserCredits(response.data.credits);
 
         navigate('/jobs')
 
         
     } catch (error) {
-        
-        if (error.code === 'auth/email-already-in-use') {
-            setError('Email is already in use');
-        } else if (error.code === 'auth/weak-password') {
-            setError('Password is too weak');
-        } else if (error.code === 'auth/invalid-email') {
-            setError('Invalid email address');
-        } else {
-            setError(error.message || 'Failed to create account');
-        }
+        setError(error.message.detail || 'Failed to sign up');
         console.error(error);
-        } finally {
+    } finally {
         setLoading(false);
     }
 }
