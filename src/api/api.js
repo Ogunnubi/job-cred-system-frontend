@@ -9,17 +9,10 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // ✅ Allow cookies (for refresh/logout)
 });
 
 
-// Interceptor to add authentication token to requests
-// api.interceptors.request.use(config => {
-//   const token = localStorage.getItem('token');
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// });
 
 // Add auth token to requests
 api.interceptors.request.use(async (config) => {
@@ -30,10 +23,45 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
+
+
 // API functions
+
+
 export const createUser = async (userData) => {
   return await api.post(`/signup`, userData);
 };
+
+
+// login user
+// export const loginUser = async (userData) => {
+//   return await api.post(`/login`, userData)
+// }
+
+
+// Login user and receive access token (also sets refresh token cookie)
+export const loginUser = async (userData) => {
+  return await api.post(`/login`, userData, {
+    withCredentials: true, // 🔑 Needed to store the HTTP-only refresh cookie
+  });
+};
+
+
+// Refresh access token using refresh token cookie
+export const refreshToken = async () => {
+  return await api.post(`/refresh`, null, {
+    withCredentials: true, // 🔑 Send cookies
+  });
+};
+
+
+// Logout user (revoke refresh token and clear cookie)
+export const logoutUser = async () => {
+  return await api.post(`/logout`, null, {
+    withCredentials: true, // 🔑 Send refresh cookie for clearing
+  });
+};
+
 
 export const getUserProfile = async (userId) => {
   return api.get(`/users/${userId}`);

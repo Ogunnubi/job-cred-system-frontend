@@ -21,14 +21,15 @@ const Login = ({toggleForm}) => {
     setLoading, 
     error,
     setError,
-    
+    setUserCredits,
+    setJobs
   } = useAuth() // Get setCurrentUser from AuthContext
   
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await handleLogin(email, password, setError, setLoading, setCurrentUser, navigate);
+      await handleLogin(email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits);
     } catch (err) {
       console.error(`Failed to log in. Please check your credentials. ${err.message}`);
     }

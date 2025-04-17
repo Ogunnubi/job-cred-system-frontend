@@ -97,17 +97,18 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const fetchUserCredits = async () => {
+
+      if (!currentUser) return;
+      
       if (currentUser) {
         try {
           
           const { userStorageKey, storedCredits } = getUserCreditsStorage(currentUser)
   
-          const currentUserId = currentUser.uid;
+          const currentUserId = currentUser.id;
   
           if (storedCredits) {
-            
             setUserCredits(storedCredits);
-
           } else if (currentUser && !currentUser.credits) {
             
             const response = await getUserByUserId(currentUserId);

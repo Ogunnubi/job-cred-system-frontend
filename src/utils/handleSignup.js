@@ -1,6 +1,4 @@
-
 import { createUser } from '../api/api';
-
 
 
 const handleSignup = async (email, password, username, setError, setLoading, setCurrentUser, navigate, confirmPassword,setUserCredits) => {
@@ -18,12 +16,10 @@ const handleSignup = async (email, password, username, setError, setLoading, set
     }
 
 
-
     try {
 
         setLoading(true);
 
-        const user = userCredential.user
 
         const response = await createUser({
             email,
@@ -33,15 +29,12 @@ const handleSignup = async (email, password, username, setError, setLoading, set
 
         console.log('User created successfully:', response.data);
 
-        setCurrentUser(response.data)
-
-        console.log('User created successfully:', response.data);
+        setCurrentUser(response.data);
         
         setUserCredits(response.data.credits);
 
-        navigate('/jobs')
-
-        
+        navigate('/jobs');
+  
     } catch (error) {
         setError(error.message.detail || 'Failed to sign up');
         console.error(error);

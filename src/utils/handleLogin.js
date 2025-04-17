@@ -1,4 +1,5 @@
 import { auth, signInWithEmailAndPassword } from '../firebase/config';
+import {loginUser} from '../api/api.js'
 
 const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits) => { 
     
@@ -14,12 +15,17 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
         
         setLoading(true);
 
+        
+        const response = await loginUser({
+            email,
+            password
+        });
 
-        // Sign in with Firebase Authentication
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log('User created successfully:', response.data);
 
-        // Update AuthContext with the new user
-        setCurrentUser(userCredential.user)
+        setCurrentUser(response.data.user);
+        
+        setUserCredits(response.data.user.credits);
 
 
         navigate('/jobs') // Redirect to home page after successful login
