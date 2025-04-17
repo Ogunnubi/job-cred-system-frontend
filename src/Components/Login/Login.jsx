@@ -21,9 +21,8 @@ const Login = ({toggleForm}) => {
     setLoading, 
     error,
     setError,
-    setUserCredits,
-    setJobs
-  } = useAuth() // Get setCurrentUser from AuthContext
+    setUserCredits
+  } = useAuth() 
   
   
   const handleSubmit = async (e) => {
