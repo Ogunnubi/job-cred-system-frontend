@@ -6,8 +6,8 @@ const Layout = ({children}) => {
   return (
     <main className='App'>
       <Header />
-      {/* {children} */}
-      <Outlet />
+      {children}
+      {/* <Outlet /> */}
     </main>
   )
 }

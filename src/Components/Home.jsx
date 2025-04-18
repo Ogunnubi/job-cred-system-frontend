@@ -1,18 +1,10 @@
 import {useState} from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
 import Login from './Login/Login';
 import Signup from './Signup/Signup';
 
 const Home = () => {
 
-    const [isLogin, setIsLogin] = useState(false);
-
-    const [email, setEmail] = useState("")
-
-    const [password, setPassword] = useState("")
-
-    const [confirmPassword, setConfirmPassword] = useState("")
+    const [isLogin, setIsLogin] = useState(false)
 
     const toggleForm = () => {
         setIsLogin(prev => !prev);
@@ -36,7 +28,6 @@ const Home = () => {
                         <Signup toggleForm={toggleForm} />
                     )}
                 </div>
-
             </div>
         </div>
     </section>

@@ -13,10 +13,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
 
 
-  const [currentUser, setCurrentUser] = useState(() => {
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : {};
-  });
+  const [currentUser, setCurrentUser] = useState({});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [userCredits, setUserCredits] = useState(0);
@@ -73,7 +70,7 @@ export function AuthProvider({ children }) {
 
   
 
-
+  
   useEffect(() => {
     const fetchUserCredits = async () => {
 
@@ -88,35 +85,9 @@ export function AuthProvider({ children }) {
         setUserCredits(currentUser.credits);
         setUserCreditsStorage(userStorageKey, currentUser.credits);
       }
-
-
-      // try {
-
-      //   const currentUserId = currentUser.id;
-
-      //   if (storedCredits) {
-      //     setUserCredits(storedCredits);
-      //   } else if (currentUser && !currentUser.credits) {
-          
-      //     const response = await getUserByUserId(currentUserId);
-      //     console.log(response);
-      //     if (response?.data?.length > 0) {
-      //       const user = response.data[0];
-      //       setUserCredits(user.credits);
-      //       setUserCreditsStorage(userStorageKey, user.credits);
-      //     }
-      //   } 
-      // } catch (error) {
-      //   console.error("Error fetching user credits:", error);
-      //   setError("Could not load user credits from server.");
-      // }  
-      
-      
-
     }
 
     fetchUserCredits();
-
 
   }, [currentUser])
 

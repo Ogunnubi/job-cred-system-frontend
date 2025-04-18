@@ -33,7 +33,6 @@ const PersistLogin = () => {
 
 
         if (!currentUser || !currentUser?.accessToken) {
-            // console.log("here")
             verifyRefreshToken();
         } else {
             setIsLoading(false);
