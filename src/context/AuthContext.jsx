@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase/config.js';
-import { onAuthStateChanged } from 'firebase/auth';
-import { updateCredits, getUserByUserId } from '../api/api.js';
-import { getUserCreditsStorage, setUserCreditsStorage } from '../utils/handleLocalStorage.js';
+import { updateCredits } from '../api/api.js';
+import { getUserCreditsStorage, removeUserFromStorage, saveUserToStorage, setUserCreditsStorage } from '../utils/handleLocalStorage.js';
+import { genStorageKey } from '../utils/handleLocalStorage.js';
 
 const AuthContext = createContext();
 
@@ -21,20 +20,62 @@ export function AuthProvider({ children }) {
 
 
 
-  // Store user info including token in localStorage when it changes
+  // save user to localStorage
   useEffect(() => {
     if (currentUser?.accessToken) {
-      localStorage.setItem('user', JSON.stringify(currentUser));
+
+      // Create your dynamic key
+      const key = genStorageKey(currentUser);
+
+      // Save the user using dynamic key
+      saveUserToStorage(key, currentUser);
+
+      // storing a dynamic key under a fixed key
+      localStorage.setItem('currentUserStorageKey', key);
     } else {
-      localStorage.removeItem('user');
+     
+      const userStorageKey = localStorage.getItem('currentUserStorageKey');
+      // remove the user using the dynamic key
+      if (userStorageKey) {
+        removeUserFromStorage(userStorageKey);
+      }
+      // Also remove the pointer to the dynamic key
+      localStorage.removeItem('currentUserStorageKey');
     }
   }, [currentUser]);
 
 
 
+  
+
+
+  useEffect(() => {
+    const fetchUserCredits = async () => {
+
+      if (!currentUser) return;
+      
+      const { userStorageKey, storedCredits } = getUserCreditsStorage(currentUser)
+
+
+      if(storedCredits) {
+        setUserCredits(storedCredits);
+      } else if (currentUser.credits) {
+        setUserCredits(currentUser.credits);
+        setUserCreditsStorage(userStorageKey, currentUser.credits);
+      }
+    }
+
+
+    setLoading(false)
+
+    fetchUserCredits();
+
+  }, [currentUser])
+
+
+
   const updateUserCredits = async (userId, newCreditAmount) => {
     try {
-
 
       // Call the API to update credits in the backend
       const response = await updateCredits(userId, newCreditAmount);
@@ -44,8 +85,6 @@ export function AuthProvider({ children }) {
         
         setUserCredits(newCreditAmount);
       
-
-        
         if (currentUser) {
           const userStorageKey = `userCredits-${currentUser.displayName}-${currentUser.uid}`;
           // Also update in localStorage for persistence
@@ -64,33 +103,6 @@ export function AuthProvider({ children }) {
       return false;
     }
   };
-
-
-
-
-  
-
-  
-  useEffect(() => {
-    const fetchUserCredits = async () => {
-
-      if (!currentUser) return;
-      
-      const { userStorageKey, storedCredits } = getUserCreditsStorage(currentUser)
-
-
-      if(storedCredits) {
-        setUserCredits(storedCredits);
-      } else if (currentUser.credits) {
-        setUserCredits(currentUser.credits);
-        setUserCreditsStorage(userStorageKey, currentUser.credits);
-      }
-    }
-
-    fetchUserCredits();
-
-  }, [currentUser])
-
 
 
 

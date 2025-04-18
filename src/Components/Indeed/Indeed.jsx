@@ -20,7 +20,7 @@ const Indeed = () => {
         const jobData = result.data; 
         console.log(jobData);
         setJobs(jobData);
-        setError(null);
+        setError("");
       } catch (err) {
         setError('Failed to fetch jobs. Please try again later.');
         console.error('Error fetching jobs:', err);
@@ -30,9 +30,7 @@ const Indeed = () => {
     };
 
     fetch();
-
-
-  }, []);
+  }, [jobs]);
 
 
     

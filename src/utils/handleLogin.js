@@ -1,5 +1,6 @@
 import {loginUser} from '../api/api.js'
 import { setUserCreditsStorage } from './handleLocalStorage.js';
+import { genStorageKey } from './handleLocalStorage.js';
 
 const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits, currentUser) => { 
     
@@ -30,9 +31,15 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
 
         setUserCredits(userData.credits);
 
-        const userStorageKey = `userCredits-${user.email}-${user._id}`;
+        const dynamicKey = genStorageKey(currentUser);
 
-        setUserCreditsStorage(userStorageKey, user.credits);
+        setUserCreditsStorage(dynamicKey, user.credits);
+
+        // Save the user using dynamic key
+        saveUserToStorage(dynamicKey, currentUser);
+
+        // storing a dynamic key under a fixed key
+        localStorage.setItem('currentUserStorageKey', dynamicKey);
 
         console.log(currentUser);
 

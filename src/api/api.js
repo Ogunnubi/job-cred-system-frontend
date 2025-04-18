@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import { getUserFromStorage } from '../utils/handleLocalStorage';
+import { genStorageKey } from '../utils/handleLocalStorage';
 
 const API_URL = 'http://127.0.0.1:8000';
 
@@ -16,13 +17,24 @@ const api = axios.create({
 
 // Add auth token to requests
 api.interceptors.request.use((config) => {
-    const storedUser = localStorage.getItem('user');
+
+  try {
+
+    const userKey = localStorage.getItem('currentUserStorageKey');
+    const storedUser = userKey ? localStorage.getItem(userKey) : null;
     const user = storedUser ? JSON.parse(storedUser) : null;
 
     if (user?.accessToken) {
       config.headers['Authorization'] = `Bearer ${user.accessToken}`;
+    } else {
+      console.warn("No access token found in localStorage");
     }
+  } catch (error) {
+    console.error('Error parsing user from localStorage:', error);
+    user = null;
+  }
 
+  
     return config;
   },
   (error) => Promise.reject(error)
@@ -66,7 +78,6 @@ export const getUserProfile = async (userId) => {
 };
 
 export const submitJob = async (userId, jobData) => {
-  // return api.post(`/users/${userId}/jobs`, jobData);
   return api.post('/jobs', {
     ...jobData,
     userId,
@@ -74,16 +85,7 @@ export const submitJob = async (userId, jobData) => {
 };
 
 export const getJobs = async (userId) => {
-  // if (userId) {
-  //   return api.get(`/users/${userId}/jobs`)
-  // }
-  // return api.get('/jobs');
-  if (userId) {
-    return api.get(`/jobs?userId=${userId}`, {
-      withCredentials: true, // 🔑 Send cookies
-    });
-  }
-  return api.get('/jobs', {
+  return api.get(`/jobs`, {
     withCredentials: true, // 🔑 Send cookies
   });
 };
@@ -108,6 +110,9 @@ export const updateCredits = async (userId, newCreditAmount) => {
 
 
 
+// return api.post(`/users/${userId}/jobs`, jobData);
+
+
 // return api.put(`/users/${userId}/credits`, { 
 //   credits: newCreditAmount 
 // });
@@ -116,10 +121,12 @@ export const updateCredits = async (userId, newCreditAmount) => {
 //   credits: newCreditAmount,
 // });
 
+// return api.post(`/users/${userId}/credits/purchase`, purchaseData);
+
+// return api.get(`/users/${userId}/credits/history`);
+
 
 export const purchaseCredits = async (userId, purchaseData) => {
-  // return api.post(`/users/${userId}/credits/purchase`, purchaseData);
-
   return api.patch(`/users/${userId}`, {
     credits: purchaseData.credits,
   });
@@ -127,7 +134,6 @@ export const purchaseCredits = async (userId, purchaseData) => {
 
 
 export const getCreditHistory = async (userId) => {
-  // return api.get(`/users/${userId}/credits/history`);
   return api.get(`/creditHistory?userId=${userId}`);
 };
 
