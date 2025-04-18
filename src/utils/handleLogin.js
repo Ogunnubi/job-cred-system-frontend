@@ -1,6 +1,6 @@
 import {loginUser} from '../api/api.js'
 
-const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits) => { 
+const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits, currentUser) => { 
     
     
     setError("")
@@ -20,14 +20,23 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
             password
         });
 
+        const userData = {
+            ...response.data.user,
+            accessToken: response.data.access_token,
+            refreshToken: response.data.refresh_token
+        };
+
         console.log('User created successfully:', response.data);
 
-        setCurrentUser(response.data.user);
+        setCurrentUser(userData);
+
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        console.log(currentUser);
         
-        setUserCredits(response.data.user.credits);
+        // setUserCredits(response.data.user.credits);
 
-
-        navigate('/jobs') // Redirect to home page after successful login
+        navigate('/jobs')
 
 
     } catch (error) {

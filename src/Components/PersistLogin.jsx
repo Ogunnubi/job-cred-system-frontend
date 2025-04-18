@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import {useState, useEffect} from "react";
 import { useAuth } from "../context/AuthContext";
-import {useRefreshToken} from "../hooks/useRefreshToken";
+import useRefreshToken from "../Hooks/useRefreshToken";
 import { useNavigate } from "react-router-dom";
 
 
@@ -11,9 +11,13 @@ const PersistLogin = () => {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    const {currentUser} = useAuth();
+
+    console.log("Current user in PersistLogin:", currentUser);
+
+    // this will actually return access_token from the /refresh endpoint
     const refresh = useRefreshToken();
 
-    const {auth} = useAuth();
 
     useEffect(() => {
         const verifyRefreshToken = async () => {
@@ -27,7 +31,8 @@ const PersistLogin = () => {
         }
 
 
-        if (!auth?.accessToken) {
+        if (!currentUser || !currentUser?.accessToken) {
+            // console.log("here")
             verifyRefreshToken();
         } else {
             setIsLoading(false);
@@ -39,7 +44,7 @@ const PersistLogin = () => {
 
     useEffect(() => {
         console.log("isLoading changed:", isLoading);
-        console.log("auth:", JSON.stringify(auth?.accessToken));
+        console.log("auth:", JSON.stringify(currentUser?.accessToken));
     }, [isLoading])
 
   return (

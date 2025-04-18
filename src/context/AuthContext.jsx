@@ -1,11 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth } from '../firebase/config.js';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged 
-} from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { updateCredits, getUserByUserId } from '../api/api.js';
 import { getUserCreditsStorage, setUserCreditsStorage } from '../utils/handleLocalStorage.js';
 
@@ -18,7 +13,10 @@ export function useAuth() {
 export function AuthProvider({ children }) {
 
 
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [userCredits, setUserCredits] = useState(0);
@@ -26,18 +24,14 @@ export function AuthProvider({ children }) {
 
 
 
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
-  }
-
-  function login(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
-  }
-
-  function logout() {
-    return signOut(auth);
-  }
-
+  // Store user info including token in localStorage when it changes
+  useEffect(() => {
+    if (currentUser?.accessToken) {
+      localStorage.setItem('user', JSON.stringify(currentUser));
+    } else {
+      localStorage.removeItem('user');
+    }
+  }, [currentUser]);
 
 
 
@@ -77,14 +71,7 @@ export function AuthProvider({ children }) {
 
 
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      setLoading(false);
-    });
-
-    return unsubscribe;
-  }, []);
+  
 
 
   useEffect(() => {
@@ -92,30 +79,27 @@ export function AuthProvider({ children }) {
 
       if (!currentUser) return;
       
-      if (currentUser) {
-        try {
+      try {
+        const { userStorageKey, storedCredits } = getUserCreditsStorage(currentUser)
+
+        const currentUserId = currentUser.id;
+
+        if (storedCredits) {
+          setUserCredits(storedCredits);
+        } else if (currentUser && !currentUser.credits) {
           
-          const { userStorageKey, storedCredits } = getUserCreditsStorage(currentUser)
-  
-          const currentUserId = currentUser.id;
-  
-          if (storedCredits) {
-            setUserCredits(storedCredits);
-          } else if (currentUser && !currentUser.credits) {
-            
-            const response = await getUserByUserId(currentUserId);
-            console.log(response);
-            if (response?.data?.length > 0) {
-              const user = response.data[0];
-              setUserCredits(user.credits);
-              setUserCreditsStorage(userStorageKey, user.credits);
-            }
-          } 
-        } catch (error) {
-          console.error("Error fetching user credits:", error);
-          setError("Could not load user credits from server.");
-        }
-      }
+          const response = await getUserByUserId(currentUserId);
+          console.log(response);
+          if (response?.data?.length > 0) {
+            const user = response.data[0];
+            setUserCredits(user.credits);
+            setUserCreditsStorage(userStorageKey, user.credits);
+          }
+        } 
+      } catch (error) {
+        console.error("Error fetching user credits:", error);
+        setError("Could not load user credits from server.");
+      }         
     }
 
     fetchUserCredits();
@@ -127,16 +111,8 @@ export function AuthProvider({ children }) {
 
 
 
- 
-
-
-
-
   const value = {
     currentUser,
-    signup,
-    login,
-    logout,
     setLoading,
     loading,
     error,

@@ -1,17 +1,16 @@
-import axios from "../api/axios";
-import useAuth from "./useAuth";
+import { useAuth } from "../context/AuthContext";
 import { logoutUser } from "../api/api";
 
 const useLogout = () => {
     const { setCurrentUser } = useAuth();
 
     const logout = async () => {
+        
         setCurrentUser({});
-        try {
-            await logoutUser(); 
-        } catch (err) {
-            console.error(err);
-        }
+
+        await logoutUser(); 
+
+        navigate('/');
     }
 
     return logout;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { auth } from '../firebase/config';
+
 
 const API_URL = 'http://127.0.0.1:8000';
 
@@ -9,48 +9,46 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // ✅ Allow cookies (for refresh/logout)
+  withCredentials: true,
 });
 
 
 
 // Add auth token to requests
-api.interceptors.request.use(async (config) => {
-  if (auth.currentUser) {
-    const token = await auth.currentUser.getIdToken();
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+api.interceptors.request.use((config) => {
+    const storedUser = localStorage.getItem('user');
+    const user = storedUser ? JSON.parse(storedUser) : null;
+
+    if (user?.accessToken) {
+      config.headers['Authorization'] = `Bearer ${user.accessToken}`;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 
 
 // API functions
-
-
 export const createUser = async (userData) => {
   return await api.post(`/signup`, userData);
 };
 
 
-// login user
-// export const loginUser = async (userData) => {
-//   return await api.post(`/login`, userData)
-// }
-
-
 // Login user and receive access token (also sets refresh token cookie)
 export const loginUser = async (userData) => {
   return await api.post(`/login`, userData, {
-    withCredentials: true, // 🔑 Needed to store the HTTP-only refresh cookie
+    withCredentials: true,
   });
 };
+
 
 
 // Refresh access token using refresh token cookie
 export const refreshToken = async () => {
   return await api.post(`/refresh`, null, {
-    withCredentials: true, // 🔑 Send cookies
+    withCredentials: true,
   });
 };
 
@@ -81,9 +79,13 @@ export const getJobs = async (userId) => {
   // }
   // return api.get('/jobs');
   if (userId) {
-    return api.get(`/jobs?userId=${userId}`);
+    return api.get(`/jobs?userId=${userId}`, {
+      withCredentials: true, // 🔑 Send cookies
+    });
   }
-  return api.get('/jobs');
+  return api.get('/jobs', {
+    withCredentials: true, // 🔑 Send cookies
+  });
 };
 
 // First: Get user by userId

@@ -1,18 +1,19 @@
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import useLogout from "../../Hooks/useLogout";
+
 
 const Header = () => {
 
-    const {logout} = useAuth();
+    const navigate = useNavigate();
+
+    const logout = useLogout();
 
     const handleLogout = async () => {
-        try {
-          await logout();
-          console.log('User logged out successfully');
-        } catch (error) {
-          console.error('Error logging out:', error.message);
-        }
+        await logout();
+        console.log('User logged out successfully');  
+        navigate("/");
     };
 
 
