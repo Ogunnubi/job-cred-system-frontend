@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getUserFromStorage } from '../utils/handleLocalStorage';
 import { genStorageKey } from '../utils/handleLocalStorage';
+import useRefreshToken from '../Hooks/useRefreshToken'; 
 
 const API_URL = 'http://127.0.0.1:8000';
 
@@ -13,13 +14,12 @@ const api = axios.create({
   withCredentials: true,
 });
 
+const refresh = useRefreshToken(); // Import your refresh function
 
 
 // Add auth token to requests
 api.interceptors.request.use((config) => {
-
   try {
-
     const userKey = localStorage.getItem('currentUserStorageKey');
     const storedUser = userKey ? localStorage.getItem(userKey) : null;
     const user = storedUser ? JSON.parse(storedUser) : null;
@@ -33,11 +33,27 @@ api.interceptors.request.use((config) => {
     console.error('Error parsing user from localStorage:', error);
     user = null;
   }
-
-  
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+
+
+
+
+api.interceptors.response.use(
+  response => response,
+  async (error) => {
+    const prevRequest = error?.config;
+    if (error?.response?.status === 401 && !prevRequest?.sent) {
+      prevRequest.sent = true;
+      const newAccessToken = refresh();
+      prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+      return api(prevRequest);
+    }
+    return Promise.reject(error);
+  }
 );
 
 
@@ -73,9 +89,13 @@ export const logoutUser = async () => {
 };
 
 
+
+
 export const getUserProfile = async (userId) => {
   return api.get(`/users/${userId}`);
 };
+
+
 
 export const submitJob = async (userId, jobData) => {
   return api.post('/jobs', {
@@ -84,10 +104,25 @@ export const submitJob = async (userId, jobData) => {
   });
 };
 
-export const getJobs = async (userId) => {
-  return api.get(`/jobs`, {
-    withCredentials: true, // 🔑 Send cookies
-  });
+
+
+export const getJobs = async (user) => {
+
+  // Build the configuration object for the request
+  const config = {
+    // With credentials if your back-end expects cookies
+    withCredentials: true,
+    headers: {}
+  };
+
+  // If the user and its access token exist, attach it to the headers
+  if (user && user.accessToken) {
+    config.headers.Authorization = `Bearer ${user.accessToken}`;
+  } else {
+    console.warn("No access token provided in the user object.");
+  }
+
+  return api.get(`/jobs`, config);
 };
 
 // First: Get user by userId

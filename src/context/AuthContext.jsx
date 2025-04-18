@@ -23,23 +23,14 @@ export function AuthProvider({ children }) {
   // save user to localStorage
   useEffect(() => {
     if (currentUser?.accessToken) {
-
-      // Create your dynamic key
       const key = genStorageKey(currentUser);
-
-      // Save the user using dynamic key
       saveUserToStorage(key, currentUser);
-
-      // storing a dynamic key under a fixed key
       localStorage.setItem('currentUserStorageKey', key);
     } else {
-     
       const userStorageKey = localStorage.getItem('currentUserStorageKey');
-      // remove the user using the dynamic key
       if (userStorageKey) {
         removeUserFromStorage(userStorageKey);
       }
-      // Also remove the pointer to the dynamic key
       localStorage.removeItem('currentUserStorageKey');
     }
   }, [currentUser]);
@@ -57,7 +48,7 @@ export function AuthProvider({ children }) {
       const { userStorageKey, storedCredits } = getUserCreditsStorage(currentUser)
 
 
-      if(storedCredits) {
+      if(storedCredits !== null) {
         setUserCredits(storedCredits);
       } else if (currentUser.credits) {
         setUserCredits(currentUser.credits);
@@ -65,10 +56,8 @@ export function AuthProvider({ children }) {
       }
     }
 
-
-    setLoading(false)
-
     fetchUserCredits();
+    setLoading(false)
 
   }, [currentUser])
 

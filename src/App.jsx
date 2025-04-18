@@ -5,9 +5,10 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Home from "./Components/Home"
 import Indeed from './Components/Indeed/Indeed';
 import Credits from './Components/Credits/Credits';
+import PersistLogin from './Components/PersistLogin';
+import Layout from './Layout/Layout';
 
 import $ from 'jquery';
-import Layout from './Layout/Layout';
 window.$ = window.jQuery = $;
 
 // Protected route component
@@ -32,23 +33,25 @@ function App() {
     <AuthProvider>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route 
-            path="/credits" 
-            element={
-              <ProtectedRoute>
-                <Credits />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/jobs" 
-            element={
-              <ProtectedRoute>
-                <Indeed />
-              </ProtectedRoute>
-            } 
-          />
+          <Route element={<PersistLogin />}>
+            <Route path="/" element={<Home />} />
+            <Route 
+              path="/credits" 
+              element={
+                <ProtectedRoute>
+                  <Credits />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/jobs" 
+              element={
+                <ProtectedRoute>
+                  <Indeed />
+                </ProtectedRoute>
+              } 
+            />
+          </Route>
         </Routes>
       </Layout>
     </AuthProvider>

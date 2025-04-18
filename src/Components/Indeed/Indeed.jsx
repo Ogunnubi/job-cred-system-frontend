@@ -8,15 +8,17 @@ import { Link } from 'react-router-dom';
 const Indeed = () => {
 
 
-  const { setError, error, userCredits, jobs, setJobs } = useAuth();
+  const { setError, error, userCredits, jobs, setJobs, currentUser } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
+
+  console.log(currentUser)
 
   useEffect(() => {
     const fetch = async () => {
       try {
         setIsLoading(true);
-        const result = await getJobs();
+        const result = await getJobs(currentUser);
         const jobData = result.data; 
         console.log(jobData);
         setJobs(jobData);
