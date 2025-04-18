@@ -1,4 +1,5 @@
 import {loginUser} from '../api/api.js'
+import { setUserCreditsStorage } from './handleLocalStorage.js';
 
 const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits, currentUser) => { 
     
@@ -35,7 +36,9 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
 
         console.log(currentUser);
 
-        navigate('/jobs')
+        navigate('/jobs');
+
+        setError('');
 
     } catch (error) {
         setError(error.message.detail || 'Failed to sign up');
