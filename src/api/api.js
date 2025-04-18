@@ -56,7 +56,7 @@ export const refreshToken = async () => {
 // Logout user (revoke refresh token and clear cookie)
 export const logoutUser = async () => {
   return await api.post(`/logout`, null, {
-    withCredentials: true, // 🔑 Send refresh cookie for clearing
+    withCredentials: true,
   });
 };
 

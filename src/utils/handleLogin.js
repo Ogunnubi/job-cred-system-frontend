@@ -15,29 +15,27 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
         setLoading(true);
 
         
-        const response = await loginUser({
-            email,
-            password
-        });
+        const res = await loginUser({ email, password });
+
+        const { access_token, refresh_token, user } = res.data;
 
         const userData = {
-            ...response.data.user,
-            accessToken: response.data.access_token,
-            refreshToken: response.data.refresh_token
+            ...user,
+            accessToken: access_token,
+            refreshToken: refresh_token
         };
-
-        console.log('User created successfully:', response.data);
 
         setCurrentUser(userData);
 
-        localStorage.setItem('user', JSON.stringify(userData));
+        setUserCredits(userData.credits);
+
+        const userStorageKey = `userCredits-${user.email}-${user._id}`;
+
+        setUserCreditsStorage(userStorageKey, user.credits);
 
         console.log(currentUser);
-        
-        // setUserCredits(response.data.user.credits);
 
         navigate('/jobs')
-
 
     } catch (error) {
         setError(error.message.detail || 'Failed to sign up');

@@ -9,7 +9,7 @@ import React from 'react'
 
 const PersistLogin = () => {
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const {currentUser} = useAuth();
 
@@ -22,6 +22,7 @@ const PersistLogin = () => {
     useEffect(() => {
         const verifyRefreshToken = async () => {
             try {
+                setIsLoading(true);
                 await refresh();
             } catch (err) {
                 console.error("Error refreshing token:", err);

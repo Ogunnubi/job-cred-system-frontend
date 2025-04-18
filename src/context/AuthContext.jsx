@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
 
   const [currentUser, setCurrentUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
+    return savedUser ? JSON.parse(savedUser) : {};
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
