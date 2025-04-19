@@ -15,6 +15,7 @@ const Signup = ({toggleForm}) => {
     const [confirmPassword, setConfirmPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [signupError, setSignupError] = useState("")
 
     const navigate = useNavigate();
     
@@ -32,8 +33,18 @@ const Signup = ({toggleForm}) => {
         e.preventDefault();
         try {
             await handleSignup(email, password, username, setError, setLoading, setCurrentUser, navigate, confirmPassword, setUserCredits);
+
+            setUsername('');
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+            setSignupError("");
+            setShowPassword(false);
+            setShowConfirmPassword(false);
+
         } catch (err) {
-          console.error(`'Failed to sign up. Please check your credentials.' ${err.message}`);
+            setSignupError(`Failed to sign up. Please check your credentials.`)
+            console.error(`'Failed to sign up. Please check your credentials.' ${err.message}`);
         }
     };
 
@@ -41,7 +52,7 @@ const Signup = ({toggleForm}) => {
 
   return (
     <form onSubmit={handleSubmit} action="row g-3 px-3">
-        {error && <div className="alert alert-danger">{error}</div>}
+        {signupError && <div className="alert alert-danger">{signupError}</div>}
         {/* username input */}
         <div className="input-group mb-3 custom-input-group">
             <span className="input-group-text bg-white border-end-0">

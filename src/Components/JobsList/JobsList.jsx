@@ -7,10 +7,10 @@ const JobsList = ({jobs}) => {
 
     if (!Array.isArray(jobs) || jobs.length === 0) {
         return (
-            <div className="text-center py-2">
-                <p className="text-gray-500">No jobs found matching your criteria.</p>
-            </div>
-        );
+        <div className="text-center py-2">
+          <p className="text-gray-500">No jobs found matching your criteria.</p>
+        </div>
+      );
     }
 
 

@@ -6,12 +6,12 @@ const JobCard = ({job}) => {
 
 
     const {
-        userCredits,
-        currentUser,
-        setError,
-        setJobs,
-        setLoading, 
-        updateUserCredits
+      userCredits,
+      currentUser,
+      setError,
+      setJobs,
+      setLoading, 
+      updateUserCredits
     } = useAuth();
     
     
@@ -46,7 +46,7 @@ const JobCard = ({job}) => {
             
     
             const newJob = {
-                title: job.title, description: job.description, credits: job.credits    
+              title: job.title, description: job.description, credits: job.credits    
             }
     
             const result = await submitJob(userId, newJob)

@@ -19,11 +19,21 @@ const api = axios.create({
 
 // Refresh access token using refresh token cookie
 export const refreshToken = async () => {
-  const response = await api.post(`/refresh`);
-  if (response.data && response.data.access_token) {
-    return response.data.access_token;
-  } else {
-    throw new Error("Refresh failed: no access token returned.");
+  try {
+    const response = await axios.get(`${API_URL}/refresh`, {}, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    if (response.data && response.data.access_token) {
+      return response.data.access_token;
+    } else {
+      throw new Error("Refresh failed: no access token returned.");
+    }
+  } catch (error) {
+    console.error("Error in refreshToken:", error);
   }
 };
 
@@ -35,18 +45,14 @@ api.interceptors.request.use((config) => {
     const storedUser = userKey ? localStorage.getItem(userKey) : null;
     const user = storedUser ? JSON.parse(storedUser) : null;
 
-    if (user?.accessToken) {
-      config.headers['Authorization'] = `Bearer ${user?.accessToken}`;
-    } else {
-      console.warn("No access token found in localStorage");
+    if (!config.headers['Authorization']) {
+      config.headers['Authorization'] = `bearer ${user?.accessToken}`;
     }
   } catch (error) {
     console.error('Error parsing user from localStorage:', error);
-    user = null;
   }
     return config;
-  },
-  (error) => Promise.reject(error)
+  }, (error) => Promise.reject(error)
 );
 
 
@@ -58,28 +64,44 @@ api.interceptors.response.use(
   async (error) => {
     const prevRequest = error?.config;
 
-    if (error?.response?.status === 401 && !prevRequest?.sent) {
-      prevRequest._retryCount = prevRequest._retryCount || 0;
+    if (error?.response?.status === 401 && !prevRequest?._retry) {
+      prevRequest._retry = true;
 
-      if (prevRequest._retryCount >= 3) {
-        console.error("Maximum retry attempts reached");
-        return Promise.reject(error);
-      }
 
-      prevRequest._retryCount += 1;
+      
 
       try {
         const newAccessToken = await refreshToken();
 
-        prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+        // Update the token in local storage
+        const userKey = localStorage.getItem('currentUserStorageKey');
+        if (userKey) {
+          const storedUser = localStorage.getItem(userKey);
+          if (storedUser) {
+            const user = JSON.parse(storedUser);
+            user.accessToken = newAccessToken;
+            localStorage.setItem(userKey, JSON.stringify(user));
+          }
+        }
+
+        prevRequest.headers['Authorization'] = `bearer ${newAccessToken}`;
 
         return api(prevRequest);
 
-      } catch (error) {
-        return Promise.reject(error);
-      }
-      // prevRequest.sent = true;
-      
+      } catch (refreshError) {
+
+        // Remove potentially stale token
+        const userKey = localStorage.getItem('currentUserStorageKey');
+        if (userKey) {
+          const storedUser = localStorage.getItem(userKey);
+          if (storedUser) {
+            const user = JSON.parse(storedUser);
+            delete user.accessToken;
+            localStorage.setItem(userKey, JSON.stringify(user));
+          }
+        }
+        return Promise.reject(refreshError);
+      }      
     }
     return Promise.reject(error);
   }
@@ -107,9 +129,23 @@ export const loginUser = async (userData) => {
 
 // Logout user (revoke refresh token and clear cookie)
 export const logoutUser = async () => {
-  return await api.post(`/logout`, null, {
-    withCredentials: true,
-  });
+  // return await api.post(`/logout`, null, {
+  //   withCredentials: true,
+  // });
+  try {
+    // Send logout request to server
+    await api.post(`/logout`, null, {
+      withCredentials: true,
+    });
+  } finally {
+    // Always clear local storage, even if server request fails
+    const userKey = localStorage.getItem('currentUserStorageKey');
+    if (userKey) {
+      localStorage.removeItem(userKey);
+    }
+    localStorage.removeItem('currentUserStorageKey');
+    localStorage.removeItem('user');
+  }
 };
 
 
@@ -123,15 +159,26 @@ export const getUserProfile = async (userId) => {
 
 export const submitJob = async (userId, jobData) => {
   return api.post('/jobs', {
-    ...jobData,
-    userId,
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    }, 
+    body: {
+      userId,
+      ...jobData,
+    }
   });
 };
 
 
 
 export const getJobs = async () => {
-  return api.get(`/jobs`);
+  return api.get(`/jobs`, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
 };
 
 
@@ -159,20 +206,6 @@ export const updateCredits = async (userId, newCreditAmount) => {
 
 
 
-// return api.post(`/users/${userId}/jobs`, jobData);
-
-
-// return api.put(`/users/${userId}/credits`, { 
-//   credits: newCreditAmount 
-// });
-
-// return api.put(`/credits?userId=${userId}`, {
-//   credits: newCreditAmount,
-// });
-
-// return api.post(`/users/${userId}/credits/purchase`, purchaseData);
-
-// return api.get(`/users/${userId}/credits/history`);
 
 
 export const purchaseCredits = async (userId, purchaseData) => {

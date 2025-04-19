@@ -1,5 +1,4 @@
-import { createUser } from '../api/api';
-
+import { createUser, loginUser } from '../api/api';
 
 const handleSignup = async (email, password, username, setError, setLoading, setCurrentUser, navigate, confirmPassword,setUserCredits) => {
     
@@ -20,17 +19,16 @@ const handleSignup = async (email, password, username, setError, setLoading, set
 
         setLoading(true);
 
-
-        const response = await createUser({
+        await createUser({
             email,
             username,
             password
         });
 
-        console.log('User created successfully:', response.data);
-
-        setCurrentUser(response.data);
+        const response = await loginUser({ email, password });
         
+        setCurrentUser(response.data);
+        console.log('Signup successful:', response.data.accessToken);
         setUserCredits(response.data.credits);
 
         navigate('/jobs');

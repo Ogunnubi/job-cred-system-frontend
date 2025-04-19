@@ -1,6 +1,6 @@
 import { useAuth } from '../../context/AuthContext';
 import handleLogin from '../../utils/handleLogin';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
@@ -15,6 +15,8 @@ const Login = ({toggleForm}) => {
     
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const { 
     setCurrentUser, 
@@ -29,7 +31,12 @@ const Login = ({toggleForm}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await handleLogin(email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits, currentUser);
+      await handleLogin(email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits, currentUser, from);
+
+      setEmail('');
+      setPassword('');
+      setShowPassword(false);
+
     } catch (err) {
       console.error(`Failed to log in. Please check your credentials. ${err.message}`);
     }

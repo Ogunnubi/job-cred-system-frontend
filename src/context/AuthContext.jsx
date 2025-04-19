@@ -17,6 +17,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [userCredits, setUserCredits] = useState(0);
   const [jobs, setJobs] = useState([]);
+  const [persist, setPersist] = useState(JSON.parse(localStorage.getItem("persist")) || false);
 
 
 
@@ -107,7 +108,9 @@ export function AuthProvider({ children }) {
     userCredits,
     setUserCredits,
     jobs,
-    setJobs
+    setJobs,
+    persist,
+    setPersist
   };
 
   return (

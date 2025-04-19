@@ -4,17 +4,20 @@ import { useAuth } from '../../context/AuthContext';
 import JobsList from '../JobsList/JobsList';
 import "./Indeed.css"
 import { Link } from 'react-router-dom';
+import Jobs from '../Jobs/Jobs';
 
 const Indeed = () => {
 
 
   const { setError, error, userCredits, jobs, setJobs, currentUser } = useAuth();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   console.log(currentUser)
 
   useEffect(() => {
+
+
     const fetch = async () => {
       try {
         setIsLoading(true);
@@ -58,6 +61,8 @@ const Indeed = () => {
             <p>A complete platform for managing job submissions with a credit-based system.</p>
           </div>
 
+          <Jobs />
+
           <div className="col-lg-7">
             {isLoading ? (
                 <div className="d-flex justify-content-center py-5">
@@ -65,8 +70,6 @@ const Indeed = () => {
                     <span className="visually-hidden">Loading...</span>
                   </div>
                 </div>
-              ) : error ? (
-                <div className="alert alert-danger" role="alert">{error}</div>
               ) : (
                 <JobsList jobs={jobs} />
               )}

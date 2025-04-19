@@ -2,7 +2,7 @@ import {loginUser} from '../api/api.js'
 import { setUserCreditsStorage } from './handleLocalStorage.js';
 import { genStorageKey, saveUserToStorage } from './handleLocalStorage.js';
 
-const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate, setUserCredits, currentUser) => { 
+const handleLogin = async (email, password, setError, setLoading, setCurrentUser, navigate, currentUser) => { 
     
     setError("")
 
@@ -17,24 +17,25 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
 
         const res = await loginUser({ email, password });
         console.log('Login successful:', res.data);
-
         const { access_token, user } = res.data;
-
+        
         const userData = {
             ...user,
             accessToken: access_token,
         };
-
+        
+        
         setCurrentUser(userData);
-        setUserCredits(userData.credits);
-
         const dynamicKey = genStorageKey(userData);
-        setUserCreditsStorage(dynamicKey, user.credits);
-        saveUserToStorage(dynamicKey, userData);
+        saveUserToStorage(dynamicKey, currentUser);
 
-        localStorage.setItem('currentUserStorageKey', dynamicKey);
 
-        navigate('/jobs');
+        // setUserCredits(userData.credits);
+        // setUserCreditsStorage(dynamicKey, user.credits);
+        // localStorage.setItem('currentUserStorageKey', dynamicKey);
+
+
+        navigate('/jobs', { replace: true });
         setError('');
 
     } catch (error) {

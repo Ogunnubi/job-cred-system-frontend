@@ -6,11 +6,8 @@ import useRefreshToken from "../Hooks/useRefreshToken";
 const PersistLogin = () => {
 
     const {currentUser, persist} = useAuth();
-
     const [isLoading, setIsLoading] = useState(true);
-
     console.log("Current user in PersistLogin:", currentUser);
-
     const refresh = useRefreshToken();
 
 
@@ -28,7 +25,7 @@ const PersistLogin = () => {
             }
         }
 
-        !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
+        !currentUser?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
 
         
 
