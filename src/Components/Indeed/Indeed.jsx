@@ -41,15 +41,11 @@ const Indeed = () => {
     <section className="section">
       <div className="container">
         <div className="credits__notif d-flex justify-content-between align-items-center mt-0 mb-5">
-          {/* <p className='fw-bold'>Credits</p>
-          <div className="">
-            <p>You have {userCredits} credits left.</p>
-          </div> */}
           <h5 className='fw-bold'>Credits</h5>
             <div className="alert alert-info mb-4 credits__notif__text" role="alert">
               <i className="bi bi-info-circle me-2"></i>
-              Current Balance: {userCredits} credits
-              {userCredits < 10 && ( 
+              Current Balance: {currentUser.credits} credits
+              {currentUser.credits < 10 && ( 
                 <Link to="/credits" className="credits__notif__text__link d-block">
                   Top Up
                 </Link>

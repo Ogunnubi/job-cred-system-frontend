@@ -3,6 +3,7 @@ import { getUserFromStorage } from '../utils/handleLocalStorage';
 import { genStorageKey } from '../utils/handleLocalStorage';
 import useRefreshToken from '../Hooks/useRefreshToken'; 
 
+
 const API_URL = 'http://127.0.0.1:8000';
 
 // Create axios instance
@@ -14,7 +15,17 @@ const api = axios.create({
   withCredentials: true,
 });
 
-const refresh = useRefreshToken(); // Import your refresh function
+
+
+// Refresh access token using refresh token cookie
+export const refreshToken = async () => {
+  const response = await api.post(`/refresh`);
+  if (response.data && response.data.access_token) {
+    return response.data.access_token;
+  } else {
+    throw new Error("Refresh failed: no access token returned.");
+  }
+};
 
 
 // Add auth token to requests
@@ -25,7 +36,7 @@ api.interceptors.request.use((config) => {
     const user = storedUser ? JSON.parse(storedUser) : null;
 
     if (user?.accessToken) {
-      config.headers['Authorization'] = `Bearer ${user.accessToken}`;
+      config.headers['Authorization'] = `Bearer ${user?.accessToken}`;
     } else {
       console.warn("No access token found in localStorage");
     }
@@ -46,11 +57,29 @@ api.interceptors.response.use(
   response => response,
   async (error) => {
     const prevRequest = error?.config;
+
     if (error?.response?.status === 401 && !prevRequest?.sent) {
-      prevRequest.sent = true;
-      const newAccessToken = refresh();
-      prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-      return api(prevRequest);
+      prevRequest._retryCount = prevRequest._retryCount || 0;
+
+      if (prevRequest._retryCount >= 3) {
+        console.error("Maximum retry attempts reached");
+        return Promise.reject(error);
+      }
+
+      prevRequest._retryCount += 1;
+
+      try {
+        const newAccessToken = await refreshToken();
+
+        prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+        return api(prevRequest);
+
+      } catch (error) {
+        return Promise.reject(error);
+      }
+      // prevRequest.sent = true;
+      
     }
     return Promise.reject(error);
   }
@@ -73,12 +102,7 @@ export const loginUser = async (userData) => {
 
 
 
-// Refresh access token using refresh token cookie
-export const refreshToken = async () => {
-  return await api.post(`/refresh`, null, {
-    withCredentials: true,
-  });
-};
+
 
 
 // Logout user (revoke refresh token and clear cookie)
@@ -106,24 +130,14 @@ export const submitJob = async (userId, jobData) => {
 
 
 
-export const getJobs = async (user) => {
-
-  // Build the configuration object for the request
-  const config = {
-    // With credentials if your back-end expects cookies
-    withCredentials: true,
-    headers: {}
-  };
-
-  // If the user and its access token exist, attach it to the headers
-  if (user && user.accessToken) {
-    config.headers.Authorization = `Bearer ${user.accessToken}`;
-  } else {
-    console.warn("No access token provided in the user object.");
-  }
-
-  return api.get(`/jobs`, config);
+export const getJobs = async () => {
+  return api.get(`/jobs`);
 };
+
+
+
+
+
 
 // First: Get user by userId
 export const getUserByUserId = async (userId) => {
