@@ -1,41 +1,68 @@
 import {useEffect, useState} from 'react'
-import { getJobs } from '../../api/api';
+import { getJobs } from '../../api/jobsApi';
 import { useAuth } from '../../context/AuthContext';
 import JobsList from '../JobsList/JobsList';
-import "./Indeed.css"
+import "./Indeed.css";
 import { Link } from 'react-router-dom';
 import Jobs from '../Jobs/Jobs';
 
+
+// import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
+
+
 const Indeed = () => {
 
+  // const api = useAxiosPrivate();
 
-  const { setError, error, userCredits, jobs, setJobs, currentUser } = useAuth();
+
+  const { 
+    setError, 
+    jobs, 
+    setJobs, 
+    currentUser,
+    error, 
+    updateUserCredits
+  } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(currentUser)
 
   useEffect(() => {
 
+    const controller = new AbortController();
 
-    const fetch = async () => {
+    const loadJobs = async () => {
       try {
         setIsLoading(true);
-        const result = await getJobs(currentUser);
-        const jobData = result.data; 
-        console.log(jobData);
-        setJobs(jobData);
-        setError("");
+        if (currentUser?.token) {
+          const fetchedJobs = await getJobs(currentUser.token, controller.signal);
+          setJobs(fetchedJobs);
+        }
       } catch (err) {
-        setError('Failed to fetch jobs. Please try again later.');
-        console.error('Error fetching jobs:', err);
+        console.error("Failed to load jobs:", err);
+        setError("Failed to load jobs. Please try again later.");
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetch();
-  }, [jobs]);
+    loadJobs();
+
+
+    return () => {
+      controller.abort();
+    }
+
+
+  }, [currentUser, setError]);
+
+
+
+
+
+
+
+  
 
 
     
@@ -43,6 +70,7 @@ const Indeed = () => {
 
     <section className="section">
       <div className="container">
+
         <div className="credits__notif d-flex justify-content-between align-items-center mt-0 mb-5">
           <h5 className='fw-bold'>Credits</h5>
             <div className="alert alert-info mb-4 credits__notif__text" role="alert">
@@ -55,6 +83,7 @@ const Indeed = () => {
               )}
             </div>
         </div>
+
         <div className="row align-items-center justify-content-center">
           <div className='intro__page'>
             <h1 className='heading__one'>Submit Jobs with Credits</h1>

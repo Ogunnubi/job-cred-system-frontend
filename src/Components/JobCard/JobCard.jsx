@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {getJobs, submitJob, updateCredits} from '../../api/api';
+import {getJobs, submitJob, updateUserCredits} from '../../api/jobsApi';
 import { useAuth } from '../../context/AuthContext';
 
 const JobCard = ({job}) => {

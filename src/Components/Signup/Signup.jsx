@@ -24,7 +24,6 @@ const Signup = ({toggleForm}) => {
         setLoading, 
         setError,
         setUserCredits,
-        error,
     } = useAuth()
 
 

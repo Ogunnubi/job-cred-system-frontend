@@ -19,31 +19,14 @@ const useRefreshToken = () => {
                 };
             });
             
-            // Also update in localStorage to keep them in sync
-            const userKey = localStorage.getItem('currentUserStorageKey');
-            if (userKey) {
-                const storedUser = localStorage.getItem(userKey);
-                if (storedUser) {
-                    const user = JSON.parse(storedUser);
-                    user.accessToken = newAccessToken;
-                    localStorage.setItem(userKey, JSON.stringify(user));
-                }
-            }
             
             return newAccessToken;
         } catch (error) {
             console.error("Error refreshing token:", error);
-            // Clear any stale tokens
-            localStorage.removeItem('user');
-            const userKey = localStorage.getItem('currentUserStorageKey');
-            if (userKey) {
-                localStorage.removeItem(userKey);
-            }
-            localStorage.removeItem('currentUserStorageKey');
             
             // Redirect to login
             navigate("/");
-            throw error; // Propagate the error
+            
         }
     };
 

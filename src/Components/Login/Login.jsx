@@ -11,7 +11,8 @@ const Login = ({toggleForm}) => {
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
     
 
   const navigate = useNavigate();
@@ -21,7 +22,6 @@ const Login = ({toggleForm}) => {
   const { 
     setCurrentUser, 
     setLoading, 
-    error,
     setError,
     setUserCredits,
     currentUser
@@ -35,9 +35,11 @@ const Login = ({toggleForm}) => {
 
       setEmail('');
       setPassword('');
+      setLoginError("");
       setShowPassword(false);
 
     } catch (err) {
+      setLoginError(`Failed to log in. Please check your credentials`);
       console.error(`Failed to log in. Please check your credentials. ${err.message}`);
     }
   };
@@ -45,7 +47,7 @@ const Login = ({toggleForm}) => {
 
   return (
     <form onSubmit={handleSubmit} className="row g-3 px-3">
-      {error && <div className="alert alert-danger">{error}</div>}
+      {loginError && <div className="alert alert-danger">{loginError}</div>}
       
       {/* email input */}
       <div className="mb-3 input-group">

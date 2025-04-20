@@ -25,11 +25,18 @@ const handleSignup = async (email, password, username, setError, setLoading, set
             password
         });
 
-        const response = await loginUser({ email, password });
+        const {data} = await loginUser({ email, password });
+
+        const { access_token, user } = data;
+
+        const userData = {
+            ...user,
+            accessToken: access_token,
+        };
         
-        setCurrentUser(response.data);
-        console.log('Signup successful:', response.data.accessToken);
-        setUserCredits(response.data.credits);
+        setCurrentUser(userData);
+        console.log('Signup successful:', user);
+        setUserCredits(user.credits);
 
         navigate('/jobs');
   

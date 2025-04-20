@@ -4,16 +4,19 @@ import { genStorageKey } from '../utils/handleLocalStorage';
 import useRefreshToken from '../Hooks/useRefreshToken'; 
 
 
-const API_URL = 'http://127.0.0.1:8000';
+export const API_URL = 'http://127.0.0.1:8000';
 
 // Create axios instance
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  withCredentials: true,
-});
+export const createAxiosInstance = (token) => {
+  return axios.create({
+    baseURL: API_URL,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token ? `Bearer ${token}` : ''
+    },
+    withCredentials: true,
+  });
+}
 
 
 
@@ -39,84 +42,86 @@ export const refreshToken = async () => {
 
 
 // Add auth token to requests
-api.interceptors.request.use((config) => {
-  try {
-    const userKey = localStorage.getItem('currentUserStorageKey');
-    const storedUser = userKey ? localStorage.getItem(userKey) : null;
-    const user = storedUser ? JSON.parse(storedUser) : null;
+// api.interceptors.request.use((config) => {
+//   try {
+//     const userKey = localStorage.getItem('currentUserStorageKey');
+//     const storedUser = userKey ? localStorage.getItem(userKey) : null;
+//     const user = storedUser ? JSON.parse(storedUser) : null;
 
-    if (!config.headers['Authorization']) {
-      config.headers['Authorization'] = `bearer ${user?.accessToken}`;
-    }
-  } catch (error) {
-    console.error('Error parsing user from localStorage:', error);
-  }
-    return config;
-  }, (error) => Promise.reject(error)
-);
-
-
+//     if (!config.headers['Authorization']) {
+//       config.headers['Authorization'] = `bearer ${user?.accessToken}`;
+//     }
+//   } catch (error) {
+//     console.error('Error parsing user from localStorage:', error);
+//   }
+//     return config;
+//   }, (error) => Promise.reject(error)
+// );
 
 
 
-api.interceptors.response.use(
-  response => response,
-  async (error) => {
-    const prevRequest = error?.config;
 
-    if (error?.response?.status === 401 && !prevRequest?._retry) {
-      prevRequest._retry = true;
+
+// api.interceptors.response.use(
+//   response => response,
+//   async (error) => {
+//     const prevRequest = error?.config;
+
+//     if (error?.response?.status === 401 && !prevRequest?._retry) {
+//       prevRequest._retry = true;
 
 
       
 
-      try {
-        const newAccessToken = await refreshToken();
+//       try {
+//         const newAccessToken = await refreshToken();
 
-        // Update the token in local storage
-        const userKey = localStorage.getItem('currentUserStorageKey');
-        if (userKey) {
-          const storedUser = localStorage.getItem(userKey);
-          if (storedUser) {
-            const user = JSON.parse(storedUser);
-            user.accessToken = newAccessToken;
-            localStorage.setItem(userKey, JSON.stringify(user));
-          }
-        }
+//         // Update the token in local storage
+//         const userKey = localStorage.getItem('currentUserStorageKey');
+//         if (userKey) {
+//           const storedUser = localStorage.getItem(userKey);
+//           if (storedUser) {
+//             const user = JSON.parse(storedUser);
+//             user.accessToken = newAccessToken;
+//             localStorage.setItem(userKey, JSON.stringify(user));
+//           }
+//         }
 
-        prevRequest.headers['Authorization'] = `bearer ${newAccessToken}`;
+//         prevRequest.headers['Authorization'] = `bearer ${newAccessToken}`;
 
-        return api(prevRequest);
+//         return api(prevRequest);
 
-      } catch (refreshError) {
+//       } catch (refreshError) {
 
-        // Remove potentially stale token
-        const userKey = localStorage.getItem('currentUserStorageKey');
-        if (userKey) {
-          const storedUser = localStorage.getItem(userKey);
-          if (storedUser) {
-            const user = JSON.parse(storedUser);
-            delete user.accessToken;
-            localStorage.setItem(userKey, JSON.stringify(user));
-          }
-        }
-        return Promise.reject(refreshError);
-      }      
-    }
-    return Promise.reject(error);
-  }
-);
+//         // Remove potentially stale token
+//         const userKey = localStorage.getItem('currentUserStorageKey');
+//         if (userKey) {
+//           const storedUser = localStorage.getItem(userKey);
+//           if (storedUser) {
+//             const user = JSON.parse(storedUser);
+//             delete user.accessToken;
+//             localStorage.setItem(userKey, JSON.stringify(user));
+//           }
+//         }
+//         return Promise.reject(refreshError);
+//       }      
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 
 
 // API functions
 export const createUser = async (userData) => {
+  const api = createAxiosInstance();
   return await api.post(`/signup`, userData);
 };
 
 
 // Login user and receive access token (also sets refresh token cookie)
 export const loginUser = async (userData) => {
+  const api = createAxiosInstance();
   return await api.post(`/login`, userData, {
     withCredentials: true,
   });
@@ -129,9 +134,7 @@ export const loginUser = async (userData) => {
 
 // Logout user (revoke refresh token and clear cookie)
 export const logoutUser = async () => {
-  // return await api.post(`/logout`, null, {
-  //   withCredentials: true,
-  // });
+  const api = createAxiosInstance();
   try {
     // Send logout request to server
     await api.post(`/logout`, null, {
@@ -152,34 +155,17 @@ export const logoutUser = async () => {
 
 
 export const getUserProfile = async (userId) => {
+  const api = createAxiosInstance();
   return api.get(`/users/${userId}`);
 };
 
 
 
-export const submitJob = async (userId, jobData) => {
-  return api.post('/jobs', {
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json',
-    }, 
-    body: {
-      userId,
-      ...jobData,
-    }
-  });
-};
 
 
 
-export const getJobs = async () => {
-  return api.get(`/jobs`, {
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-};
+
+
 
 
 
@@ -188,12 +174,14 @@ export const getJobs = async () => {
 
 // First: Get user by userId
 export const getUserByUserId = async (userId) => {
+  const api = createAxiosInstance();
   const res = await api.get(`/users?userId=${userId}`);
   return res.data[0]; // returns an array
 };
 
 // Then: Update credits using internal `id`
 export const updateCredits = async (userId, newCreditAmount) => {
+  const api = createAxiosInstance();
   const user = await getUserByUserId(userId);
   if (!user) {
     throw new Error('User not found');
@@ -209,6 +197,7 @@ export const updateCredits = async (userId, newCreditAmount) => {
 
 
 export const purchaseCredits = async (userId, purchaseData) => {
+  const api = createAxiosInstance();
   return api.patch(`/users/${userId}`, {
     credits: purchaseData.credits,
   });
@@ -216,7 +205,8 @@ export const purchaseCredits = async (userId, purchaseData) => {
 
 
 export const getCreditHistory = async (userId) => {
+  const api = createAxiosInstance();
   return api.get(`/creditHistory?userId=${userId}`);
 };
 
-export default api;
+export default createAxiosInstance;

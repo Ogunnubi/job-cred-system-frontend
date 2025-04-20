@@ -1,43 +1,28 @@
 import {useState, useEffect} from 'react'
-import {getJobs, submitJob, updateCredits} from '../../api/api';
+import {submitJob} from '../../api/jobsApi';
 import "./Jobs.css"
 import { useAuth } from '../../context/AuthContext';
+import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
+
+
 
 const Jobs = ({}) => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false)
   const [jobCredit, setJobCredit] = useState(0)
 
   const {
-    userCredits,
     currentUser,
     setError,
     error,
+    setJobs,
     updateUserCredits
   } = useAuth();
 
 
   const userId = currentUser?.uid
-
-
-  
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const result = await getJobs(userId); 
-        setJobs(result.data); 
-      } catch (error) {
-        console.error(`Error fetching jobs: ${error}`);
-      }
-    };
-
-    fetchJobs();
-  }, []); 
-
-
 
 
   const handleSubmit = async (jobCredit) => {
@@ -67,12 +52,13 @@ const Jobs = ({}) => {
         setLoading(true);
         setError("");
         
-
         const newJob = {
-            title, description, credits
+            title, 
+            job_description: description, 
+            credits_required: credits
         }
 
-        const result = await submitJob(userId, newJob)
+        const result =  await submitJob(newJob, currentUser.token);
 
         if(result?.data) {
 
@@ -89,8 +75,6 @@ const Jobs = ({}) => {
             
             setJobs((prevJobs) => [...prevJobs, result?.data]);
 
-            
-
         }
     } catch (error) {
         console.error(`API error: ${error}`);
@@ -100,11 +84,6 @@ const Jobs = ({}) => {
     }
   }
 
-//   useEffect(() => {
-//     updateCredits("test-user-id", 200).then(() => {
-//       console.log("Credits updated");
-//     });
-//   }, []);
 
 
     return (

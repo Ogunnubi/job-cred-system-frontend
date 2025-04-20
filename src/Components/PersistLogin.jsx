@@ -7,7 +7,7 @@ const PersistLogin = () => {
 
     const {currentUser, persist} = useAuth();
     const [isLoading, setIsLoading] = useState(true);
-    console.log("Current user in PersistLogin:", currentUser);
+    
     const refresh = useRefreshToken();
 
 
@@ -32,11 +32,6 @@ const PersistLogin = () => {
         return () => isMounted = false;
     }, [])
 
-
-    useEffect(() => {
-        console.log("isLoading changed:", isLoading);
-        console.log("accessToken:", JSON.stringify(currentUser?.accessToken));
-    }, [isLoading])
 
   return (
     <>
