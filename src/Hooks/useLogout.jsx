@@ -13,6 +13,8 @@ const useLogout = () => {
 
         setCurrentUser({});
 
+        localStorage.removeItem("authToken");
+
         await logoutUser(); 
 
         navigate('/');

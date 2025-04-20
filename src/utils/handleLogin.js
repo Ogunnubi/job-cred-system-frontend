@@ -25,6 +25,9 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
         
         
         setCurrentUser(userData);
+
+        localStorage.setItem("authToken", access_token);
+
         navigate('/jobs', { replace: true });
         setError('');
 

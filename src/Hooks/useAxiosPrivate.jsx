@@ -2,6 +2,7 @@ import api from "../api/api"
 import { useEffect } from "react"
 import useRefreshToken from "./useRefreshToken"
 import { useAuth } from "../context/AuthContext"
+import { axiosPrivate } from "../api/axios";
 
 const useAxiosPrivate = () => {
 
@@ -10,17 +11,19 @@ const useAxiosPrivate = () => {
 
     useEffect(() => {
 
-        const requestIntercept = api.interceptors.request.use(
+        const requestIntercept = axiosPrivate.interceptors.request.use(
             config => {
-                if (!config.headers['Authorization']) {
-                    config.headers['Authorization'] = `Bearer ${currentUser?.accessToken}`;
+                const token = localStorage.getItem("authToken");
+
+                if (!config.headers['Authorization'] && token) {
+                    config.headers['Authorization'] = `Bearer ${token}`;
                 }
                 return config;
             }, (error) => Promise.reject(error)
         );
 
 
-        const responseIntercept = api.interceptors.response.use(
+        const responseIntercept = axiosPrivate.interceptors.response.use(
             response => response,
             async (error) => {
                 const prevRequest = error?.config;
@@ -34,21 +37,21 @@ const useAxiosPrivate = () => {
                     prevRequest.sent = true;
                     const newAccessToken = await refresh();
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-                    return api(prevRequest);
+                    return axiosPrivate(prevRequest);
                 }
                 return Promise.reject(error);
             }
         );
 
         return () => {
-            api.interceptors.request.eject(requestIntercept);
-            api.interceptors.response.eject(responseIntercept);
+            axiosPrivate.interceptors.request.eject(requestIntercept);
+            axiosPrivate.interceptors.response.eject(responseIntercept);
         }
 
     }, [currentUser, refresh]);
 
 
-  return api;
+  return axiosPrivate;
 }
 
 export default useAxiosPrivate

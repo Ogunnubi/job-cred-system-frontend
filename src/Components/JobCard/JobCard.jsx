@@ -51,7 +51,7 @@ const JobCard = ({job}) => {
     
             const result = await submitJob(userId, newJob)
     
-            if(result.data) {
+            if(result) {
     
                 const newCreditAmount = userCredits - credits
     
@@ -64,7 +64,7 @@ const JobCard = ({job}) => {
                 setJobCredit("");
                 setDescription("");
                 
-                setJobs((prevJobs) => [...prevJobs, result.data]);
+                setJobs((prevJobs) => [...prevJobs, result]);
     
             }
         } catch (error) {
@@ -81,18 +81,18 @@ const JobCard = ({job}) => {
       <div className="card-body">
         <div className="row">
           <div className="col-md-8">
-            <h2 className="h5 fw-bold">{job.title}</h2>
+            <h4 className="h5 fw-bold">{job.title}</h4>
             {job.userId && (
               <p className="text-muted small mb-2">Job ID: {job.id}</p>
             )}
           </div>
           <div className="col-md-4 text-md-end">
-            <span className="text-success fw-bold">{job.credits} Credits</span>
+            <span className="text-success fw-bold">{job.credits_required} Credits</span>
           </div>
         </div>
         
         <div className="mt-3">
-          <p className="text-secondary">{job.description}</p>
+          <p className="text-secondary">{job.job_description}</p>
         </div>
         
         <div className="mt-3 pt-3 border-top">

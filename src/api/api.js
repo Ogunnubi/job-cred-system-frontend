@@ -15,6 +15,16 @@ export const createAxiosInstance = (token) => {
   });
 }
 
+export const api = () => {
+  return axios.create({
+    baseURL: API_URL,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+  });
+}
+
 
 
 // Refresh access token using refresh token cookie
@@ -38,74 +48,7 @@ export const refreshToken = async () => {
 };
 
 
-// Add auth token to requests
-// api.interceptors.request.use((config) => {
-//   try {
-//     const userKey = localStorage.getItem('currentUserStorageKey');
-//     const storedUser = userKey ? localStorage.getItem(userKey) : null;
-//     const user = storedUser ? JSON.parse(storedUser) : null;
 
-//     if (!config.headers['Authorization']) {
-//       config.headers['Authorization'] = `bearer ${user?.accessToken}`;
-//     }
-//   } catch (error) {
-//     console.error('Error parsing user from localStorage:', error);
-//   }
-//     return config;
-//   }, (error) => Promise.reject(error)
-// );
-
-
-
-
-
-// api.interceptors.response.use(
-//   response => response,
-//   async (error) => {
-//     const prevRequest = error?.config;
-
-//     if (error?.response?.status === 401 && !prevRequest?._retry) {
-//       prevRequest._retry = true;
-
-
-      
-
-//       try {
-//         const newAccessToken = await refreshToken();
-
-//         // Update the token in local storage
-//         const userKey = localStorage.getItem('currentUserStorageKey');
-//         if (userKey) {
-//           const storedUser = localStorage.getItem(userKey);
-//           if (storedUser) {
-//             const user = JSON.parse(storedUser);
-//             user.accessToken = newAccessToken;
-//             localStorage.setItem(userKey, JSON.stringify(user));
-//           }
-//         }
-
-//         prevRequest.headers['Authorization'] = `bearer ${newAccessToken}`;
-
-//         return api(prevRequest);
-
-//       } catch (refreshError) {
-
-//         // Remove potentially stale token
-//         const userKey = localStorage.getItem('currentUserStorageKey');
-//         if (userKey) {
-//           const storedUser = localStorage.getItem(userKey);
-//           if (storedUser) {
-//             const user = JSON.parse(storedUser);
-//             delete user.accessToken;
-//             localStorage.setItem(userKey, JSON.stringify(user));
-//           }
-//         }
-//         return Promise.reject(refreshError);
-//       }      
-//     }
-//     return Promise.reject(error);
-//   }
-// );
 
 
 
@@ -155,7 +98,6 @@ export const purchaseCredits = async (userId, purchaseData) => {
 };
 
 
-// Then: Update credits using internal `id`
 export const updateCredits = async (userId, newCreditAmount) => {
   const api = createAxiosInstance();
   const user = await getUserByUserId(userId);

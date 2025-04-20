@@ -1,27 +1,26 @@
 import {useEffect, useState} from 'react'
-import { getJobs } from '../../api/jobsApi';
 import { useAuth } from '../../context/AuthContext';
 import JobsList from '../JobsList/JobsList';
 import "./Indeed.css";
 import { Link } from 'react-router-dom';
 import Jobs from '../Jobs/Jobs';
+import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
 
 
-// import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
+// import { getJobs } from '../../api/jobsApi';
+// import { axiosPrivate } from '../../api/axios';
 
 
 const Indeed = () => {
 
-  // const api = useAxiosPrivate();
+  const axiosPrivate = useAxiosPrivate();
 
 
   const { 
     setError, 
     jobs, 
     setJobs, 
-    currentUser,
-    error, 
-    updateUserCredits
+    currentUser
   } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -29,15 +28,24 @@ const Indeed = () => {
 
   useEffect(() => {
 
+
+    let isMounted = true;
     const controller = new AbortController();
 
     const loadJobs = async () => {
       try {
         setIsLoading(true);
-        if (currentUser?.token) {
-          const fetchedJobs = await getJobs(currentUser.token, controller.signal);
-          setJobs(fetchedJobs);
+
+        
+        const response = await axiosPrivate.get('/jobs');
+
+        console.log("Jobs response:", response.data);
+
+        if (isMounted) {
+          setJobs(response.data);
         }
+
+        
       } catch (err) {
         console.error("Failed to load jobs:", err);
         setError("Failed to load jobs. Please try again later.");
@@ -48,13 +56,12 @@ const Indeed = () => {
 
     loadJobs();
 
-
     return () => {
+      isMounted = false;
       controller.abort();
-    }
+    };
 
-
-  }, [currentUser, setError]);
+  }, []);
 
 
 
