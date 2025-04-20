@@ -1,7 +1,4 @@
 import axios from 'axios';
-import { getUserFromStorage } from '../utils/handleLocalStorage';
-import { genStorageKey } from '../utils/handleLocalStorage';
-import useRefreshToken from '../Hooks/useRefreshToken'; 
 
 
 export const API_URL = 'http://127.0.0.1:8000';
@@ -119,65 +116,44 @@ export const createUser = async (userData) => {
 };
 
 
-// Login user and receive access token (also sets refresh token cookie)
 export const loginUser = async (userData) => {
   const api = createAxiosInstance();
-  return await api.post(`/login`, userData, {
-    withCredentials: true,
-  });
+  return await api.post(`/login`, userData);
 };
 
 
-
-
-
-
-// Logout user (revoke refresh token and clear cookie)
 export const logoutUser = async () => {
   const api = createAxiosInstance();
-  try {
-    // Send logout request to server
-    await api.post(`/logout`, null, {
-      withCredentials: true,
-    });
-  } finally {
-    // Always clear local storage, even if server request fails
-    const userKey = localStorage.getItem('currentUserStorageKey');
-    if (userKey) {
-      localStorage.removeItem(userKey);
-    }
-    localStorage.removeItem('currentUserStorageKey');
-    localStorage.removeItem('user');
-  }
+  return await api.post(`/logout`);
 };
-
-
 
 
 export const getUserProfile = async (userId) => {
   const api = createAxiosInstance();
-  return api.get(`/users/${userId}`);
+  return await api.get(`/users/${userId}`);
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// First: Get user by userId
 export const getUserByUserId = async (userId) => {
   const api = createAxiosInstance();
   const res = await api.get(`/users?userId=${userId}`);
-  return res.data[0]; // returns an array
+  return res.data[0];
 };
+
+
+export const getCreditHistory = async (userId) => {
+  const api = createAxiosInstance();
+  return await api.get(`/creditHistory?userId=${userId}`);
+};
+
+
+export const purchaseCredits = async (userId, purchaseData) => {
+  const api = createAxiosInstance();
+  return await api.patch(`/users/${userId}`, {
+    credits: purchaseData.credits,
+  });
+};
+
 
 // Then: Update credits using internal `id`
 export const updateCredits = async (userId, newCreditAmount) => {
@@ -192,21 +168,5 @@ export const updateCredits = async (userId, newCreditAmount) => {
   });
 };
 
-
-
-
-
-export const purchaseCredits = async (userId, purchaseData) => {
-  const api = createAxiosInstance();
-  return api.patch(`/users/${userId}`, {
-    credits: purchaseData.credits,
-  });
-};
-
-
-export const getCreditHistory = async (userId) => {
-  const api = createAxiosInstance();
-  return api.get(`/creditHistory?userId=${userId}`);
-};
 
 export default createAxiosInstance;
