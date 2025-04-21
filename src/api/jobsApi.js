@@ -27,7 +27,7 @@ export const submitJob = async (jobData, token) => {
 export const applyForJob = async (jobId) => {
     const api = createAxiosInstance();  
     try {
-        const response = await api.post(`/jobs/${jobId}`);
+        const response = await api.post(`/jobs/${jobId}/apply`);
         return response.data;
     } catch (error) {
         console.error('Error applying for job:', error);

@@ -1,81 +1,76 @@
-import {useState, useEffect} from 'react'
-import {getJobs, submitJob, updateUserCredits} from '../../api/jobsApi';
 import { useAuth } from '../../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
+import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
+
+
+
 
 const JobCard = ({job}) => {
 
+  const axiosPrivate = useAxiosPrivate();
 
-    const {
-      userCredits,
-      currentUser,
-      setError,
-      setJobs,
-      setLoading, 
-      updateUserCredits
-    } = useAuth();
-    
-    
-    const token = localStorage.getItem("authToken");
-    const userId = currentUser?.accessToken ? jwtDecode(token)?.id : null;
+  const {
+    currentUser,
+    setError,
+    setLoading,
+  } = useAuth();
+  
+  
+  const token = localStorage.getItem("authToken");
+  const userData = currentUser?.accessToken ? jwtDecode(token) : null;
 
-    const handleJobSubmission = async () => {
+
+  const {credits: userCredits, id: userId} = userData
+
+  const handleJobSubmission = async () => {
         
         
-        // Parse jobCredit to ensure it's a number
-        const credits = parseInt(job.credits_required);
+  // Parse jobCredit to ensure it's a number
+  const creditsRequired = parseInt(job.credits_required);
+
+  if (!userId) {
+    setError('User ID is missing. Please log in again.');
+    return;
+  }
+  
+  // Validate that job credit is a positive number
+  if (isNaN(creditsRequired) || creditsRequired <= 0) {
+    setError("Please enter a valid number of credits greater than zero.");
+    return;
+  }
+
+  if (userCredits < 1) {
+    setError("Insufficient credits to submit job.");
+    return;
+  }
     
-        if (!userId) {
-            setError('User ID is missing. Please log in again.');
-            return;
-        }
-        
-        // Validate that job credit is a positive number
-        if (isNaN(credits) || credits <= 0) {
-            setError("Please enter a valid number of credits greater than zero.");
-            return;
-        }
-    
-        if (userCredits < 1) {
-            setError("Insufficient credits to submit job.");
-            return;
-        }
-    
-        try {
-    
-            setLoading(true);
-            setError("");
-            
-    
-            const newJob = {
-              title: job.title, description: job.description, credits: job.credits    
-            }
-    
-            const result = await submitJob(userId, newJob)
-    
-            if(result) {
-    
-                const newCreditAmount = userCredits - credits
-    
-                await updateUserCredits(userId, newCreditAmount);
-                
-                console.log(result.data?.message || "Job submitted successfully!");
-                
-                // Clear the form
-                setTitle("");
-                setJobCredit("");
-                setDescription("");
-                
-                setJobs((prevJobs) => [...prevJobs, result]);
-    
-            }
-        } catch (error) {
-            console.error(`API error: ${error}`);
-            setError("Error submitting job."); 
-        } finally {
-            setLoading(false);
-        }
+  try {
+    setLoading(true);
+    setError("");
+          
+    const result = await axiosPrivate.post(`/jobs/${job.id}/apply`)
+
+    if(result) {
+      // const creditBal = userCredits - creditsRequired
+      // await updateUserCredits(userId, creditBal);
+      // setJobs((prevJobs) => [...prevJobs, result]);
+
+      
+      console.log(result.data?.message || "Job submitted successfully!");
+      
+      // Clear the form
+      setTitle("");
+      setJobCredit("");
+      setDescription("");
+      
     }
+    } catch (error) {
+      console.error(`API error: ${error}`);
+      setError("Error submitting job."); 
+    } finally {
+      setLoading(false);
+    }
+  }
 
 
   return (
