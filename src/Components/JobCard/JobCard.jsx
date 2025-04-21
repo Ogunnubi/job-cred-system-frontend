@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import {getJobs, submitJob, updateUserCredits} from '../../api/jobsApi';
 import { useAuth } from '../../context/AuthContext';
+import { jwtDecode } from 'jwt-decode';
 
 const JobCard = ({job}) => {
 
@@ -15,13 +16,14 @@ const JobCard = ({job}) => {
     } = useAuth();
     
     
-    const userId = currentUser?.uid
+    const token = localStorage.getItem("authToken");
+    const userId = currentUser?.accessToken ? jwtDecode(token)?.id : null;
 
     const handleJobSubmission = async () => {
         
         
         // Parse jobCredit to ensure it's a number
-        const credits = parseInt(job.credits);
+        const credits = parseInt(job.credits_required);
     
         if (!userId) {
             setError('User ID is missing. Please log in again.');
