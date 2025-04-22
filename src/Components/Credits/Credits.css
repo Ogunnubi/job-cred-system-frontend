@@ -208,3 +208,15 @@
       margin: 0 auto;
     }
 }  
+
+
+.credit__input {
+  border: none;
+  width: 100%;
+}
+
+.credit__input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}

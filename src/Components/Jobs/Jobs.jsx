@@ -19,12 +19,25 @@ const Jobs = ({}) => {
     const [loading, setLoading] = useState(false)
     const [jobCredit, setJobCredit] = useState(0)
 
+    
+    useEffect(() => {
+        if (error) {
+            toast.error(error, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            });
+        }
+    }, [error]);
+
     const {
         currentUser,
         setError,
         error,
-        setJobs,
-        updateUserCredits
+        setJobs
     } = useAuth();
 
 
@@ -58,6 +71,8 @@ const Jobs = ({}) => {
 
             setLoading(true);
             setError("");
+
+            console.log(userId)
             
             const newJob = {
                 title, 
@@ -70,15 +85,14 @@ const Jobs = ({}) => {
 
             const result = await axiosPrivate.post('/jobs', newJob)
 
-            console.log("Job submission response:", result.data); // Log the fetched jobs
+            console.log("Job submission response:", result.data);
 
             if(result?.data) {
 
-                const newCreditAmount = currentUser?.credits - credits
-
-                await updateUserCredits(userId, newCreditAmount);
-            
-                console.log(result?.data?.message || "Job submitted successfully!");
+                toast.success("Job submitted successfully!", {
+                    position: "top-center",
+                    autoClose: 3000
+                });
                 
                 // Clear the form
                 setTitle("");
@@ -101,7 +115,11 @@ const Jobs = ({}) => {
     return (
         <div className="col-lg-6">
             <form className='row justify-content-center' onSubmit={handleSubmit}>
+
+            <ToastContainer />
+
             {error && <div className="alert alert-danger text-center">{error}</div>}
+            
             {/* Job Title */}
             <div className="mb-3 input-group">
                 <input 
@@ -114,6 +132,7 @@ const Jobs = ({}) => {
                 onChange={(e) => setTitle(e.target.value)}
                 />
             </div>  
+
             {/* Job Credits */}
             <div className="mb-3 input-group">
                 <input 
@@ -127,6 +146,7 @@ const Jobs = ({}) => {
                 onChange={(e) => setJobCredit(e.target.value)}
                 />
             </div>  
+            
             {/* Job Description */}
             <div className="mb-3 input-group">
                 <textarea 

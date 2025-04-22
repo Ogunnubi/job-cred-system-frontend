@@ -13,7 +13,7 @@ const Credits = () => {
   const [toastMessage, setToastMessage] = useState(null);
 
   const {
-    userCredits,
+    currentUser,
   } = useAuth();
   
 
@@ -26,7 +26,7 @@ const Credits = () => {
   ];
 
 
-  const handleCustomPurchase = () => {
+  const handlePurchase = () => {
 
   }
 
@@ -38,7 +38,7 @@ const Credits = () => {
             <h5 className='fw-bold'>Credits</h5>
             <div className="alert alert-info mb-4" role="alert">
               <i className="bi bi-info-circle me-2"></i>
-              Current Balance: {userCredits} credits
+              Current Balance: {currentUser.credits} credits
             </div>
           </div>
 
@@ -101,107 +101,77 @@ const Credits = () => {
 
                       <button className="buy-button">Buy Now</button>
 
-                      {/* <div className="card-header">
-                        <h5 className="card-title mb-0">{pkg.name}</h5>
-                        <p className="card-text">{pkg.credits} credits</p>
-                      </div> */}
-
-
-                      {/* <div className="card-body">
-                        <h3 className="card-title">${pkg.price}</h3>
-                        <p className="card-text text-muted small">
-                          ${(pkg.price / pkg.credits).toFixed(2)} per credit
-                        </p>
-                      </div> */}
-
-
-                      {/* <div className="card-footer">
-                        <button 
-                          className={`btn ${pkg.popular ? 'btn-primary' : 'btn-outline-secondary'} w-100`}
-                          onClick={() => handlePurchase(pkg.id)}
-                          disabled={purchaseLoading}
-                        >
-                          {purchaseLoading ? (
-                            <>
-                              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                              Loading...
-                            </>
-                          ) : (
-                            'Buy Now'
-                          )}
-                        </button>
-                      </div> */}
+                      
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
 
 
-            <div className="">
-              <div className="credit-input">
-                <div className="d-flex justify-content-between mb-4">
-                  <div className="">
-                    <h2 className="h4 mb-2">Custom Amount</h2>
-                    <p className="text-muted mb-4">How many credits do you need</p>
-                  </div>
+                <div className="">
+                <div className="credit-input">
+                  <div className="d-flex justify-content-between mb-4">
+                    <div className="">
+                      <h2 className="h4 mb-2">Custom Amount</h2>
+                      <p className="text-muted mb-4">How many credits do you need</p>
+                    </div>
 
-                  <div className="">
-                    <h5 className="mb-0">${(customCredits * 0.09).toFixed(2)}</h5>
-                    <small className="text-muted">$0.09/credit</small>
-                  </div>
-                </div>
-                
-                <div className="credit-counter">
-                  <button 
-                    className="btn-counter"
-                    // onClick={decreaseCredits}
-                    disabled={credits <= 0}
-                  >
-                    <Minus size={24} />
-                  </button>
-                  
-                  <div className="credit-display">
-                    {/* {credits} */}
-                    <input 
-                      type="number" 
-                      className="" 
-                      id=""
-                      min="10"
-                      style={{width: "60px", textAlign: "center", background: "none"}}
-                      value={customCredits} 
-                      onChange={(e) => setCustomCredits(parseInt(e.target.value) || 10)}
-                    />
+                    <div className="">
+                      <h5 className="mb-0">${(customCredits * 0.09).toFixed(2)}</h5>
+                      <small className="text-muted">$0.09/credit</small>
+                    </div>
                   </div>
                   
-                  <button 
-                    className="btn-counter"
-                    // onClick={increaseCredits}
-                  >
-                    <Plus size={24} />
+                  <div className="credit-counter">
+                    <button 
+                      className="btn-counter"
+                      onClick={() => setCustomCredits(prev => prev - 1)}
+                      disabled={credits <= 0}
+                    >
+                      <Minus size={24} />
+                    </button>
+                    
+                    <div className="credit-display">
+                      {/* {credits} */}
+                      <input 
+                        type="number" 
+                        className="credit__input" 
+                        id=""
+                        min="10"
+                        style={{width: "100%", textAlign: "center", background: "none"}}
+                        value={customCredits} 
+                        onChange={(e) => setCustomCredits(parseInt(e.target.value))}
+                      />
+                    </div>
+                    
+                    <button 
+                      className="btn-counter"
+                      onClick={() => setCustomCredits(prev => prev+1)}
+                    >
+                      <Plus size={24} />
+                    </button>
+                  </div>
+
+                  <div className="price-display">
+                    <div className="total-price">
+                      {/* ${totalPrice} */}
+                    </div>
+                    <div className="price-per-credit">
+                      {/* ${pricePerCredit} per credit */}
+                    </div>
+                  </div>
+
+                  <button className="btn btn-purchase btn-primary">
+                    Purchase Credits
                   </button>
                 </div>
-
-                <div className="price-display">
-                  <div className="total-price">
-                    {/* ${totalPrice} */}
-                  </div>
-                  <div className="price-per-credit">
-                    {/* ${pricePerCredit} per credit */}
-                  </div>
-                </div>
-
-                <button className="btn btn-purchase btn-primary">
-                  Purchase Credits
-                </button>
               </div>
 
+
             </div>
 
 
-
-
+          </div>
 
         </div>
       </div>

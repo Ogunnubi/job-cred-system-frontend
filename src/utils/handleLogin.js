@@ -14,7 +14,12 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
         
         setLoading(true);
 
+        console.log("User data:", { email, password });
+
+        // return;
+
         const res = await loginUser({ email, password });
+
         console.log('Login successful:', res.data);
         const { access_token, user } = res.data;
         
@@ -28,7 +33,8 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
 
         localStorage.setItem("authToken", access_token);
 
-        navigate('/jobs', { replace: true });
+        navigate('/jobs');
+
         setError('');
 
     } catch (error) {

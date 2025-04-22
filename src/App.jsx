@@ -36,6 +36,14 @@ function App() {
           <Route element={<PersistLogin />}>
             <Route path="/" element={<Home />} />
             <Route 
+              path="/jobs"
+              element={
+                <ProtectedRoute>
+                  <Indeed />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
               path="/credits" 
               element={
                 <ProtectedRoute>
@@ -43,14 +51,7 @@ function App() {
                 </ProtectedRoute>
               } 
             />
-            <Route 
-              path="/jobs" 
-              element={
-                <ProtectedRoute>
-                  <Indeed />
-                </ProtectedRoute>
-              } 
-            />
+            
           </Route>
         </Routes>
       </Layout>

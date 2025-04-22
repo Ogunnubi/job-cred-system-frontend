@@ -36,7 +36,6 @@ const Indeed = () => {
       try {
         setIsLoading(true);
 
-        
         const response = await axiosPrivate.get('/jobs');
 
         console.log("Jobs response:", response.data);
@@ -45,7 +44,6 @@ const Indeed = () => {
           setJobs(response.data);
         }
 
-        
       } catch (err) {
         console.error("Failed to load jobs:", err);
         setError("Failed to load jobs. Please try again later.");
@@ -78,17 +76,17 @@ const Indeed = () => {
     <section className="section">
       <div className="container">
 
-        <div className="credits__notif d-flex justify-content-between align-items-center mt-0 mb-5">
+        <div className="credits__notif d-flex justify-content-between align-items-center flex-wrap mt-0 mb-5">
           <h5 className='fw-bold'>Credits</h5>
-            <div className="alert alert-info mb-4 credits__notif__text" role="alert">
-              <i className="bi bi-info-circle me-2"></i>
-              Current Balance: {currentUser.credits} credits
-              {currentUser.credits < 10 && ( 
-                <Link to="/credits" className="credits__notif__text__link d-block">
-                  Top Up
-                </Link>
-              )}
-            </div>
+          <div className="alert alert-info mb-4 credits__notif__text" role="alert">
+            <i className="bi bi-info-circle me-2"></i>
+            Current Balance: {currentUser.credits} credits
+            {currentUser.credits < 10 && ( 
+              <Link to="/credits" className="credits__notif__text__link d-block">
+                Top Up
+              </Link>
+            )}
+          </div>
         </div>
 
         <div className="row align-items-center justify-content-center">
