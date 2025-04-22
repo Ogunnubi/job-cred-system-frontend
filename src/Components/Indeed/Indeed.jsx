@@ -7,9 +7,6 @@ import Jobs from '../Jobs/Jobs';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
 
 
-// import { getJobs } from '../../api/jobsApi';
-// import { axiosPrivate } from '../../api/axios';
-
 
 const Indeed = () => {
 
@@ -40,7 +37,7 @@ const Indeed = () => {
 
         console.log("Jobs response:", response.data);
 
-        if (isMounted) {
+        if (response.data && isMounted) {
           setJobs(response.data);
         }
 
@@ -62,11 +59,6 @@ const Indeed = () => {
   }, []);
 
 
-
-
-
-
-
   
 
 
@@ -75,7 +67,7 @@ const Indeed = () => {
 
     <section className="section">
       <div className="container">
-
+        
         <div className="credits__notif d-flex justify-content-between align-items-center flex-wrap mt-0 mb-5">
           <h5 className='fw-bold'>Credits</h5>
           <div className="alert alert-info mb-4 credits__notif__text" role="alert">
@@ -90,7 +82,7 @@ const Indeed = () => {
         </div>
 
         <div className="row align-items-center justify-content-center">
-          <div className='intro__page'>
+          <div className='intro__page mb-0'>
             <h1 className='heading__one'>Submit Jobs with Credits</h1>
             <p>A complete platform for managing job submissions with a credit-based system.</p>
           </div>

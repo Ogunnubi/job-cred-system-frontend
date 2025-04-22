@@ -3,9 +3,7 @@ import "./Jobs.css"
 import { useAuth } from '../../context/AuthContext';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
 import {jwtDecode} from 'jwt-decode';
-
-// import {submitJob} from '../../api/jobsApi';
-// import { axiosPrivate } from '../../api/axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Jobs = ({}) => {
@@ -18,6 +16,15 @@ const Jobs = ({}) => {
     const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(false)
     const [jobCredit, setJobCredit] = useState(0)
+
+    const {
+        currentUser,
+        setError,
+        error,
+        setJobs
+    } = useAuth();
+
+    
 
     
     useEffect(() => {
@@ -33,12 +40,7 @@ const Jobs = ({}) => {
         }
     }, [error]);
 
-    const {
-        currentUser,
-        setError,
-        error,
-        setJobs
-    } = useAuth();
+    
 
 
     const token = localStorage.getItem("authToken");
@@ -48,7 +50,6 @@ const Jobs = ({}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Parse jobCredit to ensure it's a number
         const credits = parseInt(jobCredit);
 
         if (!userId) {
@@ -56,7 +57,7 @@ const Jobs = ({}) => {
             return;
         }
         
-        // Validate that job credit is a positive number
+        
         if (isNaN(credits) || credits <= 0) {
             setError("Please enter a valid number of credits greater than zero.");
             return;
@@ -81,8 +82,7 @@ const Jobs = ({}) => {
                 posted_by: userId
             }
 
-            // const result =  await submitJob(newJob, currentUser.token);
-
+            
             const result = await axiosPrivate.post('/jobs', newJob)
 
             console.log("Job submission response:", result.data);
@@ -90,7 +90,7 @@ const Jobs = ({}) => {
             if(result?.data) {
 
                 toast.success("Job submitted successfully!", {
-                    position: "top-center",
+                    position: "top-right",
                     autoClose: 3000
                 });
                 
@@ -113,12 +113,11 @@ const Jobs = ({}) => {
 
 
     return (
-        <div className="col-lg-6">
+        <div className="col-lg-6" style={{marginTop: "-140px"}}>
+            <ToastContainer />
             <form className='row justify-content-center' onSubmit={handleSubmit}>
 
-            <ToastContainer />
-
-            {error && <div className="alert alert-danger text-center">{error}</div>}
+            {/* {error && <div className="alert alert-danger text-center">{error}</div>} */}
             
             {/* Job Title */}
             <div className="mb-3 input-group">
@@ -146,7 +145,7 @@ const Jobs = ({}) => {
                 onChange={(e) => setJobCredit(e.target.value)}
                 />
             </div>  
-            
+
             {/* Job Description */}
             <div className="mb-3 input-group">
                 <textarea 

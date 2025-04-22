@@ -1,7 +1,8 @@
 import { useAuth } from '../../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
-
+import { ToastContainer, toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 
 const JobCard = ({job}) => {
@@ -13,6 +14,7 @@ const JobCard = ({job}) => {
     setError,
     setLoading,
     setCurrentUser,
+    error,
   } = useAuth();
   
   
@@ -46,9 +48,14 @@ const JobCard = ({job}) => {
     try {
       setLoading(true);
       setError("");
+
+
       const {data} = await axiosPrivate.post(`/jobs/${job.id}/apply`, {
-        proposal: job.job_description
+        proposal: job.job_description,
       });
+
+      console.log("Job submission response:", data);
+
       console.log(data.remaining_credits);
 
       setCurrentUser((prev) => ({
@@ -57,8 +64,10 @@ const JobCard = ({job}) => {
       }));
 
     } catch (error) {
+
       console.error(`API error: ${error}`);
       setError("Error submitting job."); 
+    
     } finally {
       setLoading(false);
     }
