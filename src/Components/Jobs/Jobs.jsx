@@ -3,7 +3,7 @@ import "./Jobs.css"
 import { useAuth } from '../../context/AuthContext';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
 import {jwtDecode} from 'jwt-decode';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const Jobs = ({}) => {
@@ -27,18 +27,18 @@ const Jobs = ({}) => {
     
 
     
-    useEffect(() => {
-        if (error) {
-            toast.error(error, {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true
-            });
-        }
-    }, [error]);
+    // useEffect(() => {
+    //     if (error) {
+    //         toast.error(error, {
+    //             position: "top-center",
+    //             autoClose: 5000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true
+    //         });
+    //     }
+    // }, [error]);
 
     
 
@@ -103,8 +103,15 @@ const Jobs = ({}) => {
 
             }
         } catch (error) {
-            console.error(`API error: ${error}`);
-            setError("Error submitting job." || error.response?.data?.message); 
+            
+            toast.error(`${error?.response?.data?.message}`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            });
         } finally {
             setLoading(false);
         }
@@ -113,11 +120,9 @@ const Jobs = ({}) => {
 
 
     return (
-        <div className="col-lg-6" style={{marginTop: "-140px"}}>
-            <ToastContainer />
+        <div className="col-lg-6">
             <form className='row justify-content-center' onSubmit={handleSubmit}>
 
-            {/* {error && <div className="alert alert-danger text-center">{error}</div>} */}
             
             {/* Job Title */}
             <div className="mb-3 input-group">

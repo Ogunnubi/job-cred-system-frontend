@@ -1,21 +1,23 @@
 import { useAuth } from '../../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
-import { ToastContainer, toast } from 'react-toastify';
-import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+
 
 
 const JobCard = ({job}) => {
 
   const axiosPrivate = useAxiosPrivate();
 
+
   const {
     currentUser,
     setError,
-    setLoading,
-    setCurrentUser,
-    error,
+    setLoading
   } = useAuth();
+
+
+  
   
   
   const token = localStorage.getItem("authToken");
@@ -49,24 +51,30 @@ const JobCard = ({job}) => {
       setLoading(true);
       setError("");
 
-
       const {data} = await axiosPrivate.post(`/jobs/${job.id}/apply`, {
         proposal: job.job_description,
       });
 
-      console.log("Job submission response:", data);
+      toast.success(`${data.message}`, {
+        position: "top-right",
+        autoClose: 3000
+      });
 
-      console.log(data.remaining_credits);
-
-      setCurrentUser((prev) => ({
-        ...prev,
-        credits: data.remaining_credits,
-      }));
+      console.log("here", data);
 
     } catch (error) {
 
-      console.error(`API error: ${error}`);
-      setError("Error submitting job."); 
+      toast.error(`${error?.response?.data?.detail}`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      });
+
+
+      // setError(`${error?.response?.data?.detail}`);
     
     } finally {
       setLoading(false);
@@ -75,7 +83,8 @@ const JobCard = ({job}) => {
 
 
   return (
-    <div className="card mb-3 shadow-sm">
+    <>
+      <div className="card mb-3 shadow-sm">
       <div className="card-body">
         <div className="row">
           <div className="col-md-8">
@@ -105,6 +114,7 @@ const JobCard = ({job}) => {
 
       </div>
     </div>
+    </>
   )
 }
 

@@ -24,8 +24,8 @@ export const submitJob = async (jobData, token) => {
     }
 };
 
-export const applyForJob = async (jobId) => {
-    const api = createAxiosInstance();  
+export const applyForJob = async (jobId, token) => {
+    const api = createAxiosInstance(token);  
     try {
         const response = await api.post(`/jobs/${jobId}/apply`);
         return response.data;

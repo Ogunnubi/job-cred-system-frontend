@@ -7,7 +7,6 @@ import Jobs from '../Jobs/Jobs';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
 
 
-
 const Indeed = () => {
 
   const axiosPrivate = useAxiosPrivate();
@@ -67,7 +66,6 @@ const Indeed = () => {
 
     <section className="section">
       <div className="container">
-        
         <div className="credits__notif d-flex justify-content-between align-items-center flex-wrap mt-0 mb-5">
           <h5 className='fw-bold'>Credits</h5>
           <div className="alert alert-info mb-4 credits__notif__text" role="alert">
