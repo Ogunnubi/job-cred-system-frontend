@@ -9,16 +9,13 @@ const JobCard = ({job}) => {
 
   const axiosPrivate = useAxiosPrivate();
 
-
   const {
     currentUser,
     setError,
-    setLoading
+    setLoading,
+    setCurrentUser,
   } = useAuth();
 
-
-  
-  
   
   const token = localStorage.getItem("authToken");
   const userData = currentUser?.accessToken ? jwtDecode(token) : null;
@@ -60,21 +57,25 @@ const JobCard = ({job}) => {
         autoClose: 3000
       });
 
+      setCurrentUser((prev) => ({
+        ...prev,
+        credits: data.credits_balance,
+      }));
+
       console.log("here", data);
 
     } catch (error) {
 
       toast.error(`${error?.response?.data?.detail}`, {
-        position: "top-center",
-        autoClose: 5000,
+        position: "top-right",
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true
       });
 
-
-      // setError(`${error?.response?.data?.detail}`);
+      console.error("Error submitting job:", error);
     
     } finally {
       setLoading(false);

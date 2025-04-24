@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import "./Jobs.css"
 import { useAuth } from '../../context/AuthContext';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
@@ -20,28 +20,8 @@ const Jobs = ({}) => {
     const {
         currentUser,
         setError,
-        error,
         setJobs
     } = useAuth();
-
-    
-
-    
-    // useEffect(() => {
-    //     if (error) {
-    //         toast.error(error, {
-    //             position: "top-center",
-    //             autoClose: 5000,
-    //             hideProgressBar: false,
-    //             closeOnClick: true,
-    //             pauseOnHover: true,
-    //             draggable: true
-    //         });
-    //     }
-    // }, [error]);
-
-    
-
 
     const token = localStorage.getItem("authToken");
     const userId = currentUser?.accessToken ? jwtDecode(token)?.id : null;
@@ -167,7 +147,7 @@ const Jobs = ({}) => {
             {/* button */}
             <div className='col-12 text-center'>
                 <button 
-                    disabled={currentUser.credits < jobCredit || loading}
+                    disabled={currentUser?.credits < jobCredit || loading}
                     className='btn btn-brand'>
                     {loading ? "Submitting..." : "Submit Job"}
                 </button>

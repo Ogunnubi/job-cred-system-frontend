@@ -15,11 +15,13 @@ window.$ = window.jQuery = $;
 // Protected route component
 const ProtectedRoute = ({ children }) => {
 
+  const token = localStorage.getItem("authToken");
+
   const location = useLocation();
 
   const { currentUser } = useAuth();
   
-  if (!currentUser) {
+  if (!currentUser && !token ) {
     return <Navigate to="/" from={{location}} replace  />;
   }
   
@@ -52,26 +54,23 @@ function App() {
       <AuthProvider>
         <Layout>
           <Routes>
-            <Route element={<PersistLogin />}>
-              <Route path="/" element={<Home />} />
-              <Route 
-                path="/jobs"
-                element={
-                  <ProtectedRoute>
-                    <Indeed />
-                  </ProtectedRoute>
-                }
-              />
-              <Route 
-                path="/credits" 
-                element={
-                  <ProtectedRoute>
-                    <Credits />
-                  </ProtectedRoute>
-                } 
-              />
-              
-            </Route>
+            <Route path="/" element={<Home />} />
+            <Route 
+              path="/jobs"
+              element={
+                <ProtectedRoute>
+                  <Indeed />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="/credits" 
+              element={
+                <ProtectedRoute>
+                  <Credits />
+                </ProtectedRoute>
+              } 
+            />
           </Routes>
         </Layout>
       </AuthProvider>
