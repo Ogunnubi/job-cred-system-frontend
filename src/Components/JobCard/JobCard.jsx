@@ -2,10 +2,13 @@ import { useAuth } from '../../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const JobCard = ({job}) => {
+
+  const navigate = useNavigate();
 
   const axiosPrivate = useAxiosPrivate();
 
@@ -19,6 +22,11 @@ const JobCard = ({job}) => {
   
   const token = localStorage.getItem("authToken");
   const userData = currentUser?.accessToken ? jwtDecode(token) : null;
+
+  if (!currentUser) {
+    navigate("/");
+  }
+
 
   const {id: userId, credits: userCredits}= currentUser
 
@@ -81,6 +89,9 @@ const JobCard = ({job}) => {
       setLoading(false);
     }
   }
+
+
+ 
 
 
   return (

@@ -71,6 +71,13 @@ export const logoutUser = async () => {
 };
 
 
+
+export const aiagent = async () => {
+  const api = createAxiosInstance();
+  return await api.get(`/ai/assistant`);
+}
+
+
 export const getUserProfile = async (userId) => {
   const api = createAxiosInstance();
   return await api.get(`/users/${userId}`);

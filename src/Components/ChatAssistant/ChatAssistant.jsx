@@ -1,7 +1,11 @@
 import {useState} from 'react'
 import "./ChatAssistant.css"
+import { aiagent } from '../../api/api';
+
 
 const ChatAssistant = () => {
+
+  
 
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
@@ -15,7 +19,7 @@ const ChatAssistant = () => {
         setMessages(prev => [...prev, { text: input, sender: 'user' }]);
         
         try {
-          const { data } = await axiosPrivate.post('/assistant', { 
+          const { data } = await aiagent('/', { 
             message: input 
           });
           

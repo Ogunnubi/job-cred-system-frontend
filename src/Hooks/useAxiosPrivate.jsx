@@ -6,8 +6,8 @@ import { axiosPrivate } from "../api/axios";
 
 const useAxiosPrivate = () => {
 
-    const refresh = useRefreshToken();
     const {currentUser} = useAuth();
+    const refresh = useRefreshToken();
 
     useEffect(() => {
 
