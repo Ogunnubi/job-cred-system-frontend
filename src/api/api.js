@@ -74,7 +74,7 @@ export const logoutUser = async () => {
 
 export const aiagent = async () => {
   const api = createAxiosInstance();
-  return await api.get(`/ai/assistant`);
+  return await api.post(`/ai/assistant`);
 }
 
 

@@ -36,7 +36,6 @@ function App() {
   return (
     <>
 
-    <ChatAssistant />
 
     <div style={{ position: 'relative' }}>
       <div style={{ position: 'absolute', top: 0, right: 0, zIndex: 9999 }}>
@@ -55,6 +54,8 @@ function App() {
     </div>
     
       <AuthProvider>
+        <ChatAssistant />
+
         <Layout>
           <Routes>
 
