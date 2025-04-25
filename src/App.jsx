@@ -54,8 +54,6 @@ function App() {
     </div>
     
       <AuthProvider>
-        <ChatAssistant />
-
         <Layout>
           <Routes>
 
