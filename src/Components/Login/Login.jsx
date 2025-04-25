@@ -39,7 +39,7 @@ const Login = ({toggleForm}) => {
       setShowPassword(false);
 
     } catch (err) {
-      setLoginError(`Failed to log in. Please check your credentials`);
+      setLoginError(`Failed to log in. Please check your credentials. ${err.message}`);
       console.error(`Failed to log in. Please check your credentials. ${err.message}`);
     }
   };

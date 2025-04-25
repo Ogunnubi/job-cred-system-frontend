@@ -14,14 +14,11 @@ const handleLogin = async (email, password, setError, setLoading, setCurrentUser
         
         setLoading(true);
 
-        console.log("User data:", { email, password });
 
-        // return;
+        const {data} = await loginUser({ email, password });
 
-        const res = await loginUser({ email, password });
-
-        console.log('Login successful:', res.data);
-        const { access_token, user } = res.data;
+        console.log('Login successful:', data);
+        const { access_token, user } = data;
         
         const userData = {
             ...user,

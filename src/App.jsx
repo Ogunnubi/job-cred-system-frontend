@@ -21,7 +21,7 @@ const ProtectedRoute = ({ children }) => {
 
   const { currentUser } = useAuth();
   
-  if (!currentUser && !token ) {
+  if (!currentUser || !token ) {
     return <Navigate to="/" from={{location}} replace  />;
   }
   
@@ -58,23 +58,23 @@ function App() {
 
             <Route element={<PersistLogin />}>
 
-            <Route path="/" element={<Home />} />
-            <Route 
-              path="/jobs"
-              element={
-                <ProtectedRoute>
-                  <Indeed />
-                </ProtectedRoute>
-              }
-            />
-            <Route 
-              path="/credits" 
-              element={
-                <ProtectedRoute>
-                  <Credits />
-                </ProtectedRoute>
-              } 
-            />
+              <Route path="/" element={<Home />} />
+              <Route 
+                path="/jobs"
+                element={
+                  <ProtectedRoute>
+                    <Indeed />
+                  </ProtectedRoute>
+                }
+              />
+              <Route 
+                path="/credits" 
+                element={
+                  <ProtectedRoute>
+                    <Credits />
+                  </ProtectedRoute>
+                } 
+              />
 
             </Route>
 

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import {useState, useEffect} from "react";
 import { useAuth } from "../context/AuthContext";
 import useRefreshToken from "../Hooks/useRefreshToken";
@@ -7,9 +7,8 @@ const PersistLogin = () => {
 
     const {currentUser, persist} = useAuth();
     const [isLoading, setIsLoading] = useState(true);
-    
     const refresh = useRefreshToken();
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         let isMounted = true;
@@ -17,7 +16,10 @@ const PersistLogin = () => {
 
         const verifyRefreshToken = async () => {
             try {
-                await refresh();
+                const result = await refresh();
+                if(!result) {
+                    localStorage.setItem("persist", JSON.stringify(false));
+                }
             } catch (err) {
                 console.error("Error refreshing token:", err);
             } finally {
@@ -27,10 +29,20 @@ const PersistLogin = () => {
 
         !currentUser?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
 
+         
+        const handleBeforeUnload = () => {
+            if (persist) {
+                localStorage.setItem("persist", JSON.stringify(true));
+            }
+        };
         
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
 
-        return () => isMounted = false;
-    }, [])
+    }, [currentUser, persist, refresh])
 
 
   return (
