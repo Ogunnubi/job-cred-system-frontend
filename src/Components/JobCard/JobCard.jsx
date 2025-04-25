@@ -3,6 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 
@@ -19,11 +20,28 @@ const JobCard = ({job}) => {
     setCurrentUser,
   } = useAuth();
 
+
+  // Safely check for user
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/");
+      localStorage.removeItem("authToken");
+    }
+  }, [currentUser, navigate]);
+  
+  // Early return if no user to prevent rendering errors
+  if (!currentUser) {
+    return null;
+  }
+
   
   const token = localStorage.getItem("authToken");
   const userData = currentUser?.accessToken ? jwtDecode(token) : null;
 
-  const {id: userId, credits: userCredits} = currentUser
+  console.log("User Data:", userData);
+
+  const userId = userData?.id;
+  const userCredits = currentUser?.credits || 0;
 
   
   const handleJobSubmission = async () => {
