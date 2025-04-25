@@ -1,32 +1,28 @@
-import { refreshToken } from '../api/api';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+
 
 const useRefreshToken = () => {
-    const navigate = useNavigate();
+    
     const { setCurrentUser } = useAuth();
 
     const refresh = async () => {
-        try {
-            const newAccessToken = await refreshToken();
-            
-            setCurrentUser(prev => {
-                if (!prev) return { accessToken: newAccessToken };
-                
-                return {
-                    ...prev,
-                    accessToken: newAccessToken
-                };
-            });
-            
-            
-            return newAccessToken;
-        } catch (error) {
-            console.error("Error refreshing token:", error);
-            navigate("/");
-        }
-    };
+        const response = await axios.get('/refresh', {
+            withCredentials: true
+        });
 
+        
+        setCurrentUser(prev => {
+            if (!prev) return { accessToken: response?.data?.access_token };
+            
+            return {
+                ...prev,
+                accessToken: response?.data?.access_token
+            };
+        });
+        
+        
+        return response?.data?.access_token;
+    };
     return refresh;
 };
 

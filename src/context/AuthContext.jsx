@@ -15,13 +15,23 @@ export function AuthProvider({ children }) {
   
 
 
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [userCredits, setUserCredits] = useState(0);
   const [jobs, setJobs] = useState([]);
   const [persist, setPersist] = useState(JSON.parse(localStorage.getItem("persist")) || false);
 
+
+
+  useEffect(() => {
+    if (persist && currentUser) {
+      localStorage.setItem("user", JSON.stringify(currentUser));
+    }
+  }, [currentUser, persist]);
 
 
 

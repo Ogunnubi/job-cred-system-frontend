@@ -54,9 +54,9 @@ function App() {
     
       <AuthProvider>
         <Layout>
-          <Routes>
+          <PersistLogin>
+            <Routes>
 
-            <Route element={<PersistLogin />}>
 
               <Route path="/" element={<Home />} />
               <Route 
@@ -76,9 +76,9 @@ function App() {
                 } 
               />
 
-            </Route>
 
-          </Routes>
+            </Routes>
+          </PersistLogin>
         </Layout>
       </AuthProvider>
     </>
