@@ -23,12 +23,7 @@ const JobCard = ({job}) => {
   const token = localStorage.getItem("authToken");
   const userData = currentUser?.accessToken ? jwtDecode(token) : null;
 
-  if (!currentUser) {
-    navigate("/");
-  }
-
-
-  const {id: userId, credits: userCredits}= currentUser
+  const {id: userId, credits: userCredits} = currentUser
 
   
   const handleJobSubmission = async () => {
