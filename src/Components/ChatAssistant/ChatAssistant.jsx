@@ -1,13 +1,13 @@
 import {useState} from 'react'
 import "./ChatAssistant.css"
-import { aiagent } from '../../api/api';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
-
+import { aiagent } from '../../api/api';
 
 const ChatAssistant = () => {
 
     const axiosPrivate = useAxiosPrivate();
 
+    const [showTooltip, setShowTooltip] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
@@ -37,12 +37,39 @@ const ChatAssistant = () => {
   return (
     <div className="assistant-container">
       {!isOpen ? (
-        <button 
-          className="assistant-icon" 
-          onClick={() => setIsOpen(true)}
+        <div 
+          className='tooltip-container'
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
         >
-          💬
-        </button>
+          <button 
+            className="assistant-icon" 
+            onClick={() => setIsOpen(true)}
+            title='Using the AI assistant costs 10 credits per conversation'
+          >
+            💬
+          </button>
+          {showTooltip && (
+            <div 
+                style={{
+                  position: 'absolute',
+                  bottom: '100%',
+                  left: '50%',
+                  transform: 'translateX(-100%)',
+                  backgroundColor: '#333',
+                  color: 'white',
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  fontSize: '14px',
+                  marginBottom: '8px',
+                  whiteSpace: 'nowrap',
+                  zIndex: 9999
+                }}
+            >
+              The AI assistant costs 10 credits
+            </div>
+          )}
+        </div>
       ) : (
         <div className="assistant-chat">
           <div className="chat-header">
