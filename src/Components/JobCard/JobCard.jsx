@@ -38,8 +38,6 @@ const JobCard = ({job}) => {
   const token = localStorage.getItem("authToken");
   const userData = currentUser?.accessToken ? jwtDecode(token) : null;
 
-  console.log("User Data:", userData);
-
   const userId = userData?.id;
   const userCredits = currentUser?.credits || 0;
 
