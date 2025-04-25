@@ -21,7 +21,7 @@ const JobCard = ({job}) => {
   } = useAuth();
 
 
-  // Safely check for user
+  
   useEffect(() => {
     if (!currentUser) {
       navigate("/");
@@ -29,7 +29,7 @@ const JobCard = ({job}) => {
     }
   }, [currentUser, navigate]);
   
-  // Early return if no user to prevent rendering errors
+
   if (!currentUser) {
     return null;
   }
@@ -46,7 +46,7 @@ const JobCard = ({job}) => {
   
   const handleJobSubmission = async () => {
              
-    // Parse jobCredit to ensure it's a number
+    
     const creditsRequired = parseInt(job.credits_required);
 
     if (!userId) {
@@ -54,7 +54,7 @@ const JobCard = ({job}) => {
       return;
     }
     
-    // Validate that job credit is a positive number
+    
     if (isNaN(creditsRequired) || creditsRequired <= 0) {
       setError("Please enter a valid number of credits greater than zero.");
       return;

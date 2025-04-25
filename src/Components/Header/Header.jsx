@@ -42,9 +42,6 @@ const Header = () => {
                         <li className="nav-item">
                             <Link to="/credits" className="nav-link">Credits</Link>
                         </li>
-                        {/* <li className="nav-item">
-                            <Link to="/dashboard" className="nav-link">Dashboard</Link>
-                        </li> */}
                     </ul>
 
 
