@@ -3,6 +3,7 @@ import { updateCredits } from '../api/api.js';
 import { getUserCreditsStorage, removeUserFromStorage, saveUserToStorage, setUserCreditsStorage } from '../utils/handleLocalStorage.js';
 import { genStorageKey } from '../utils/handleLocalStorage.js';
 
+
 const AuthContext = createContext();
 
 export function useAuth() {
@@ -11,6 +12,8 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
 
+  
+
 
   const [currentUser, setCurrentUser] = useState(null);
   const [error, setError] = useState('');
@@ -18,6 +21,7 @@ export function AuthProvider({ children }) {
   const [userCredits, setUserCredits] = useState(0);
   const [jobs, setJobs] = useState([]);
   const [persist, setPersist] = useState(JSON.parse(localStorage.getItem("persist")) || false);
+
 
 
 
@@ -35,6 +39,10 @@ export function AuthProvider({ children }) {
       localStorage.removeItem('currentUserStorageKey');
     }
   }, [currentUser]);
+
+
+
+  
 
 
 
@@ -99,17 +107,17 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
-    setLoading,
     loading,
     error,
+    userCredits,
+    jobs,
+    persist,
     setError,
+    setLoading,
     setCurrentUser,
     updateUserCredits,
-    userCredits,
     setUserCredits,
-    jobs,
     setJobs,
-    persist,
     setPersist
   };
 

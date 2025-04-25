@@ -6,7 +6,6 @@ import Home from "./Components/Home"
 import Indeed from './Components/Indeed/Indeed';
 import Credits from './Components/Credits/Credits';
 import PersistLogin from './Components/PersistLogin';
-import ChatAssistant from './Components/ChatAssistant/ChatAssistant';
 import Layout from './Layout/Layout';
 import { ToastContainer } from 'react-toastify';
 
@@ -57,6 +56,8 @@ function App() {
         <Layout>
           <Routes>
 
+            <Route element={<PersistLogin />}>
+
             <Route path="/" element={<Home />} />
             <Route 
               path="/jobs"
@@ -74,6 +75,9 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+
+            </Route>
+
           </Routes>
         </Layout>
       </AuthProvider>
