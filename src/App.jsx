@@ -67,14 +67,14 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route 
+              {/* <Route 
                 path="/credits" 
                 element={
                   <ProtectedRoute>
                     <Credits />
                   </ProtectedRoute>
                 } 
-              />
+              /> */}
 
 
             </Routes>

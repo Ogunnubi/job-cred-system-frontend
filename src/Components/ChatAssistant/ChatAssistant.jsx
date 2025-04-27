@@ -73,7 +73,10 @@ const ChatAssistant = () => {
       ) : (
         <div className="assistant-chat">
           <div className="chat-header">
-            <h3>Assistant</h3>
+            <div className="chat-title-header">
+              <h3>Assistant</h3>
+              <p style={{fontSize: "13px"}}>The AI costs 10 credits</p>
+            </div>
             <button onClick={() => setIsOpen(false)}>✕</button>
           </div>
           <div className="chat-messages">

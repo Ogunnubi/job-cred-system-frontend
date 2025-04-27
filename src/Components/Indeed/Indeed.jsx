@@ -80,13 +80,7 @@ const Indeed = () => {
         </div>
 
         <div className="row align-items-center justify-content-center">
-          <div className='intro__page mb-0'>
-            <h1 className='heading__one'>Submit Jobs with Credits</h1>
-            <p>A complete platform for managing job submissions with a credit-based system.</p>
-          </div>
-
-          <Jobs />
-
+          
           <div className="col-lg-7">
             {isLoading ? (
                 <div className="d-flex justify-content-center py-5">
@@ -98,6 +92,15 @@ const Indeed = () => {
                 <JobsList jobs={jobs} />
               )}
           </div>
+
+          <div className='intro__page mb-0'>
+            <h1 className='heading__one'>Submit Jobs with Credits</h1>
+            <p>A complete platform for managing job submissions with a credit-based system.</p>
+          </div>
+          <Jobs />
+          
+
+
         </div>
       </div>
     </section>
