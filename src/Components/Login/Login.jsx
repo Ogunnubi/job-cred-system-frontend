@@ -74,6 +74,7 @@ const Login = ({toggleForm}) => {
           required
           placeholder='Enter your password'
           value={password}
+          autoComplete='off'
           onChange={(e) => setPassword(e.target.value)}
         />
         <span
