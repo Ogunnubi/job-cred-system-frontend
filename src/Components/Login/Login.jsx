@@ -3,7 +3,7 @@ import handleLogin from '../../utils/handleLogin';
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
+import { faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
 
 
 const Login = ({toggleForm}) => {
