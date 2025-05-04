@@ -100,61 +100,72 @@ const Jobs = ({}) => {
 
 
     return (
-        <div className="col-lg-6">
-            <form className='row justify-content-center' onSubmit={handleSubmit}>
 
-            
-            {/* Job Title */}
-            <div className="mb-3 input-group">
-                <input 
-                type="text" 
-                className="form-control border-start-0 border-end-0" 
-                id="jobtitle" 
-                placeholder='Enter Job Title'
-                required
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                />
-            </div>  
+        <div>
 
-            {/* Job Credits */}
-            <div className="mb-3 input-group">
-                <input 
-                type="number" 
-                min="1"
-                className="form-control border-start-0 border-end-0" 
-                id="jobtitle" 
-                placeholder='How much credits do you want to pay'
-                required
-                value={jobCredit || ""}
-                onChange={(e) => setJobCredit(e.target.value)}
-                />
-            </div>  
-
-            {/* Job Description */}
-            <div className="mb-3 input-group">
-                <textarea 
-                    required
-                    name="" 
-                    id="jobdescription" 
-                    className="form-control border-start-0 border-end-0 custom__textarea" 
-                    placeholder='Provide a description about the job'
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-            </div> 
-            
-            {/* button */}
-            <div className='col-12 text-center'>
-                <button 
-                    disabled={currentUser?.credits < jobCredit || loading}
-                    className='btn btn-brand'>
-                    {loading ? "Submitting..." : "Submit Job"}
-                </button>
+            <div className='intro__page mb-0'>
+                <h1 className='heading__one'>Submit Jobs with Credits</h1>
+                <p>A complete platform for managing job submissions with a credit-based system.</p>
             </div>
-        </form>         
-    </div>
-  )
+            
+
+
+            <div className="col-lg-6">
+                <form className='row justify-content-center' onSubmit={handleSubmit}>
+
+                
+                    {/* Job Title */}
+                    <div className="mb-3 input-group">
+                        <input 
+                        type="text" 
+                        className="form-control border-start-0 border-end-0" 
+                        id="jobtitle" 
+                        placeholder='Enter Job Title'
+                        required
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </div>  
+
+                    {/* Job Credits */}
+                    <div className="mb-3 input-group">
+                        <input 
+                        type="number" 
+                        min="1"
+                        className="form-control border-start-0 border-end-0" 
+                        id="jobtitle" 
+                        placeholder='How much credits do you want to pay'
+                        required
+                        value={jobCredit || ""}
+                        onChange={(e) => setJobCredit(e.target.value)}
+                        />
+                    </div>  
+
+                    {/* Job Description */}
+                    <div className="mb-3 input-group">
+                        <textarea 
+                            required
+                            name="" 
+                            id="jobdescription" 
+                            className="form-control border-start-0 border-end-0 custom__textarea" 
+                            placeholder='Provide a description about the job'
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div> 
+                    
+                    {/* button */}
+                    <div className='col-12 text-center'>
+                        <button 
+                            disabled={currentUser?.credits < jobCredit || loading}
+                            className='btn btn-brand'>
+                            {loading ? "Submitting..." : "Submit Job"}
+                        </button>
+                    </div>
+                </form>         
+            </div>
+        </div>
+    )
 }
 
 export default Jobs

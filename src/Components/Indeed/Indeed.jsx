@@ -3,7 +3,6 @@ import { useAuth } from '../../context/AuthContext';
 import JobsList from '../JobsList/JobsList';
 import "./Indeed.css";
 import { Link } from 'react-router-dom';
-import Jobs from '../Jobs/Jobs';
 import useAxiosPrivate from '../../Hooks/useAxiosPrivate';
 
 
@@ -81,7 +80,7 @@ const Indeed = () => {
 
         <div className="row align-items-center justify-content-center">
           
-          <div className="col-lg-7">
+          <div className="col-lg-9">
             {isLoading ? (
                 <div className="d-flex justify-content-center py-5">
                   <div className="spinner-border text-primary" role="status">
@@ -91,15 +90,7 @@ const Indeed = () => {
               ) : (
                 <JobsList jobs={jobs} />
               )}
-          </div>
-
-          <div className='intro__page mb-0'>
-            <h1 className='heading__one'>Submit Jobs with Credits</h1>
-            <p>A complete platform for managing job submissions with a credit-based system.</p>
-          </div>
-          <Jobs />
-          
-
+          </div>       
 
         </div>
       </div>

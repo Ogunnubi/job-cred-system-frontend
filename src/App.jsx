@@ -4,7 +4,8 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Home from "./Components/Home"
 import Indeed from './Components/Indeed/Indeed';
-import Credits from './Components/Credits/Credits';
+// import Credits from './Components/Credits/Credits';
+import Jobs from './Components/Jobs/Jobs';
 import PersistLogin from './Components/PersistLogin';
 import Layout from './Layout/Layout';
 import { ToastContainer } from 'react-toastify';
@@ -67,14 +68,14 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              {/* <Route 
-                path="/credits" 
+              <Route 
+                path="/submit" 
                 element={
                   <ProtectedRoute>
-                    <Credits />
+                    <Jobs />
                   </ProtectedRoute>
                 } 
-              /> */}
+              />
 
 
             </Routes>
