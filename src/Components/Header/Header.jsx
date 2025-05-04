@@ -6,6 +6,11 @@ import useLogout from "../../Hooks/useLogout";
 
 const Header = () => {
 
+  const { currentUser } = useAuth();
+
+    //   const token = localStorage.getItem("authToken");
+  const isAuthenticated = currentUser ? true : false;
+
     const navigate = useNavigate();
 
     const logout = useLogout();
@@ -45,8 +50,7 @@ const Header = () => {
                     </ul>
 
 
-                    <button onClick={handleLogout} className="btn btn-brand ms-3">Logout</button>
-
+                    {isAuthenticated && <button onClick={handleLogout} className="btn btn-brand ms-3">Logout</button>}
 
                 </div>
             </div>

@@ -8,8 +8,9 @@ const Layout = ({children}) => {
 
   
   const { currentUser } = useAuth();
-  const token = localStorage.getItem("authToken");
-  const isAuthenticated = currentUser || token;
+  // const token = localStorage.getItem("authToken");
+  // const isAuthenticated = currentUser || token;
+  const isAuthenticated = currentUser ? true : false;
 
   
   return (
