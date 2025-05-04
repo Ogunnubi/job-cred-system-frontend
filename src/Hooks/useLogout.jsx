@@ -11,7 +11,7 @@ const useLogout = () => {
     
     const logout = async () => {
 
-        setCurrentUser({});
+        setCurrentUser(null);
 
         localStorage.removeItem("authToken");
 
