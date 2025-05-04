@@ -121,6 +121,11 @@ const JobCard = ({job}) => {
         <div className="mt-3">
           <p className="text-secondary">{job.job_description}</p>
         </div>
+
+        <div className='mt-3 d-flex justify-content-between'>
+          <span>Date Submitted</span>
+          <span className='text-secondary'>{new Date(job.created_at).toLocaleDateString()}</span>
+        </div>
         
         <div className="mt-3 pt-3 border-top">
           <div className="d-flex justify-content-between align-items-center">
