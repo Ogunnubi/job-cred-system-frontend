@@ -104,7 +104,7 @@ const Jobs = ({}) => {
         <section className='section'>
 
             <div className="container">
-                <div className="row">
+                <div className="row justify-content-center">
 
                     <div className='intro__page mb-0'>
                         <h1 className='heading__one'>Submit Jobs with Credits</h1>
